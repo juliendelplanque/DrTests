@@ -2,6 +2,7 @@ Class {
 	#name : #DrTestsUI,
 	#superclass : #ComposableModel,
 	#instVars : [
+		'pluginsDropList',
 		'packagesList',
 		'packagesListLabel',
 		'classesList',
@@ -11,7 +12,8 @@ Class {
 		'startButton',
 		'browseButton',
 		'toolbar',
-		'statusLabel'
+		'statusLabel',
+		'currentPlugin'
 	],
 	#category : #DrTests
 }
@@ -22,7 +24,10 @@ DrTestsUI class >> defaultSpec [
 	^ SpecLayout composed
 		newColumn: [ :mainCol | 
 			mainCol
-				newRow: #toolbar height: self toolbarHeight;
+				newRow: [ :row |
+					row
+						add: #pluginsDropList;
+						add: #toolbar ] height: self toolbarHeight;
 				newRow: [ :row |
 					row
 						newColumn: [ :packagesColumn |
@@ -50,7 +55,13 @@ DrTestsUI class >> labelHeight [
 	^ StandardFonts defaultFont height + 2
 ]
 
-{ #category : #accessing }
+{ #category : #api }
+DrTestsUI class >> open [
+	^ self new
+		openWithSpec
+]
+
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> browseButton [
 	^ browseButton
 ]
@@ -60,12 +71,12 @@ DrTestsUI >> browseSelectedTest [
 	self resultSelected rtfBrowserBrowse
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> classesList [
 	^ classesList
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> classesListLabel [
 	^ classesListLabel
 ]
@@ -73,6 +84,16 @@ DrTestsUI >> classesListLabel [
 { #category : #accessing }
 DrTestsUI >> classesSelected [
 	^ self classesList ifNil: [ #() ] ifNotNil: #selectedItems
+]
+
+{ #category : #accessing }
+DrTestsUI >> currentPlugin [
+	^ currentPlugin
+]
+
+{ #category : #accessing }
+DrTestsUI >> currentPlugin: anObject [
+	currentPlugin := anObject
 ]
 
 { #category : #private }
@@ -112,9 +133,72 @@ where `target` can either be a class inheriting from TestCase, an instance of Te
 { #category : #initialization }
 DrTestsUI >> initialize [
 	super initialize.
-	self
-		title: 'Rotten Tests Finder' translated;
-		updateStatus: 'Welcome in Rotten Tests Finder!' translated
+	self pluginsDropList
+		setSelectedIndex: 1
+]
+
+{ #category : #initialization }
+DrTestsUI >> initializeClassesListAndLabel [
+	classesListLabel := self newLabel.
+	self updateClassesListLabel.
+	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
+	
+	classesList :=  self instantiate: FastTableModel.
+	
+	classesList
+		sortingBlock: [ :a :b | a name < b name ];
+		whenSelectionChanged: [ self updateClassesListLabel ];
+		beMultipleSelection.
+	
+	packagesList whenSelectionChanged: [ 
+		self whenPackagesSelectionChanged: self packagesSelected ].
+]
+
+{ #category : #initialization }
+DrTestsUI >> initializePackagesListAndLabel [
+	packagesListLabel := self newLabel.
+	self updatePackagesListLabel.
+	packagesListLabel help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
+	
+	packagesList :=  self instantiate: FastTableModel.
+	packagesList
+		items: (RPackage organizer packages select: [ :p |
+			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]);
+		sortingBlock: [ :a :b | a name < b name ];
+		displayBlock: [ :package | package name ];
+		beMultipleSelection.
+]
+
+{ #category : #initialization }
+DrTestsUI >> initializePluginsDropList [
+	pluginsDropList := self newDropList.
+	
+	self pluginsDropList
+		items: DrTestsPlugin availablePlugins;
+		displayBlock: [ :pluginClass | pluginClass pluginName ];
+		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
+		whenSelectedItemChanged: [ :pluginClass |
+			self currentPlugin: pluginClass new.
+			self currentPlugin
+				ui: self;
+				uiInitialized ].
+]
+
+{ #category : #initialization }
+DrTestsUI >> initializeResultsTreeAndLabel [
+	resultsListLabel := self newLabel.
+	self updateResultsListLabel.
+	resultsListLabel help: 'The rotten tests found during latest analysis. Double click on a test to browse it in the class browser.'.
+	
+	resultsList := self instantiate: FastTableModel.
+	
+	resultsList
+		displayBlock: [ :rottenTest |
+			rottenTest rtfBrowserName ];
+		doubleClickAction: [ 
+			self browseSelectedTest ];
+		sortingBlock: [ :a :b | a rtfBrowserName < b rtfBrowserName ];
+		menu: [ :menu | self menuForSelectedResult: menu. menu ].
 ]
 
 { #category : #initialization }
@@ -132,63 +216,19 @@ DrTestsUI >> initializeToolbar [
 
 { #category : #initialization }
 DrTestsUI >> initializeWidgets [
-	packagesListLabel := self newLabel.
-	self updatePackagesListLabel.
-	packagesListLabel help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
-	
-	packagesList :=  self instantiate: FastTableModel.
-	packagesList
-		items: (RPackage organizer packages select: [ :p |
-			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]);
-		sortingBlock: [ :a :b | a name < b name ];
-		displayBlock: [ :package | package name ];
-		beMultipleSelection.
-	
-	classesListLabel := self newLabel.
-	self updateClassesListLabel.
-	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
-	
-	classesList :=  self instantiate: FastTableModel.
-	
-	classesList
-		sortingBlock: [ :a :b | a name < b name ];
-		whenSelectionChanged: [ self updateClassesListLabel ];
-		beMultipleSelection.
-	
-	packagesList whenSelectionChanged: [ 
-		self whenPackagesSelectionChanged: self packagesSelected ].
-			
-	resultsListLabel := self newLabel.
-	self updateResultsListLabel.
-	resultsListLabel help: 'The rotten tests found during latest analysis. Double click on a test to browse it in the class browser.'.
-	
-	resultsList := self instantiate: FastTableModel.
-	
-	resultsList
-		displayBlock: [ :rottenTest |
-			rottenTest rtfBrowserName ];
-		doubleClickAction: [ 
-			self browseSelectedTest ];
-		sortingBlock: [ :a :b | a rtfBrowserName < b rtfBrowserName ];
-		menu: [ :menu | self menuForSelectedResult: menu. menu ].
+	self
+		initializePackagesListAndLabel;
+		initializeClassesListAndLabel;
+		initializeResultsTreeAndLabel.
 	
 	startButton := self newButton.
 	
-	startButton
-		label: 'Start analysis' translated;
-		help: 'Run the analysis to find rotten tests.';
-		action: [ self startAnalysis ].
-	
 	browseButton := self newButton.
-	
-	browseButton
-		label: 'Browse test' translated;
-		help: 'Browse the rotten test selected in the results list.';
-		action: [ self browseSelectedTest ].
 		
-	self initializeToolbar.
-	
 	statusLabel := self newLabel.
+	
+	self initializeToolbar.
+	self initializePluginsDropList
 ]
 
 { #category : #private }
@@ -221,12 +261,12 @@ DrTestsUI >> openHelp [
 		openWithSpec
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> packagesList [
 	^ packagesList
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> packagesListLabel [
 	^ packagesListLabel
 ]
@@ -236,27 +276,62 @@ DrTestsUI >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
+{ #category : #'accessing - subwidgets' }
+DrTestsUI >> pluginsDropList [
+	^ pluginsDropList
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> resultButtonAction: aBlock [
+	self browseButton action: aBlock
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> resultButtonHelp: aString [
+	self browseButton help: aString
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> resultButtonLabel: aString [
+	self browseButton label: aString
+]
+
 { #category : #accessing }
 DrTestsUI >> resultSelected [
 	^ self resultsList selectedItem
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> resultsList [
 	^ resultsList
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> resultsListLabel [
 	^ resultsListLabel
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> startButton [
 	^ startButton
 ]
 
-{ #category : #accessing }
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> startButtonAction: aBlock [
+	self startButton action: aBlock
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> startButtonHelp: aString [
+	self startButton help: aString
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> startButtonLabel: aString [
+	self startButton label: aString
+]
+
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> statusLabel [
 	^ statusLabel
 ]
@@ -266,7 +341,7 @@ DrTestsUI >> subwidgetsToLock [
 	^ { self packagesList. self classesList. self resultsList. self startButton. self browseButton }
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - subwidgets' }
 DrTestsUI >> toolbar [
 	^ toolbar
 ]

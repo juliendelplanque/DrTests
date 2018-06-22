@@ -7,6 +7,22 @@ Class {
 	#category : #DrTests
 }
 
+{ #category : #'api - plugins' }
+DrTestsPlugin class >> availablePlugins [
+	^ self allSubclasses reject: #isAbstract
+]
+
+{ #category : #testing }
+DrTestsPlugin class >> isAbstract [
+	"Should return true if the plugin is abstract and should not be instantiated."
+	^ false
+]
+
+{ #category : #'api - accessing' }
+DrTestsPlugin class >> pluginIcon [
+	^ #blank asIcon
+]
+
 { #category : #'api - accessing' }
 DrTestsPlugin class >> pluginName [
 	"The name of the plugin to be displayed in DrTests UI."
