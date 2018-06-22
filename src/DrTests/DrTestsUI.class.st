@@ -138,6 +138,12 @@ DrTestsUI >> initialize [
 ]
 
 { #category : #initialization }
+DrTestsUI >> initializeButtons [
+	startButton := self newButton.
+	browseButton := self newButton
+]
+
+{ #category : #initialization }
 DrTestsUI >> initializeClassesListAndLabel [
 	classesListLabel := self newLabel.
 	self updateClassesListLabel.
@@ -219,12 +225,9 @@ DrTestsUI >> initializeWidgets [
 	self
 		initializePackagesListAndLabel;
 		initializeClassesListAndLabel;
-		initializeResultsTreeAndLabel.
+		initializeResultsTreeAndLabel;
+		initializeButtons.
 	
-	startButton := self newButton.
-	
-	browseButton := self newButton.
-		
 	statusLabel := self newLabel.
 	
 	self initializeToolbar.
