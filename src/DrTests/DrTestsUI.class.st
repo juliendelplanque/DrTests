@@ -234,13 +234,13 @@ DrTestsUI >> initializeWidgets [
 	self initializePluginsDropList
 ]
 
-{ #category : #private }
+{ #category : #'api - locking' }
 DrTestsUI >> lock [
 	"Lock the UI, once this method is called, the user is not able to click on buttons or lists anymore."
 	self locked: false
 ]
 
-{ #category : #private }
+{ #category : #'api - locking' }
 DrTestsUI >> locked: aBoolean [
 	"Lock or unlock widgets returned by #subwidgetsToLock depending on aBoolean."
 	self subwidgetsToLock
@@ -339,7 +339,7 @@ DrTestsUI >> statusLabel [
 	^ statusLabel
 ]
 
-{ #category : #private }
+{ #category : #'api - locking' }
 DrTestsUI >> subwidgetsToLock [
 	^ { self packagesList. self classesList. self resultsList. self startButton. self browseButton }
 ]
@@ -349,7 +349,7 @@ DrTestsUI >> toolbar [
 	^ toolbar
 ]
 
-{ #category : #private }
+{ #category : #'api - locking' }
 DrTestsUI >> unlock [
 	"Unlock the UI, once this method is called, the user is able to click on buttons or lists and to launch analysis."
 	self locked: true
