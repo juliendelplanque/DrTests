@@ -280,6 +280,11 @@ DrTestsUI >> resultButtonLabel: aString [
 	self browseButton label: aString
 ]
 
+{ #category : #'api - subwidgets configuration' }
+DrTestsUI >> resultListLabel: aString [
+	self resultsListLabel label: aString
+]
+
 { #category : #accessing }
 DrTestsUI >> resultSelected [
 	^ self resultsList selectedItem
@@ -382,7 +387,7 @@ DrTestsUI >> updateResultsListLabel [
 	self resultsListLabel
 		label: (String streamContents: [ :s |
 			s
-				<< 'Rotten tests (';
+				<< 'Results (';
 				<< (self resultsList ifNil: [ 0 ] ifNotNil: [ :list | list listItems size ]);
 				<< '):' ])
 ]
