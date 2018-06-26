@@ -32,10 +32,9 @@ DTRottenTestsPlugin >> startAnalysis [
 		[
 			[	
 				|results|
-				results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
-				self ui resultsList
-					items: results rottenTests;
-					resetSelection.
+				results := (RottenTestsFinder analyze: self ui testSuiteFromSelection) rottenTests
+									collect: [ :result | DTResult content: result ].
+				self ui results: results.
 			] on: Warning do: [ :warning |
 				Transcript
 					show: warning messageText;

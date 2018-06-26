@@ -182,11 +182,11 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 	
 	resultsList
 		displayBlock: [ :rottenTest |
-			rottenTest rtfBrowserName ];
+			rottenTest drTestsName ];
+		sortingBlock: [ :a :b | a drTestsName < b drTestsName ]";
 		doubleClickAction: [ 
 			self browseSelectedTest ];
-		sortingBlock: [ :a :b | a rtfBrowserName < b rtfBrowserName ];
-		menu: [ :menu | self menuForSelectedResult: menu. menu ].
+		menu: [ :menu | self menuForSelectedResult: menu. menu ]".
 ]
 
 { #category : #initialization }
@@ -284,6 +284,13 @@ DrTestsUI >> resultButtonLabel: aString [
 { #category : #accessing }
 DrTestsUI >> resultSelected [
 	^ self resultsList selectedItem
+]
+
+{ #category : #api }
+DrTestsUI >> results: aCollectionOfDTAbstractResults [
+	self resultsList
+		items: aCollectionOfDTAbstractResults;
+		resetSelection
 ]
 
 { #category : #'accessing - subwidgets' }
