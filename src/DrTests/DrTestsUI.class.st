@@ -337,8 +337,8 @@ DrTestsUI >> subwidgetsToLock [
 DrTestsUI >> testSuiteFromSelection [
 	| suite |
 	suite := TestSuite new.
-	self classesSelected collect: #suite thenDo: [ :s |
-		suite addTests: s tests ].
+	self classesSelected reject: #isAbstract thenDo: [ :s |
+		suite addTest: s suite ].
 	^ suite
 ]
 
