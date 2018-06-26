@@ -29,18 +29,65 @@ DrTestsPlugin class >> pluginName [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : #api }
+DrTestsPlugin >> resultButtonAction [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> resultButtonHelp [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> resultButtonLabel [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> startAnalysis [
+	self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> startButtonBlock [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> startButtonHelp [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> startButtonLabel [
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> title [
+	^ self class pluginName
+]
+
+{ #category : #api }
 DrTestsPlugin >> ui [
 	^ ui
 ]
 
-{ #category : #accessing }
+{ #category : #api }
 DrTestsPlugin >> ui: anObject [
 	ui := anObject
 ]
 
 { #category : #'api - ui callbacks' }
 DrTestsPlugin >> uiInitialized [
-	"Message sent once the UI is fully initialized.
-	 It allows to perform actions just after the UI appeared to the user."
+	self ui
+		startButtonLabel: self startButtonLabel;
+		startButtonHelp: self startButtonHelp;
+		startButtonAction: self startButtonBlock;
+		resultButtonLabel: self resultButtonLabel;
+		resultButtonHelp: self resultButtonHelp;
+		resultButtonAction: self resultButtonAction;
+		title: self title;
+		updateStatus: 'Rotten Tests Finder plugin is ready to work!' translated
 ]

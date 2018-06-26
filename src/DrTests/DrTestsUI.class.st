@@ -345,6 +345,11 @@ DrTestsUI >> subwidgetsToLock [
 	^ { self packagesList. self classesList. self resultsList. self startButton. self browseButton }
 ]
 
+{ #category : #api }
+DrTestsUI >> title: aString [
+	super title: 'Dr Tests - ' translated , aString
+]
+
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> toolbar [
 	^ toolbar
