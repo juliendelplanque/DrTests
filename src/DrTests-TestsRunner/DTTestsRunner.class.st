@@ -9,6 +9,11 @@ DTTestsRunner class >> pluginName [
 	^ 'Tests Runner'
 ]
 
+{ #category : #'api - accessing' }
+DTTestsRunner class >> weight [
+	^ 0
+]
+
 { #category : #api }
 DTTestsRunner >> resultButtonAction [
 	^ [ self halt ]

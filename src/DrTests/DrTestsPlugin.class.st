@@ -9,7 +9,8 @@ Class {
 
 { #category : #'api - plugins' }
 DrTestsPlugin class >> availablePlugins [
-	^ self allSubclasses reject: #isAbstract
+	^ (self allSubclasses reject: #isAbstract)
+			sort: [ :a :b | a weight < b weight ]
 ]
 
 { #category : #testing }
@@ -26,6 +27,12 @@ DrTestsPlugin class >> pluginIcon [
 { #category : #'api - accessing' }
 DrTestsPlugin class >> pluginName [
 	"The name of the plugin to be displayed in DrTests UI."
+	^ self subclassResponsibility
+]
+
+{ #category : #'api - accessing' }
+DrTestsPlugin class >> weight [
+	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ self subclassResponsibility
 ]
 

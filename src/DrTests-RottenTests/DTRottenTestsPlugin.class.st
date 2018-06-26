@@ -9,6 +9,11 @@ DTRottenTestsPlugin class >> pluginName [
 	^ 'Rotten Tests Finder'
 ]
 
+{ #category : #'api - accessing' }
+DTRottenTestsPlugin class >> weight [
+	^ 20
+]
+
 { #category : #api }
 DTRottenTestsPlugin >> resultButtonAction [
 	^ [ self halt ]
