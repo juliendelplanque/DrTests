@@ -29,12 +29,6 @@ DrTestsPlugin class >> pluginName [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'api - ui callbacks' }
-DrTestsPlugin >> startAnalysis [
-	"Message sent when the user request the analysis to be performed from the UI."
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 DrTestsPlugin >> ui [
 	^ ui

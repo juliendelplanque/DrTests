@@ -93,7 +93,11 @@ DrTestsUI >> currentPlugin [
 
 { #category : #accessing }
 DrTestsUI >> currentPlugin: anObject [
-	currentPlugin := anObject
+	currentPlugin := anObject.
+	
+	self currentPlugin
+		ui: self;
+		uiInitialized
 ]
 
 { #category : #private }
@@ -184,10 +188,7 @@ DrTestsUI >> initializePluginsDropList [
 		displayBlock: [ :pluginClass | pluginClass pluginName ];
 		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
 		whenSelectedItemChanged: [ :pluginClass |
-			self currentPlugin: pluginClass new.
-			self currentPlugin
-				ui: self;
-				uiInitialized ].
+			self currentPlugin: pluginClass new ].
 ]
 
 { #category : #initialization }
