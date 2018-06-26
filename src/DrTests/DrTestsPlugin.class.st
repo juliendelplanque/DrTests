@@ -30,6 +30,11 @@ DrTestsPlugin class >> pluginName [
 ]
 
 { #category : #api }
+DrTestsPlugin >> pluginName [
+	^ self class pluginName
+]
+
+{ #category : #api }
 DrTestsPlugin >> resultButtonAction [
 	^ self subclassResponsibility
 ]
@@ -66,7 +71,7 @@ DrTestsPlugin >> startButtonLabel [
 
 { #category : #api }
 DrTestsPlugin >> title [
-	^ self class pluginName
+	^ self pluginName
 ]
 
 { #category : #api }
@@ -89,5 +94,5 @@ DrTestsPlugin >> uiInitialized [
 		resultButtonHelp: self resultButtonHelp;
 		resultButtonAction: self resultButtonAction;
 		title: self title;
-		updateStatus: 'Rotten Tests Finder plugin is ready to work!' translated
+		updateStatus: self pluginName , ' plugin is ready to work!' translated
 ]

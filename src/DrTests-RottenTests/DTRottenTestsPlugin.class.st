@@ -26,19 +26,15 @@ DTRottenTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTRottenTestsPlugin >> startAnalysis [
-	| suite |
 	[
 		self ui lock.
 		self ui updateStatus: ('Analysis started ({1}).' format: { self ui dateAndTimeString }).
-		suite := TestSuite new.
-		self ui classesSelected collect: #suite thenDo: [ :s |
-			suite addTests: s tests ].
 	
 		UIManager default informUserDuring: [ :bar |
 			[
 				[	
 					|results|
-					results := RottenTestsFinder analyze: suite.
+					results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
 					self ui resultsList
 						items: results rottenTests;
 						resetSelection.
