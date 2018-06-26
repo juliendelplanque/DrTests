@@ -24,7 +24,7 @@ DTRottenTestsPlugin >> resultButtonLabel [
 	^ 'Browse test' translated
 ]
 
-{ #category : #api }
+{ #category : #private }
 DTRottenTestsPlugin >> startAnalysis [
 	[
 		self ui lock.
