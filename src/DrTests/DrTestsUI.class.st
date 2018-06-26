@@ -400,10 +400,15 @@ DrTestsUI >> updateResultsListLabel [
 				<< '):' ])
 ]
 
-{ #category : #private }
+{ #category : #api }
 DrTestsUI >> updateStatus: aString [
 	self statusLabel
-		label: aString
+		label: ('{1}: {2}' format: { self dateAndTimeString . aString })
+]
+
+{ #category : #api }
+DrTestsUI >> updateStatus: aString format: aCollection [
+	self updateStatus: (aString format: aCollection)
 ]
 
 { #category : #private }

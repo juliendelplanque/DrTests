@@ -28,27 +28,25 @@ DTRottenTestsPlugin >> resultButtonLabel [
 DTRottenTestsPlugin >> startAnalysis [
 	[
 		self ui lock.
-		self ui updateStatus: ('Analysis started ({1}).' format: { self ui dateAndTimeString }).
-	
-		UIManager default informUserDuring: [ :bar |
-			[
-				[	
-					|results|
-					results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
-					self ui resultsList
-						items: results rottenTests;
-						resetSelection.
-				] on: Warning do: [ :warning |
-					Transcript
-						show: warning messageText;
-						cr.
-					warning resume ]
-			] on: RTFTestAnalysed do: [ :notif |
-				bar label: ('Analyzing test: {1}' format: { notif compiledMethod printString }).
-				notif resume ] ]. 
+		self ui updateStatus: 'Analysis started.'.
+		[
+			[	
+				|results|
+				results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
+				self ui resultsList
+					items: results rottenTests;
+					resetSelection.
+			] on: Warning do: [ :warning |
+				Transcript
+					show: warning messageText;
+					cr.
+				warning resume ]
+		] on: RTFTestAnalysed do: [ :notif |
+			self ui updateStatus: 'Analyzed test: {1}' format: { notif compiledMethod printString }.
+			notif resume ]. 
 		
 		self ui updateResultsListLabel.
-		self ui updateStatus: ('Analysis finished ({1}).' format: { self ui dateAndTimeString }).
+		self ui updateStatus: 'Analysis finished.'.
 	] ensure: [ self ui unlock ]
 ]
 
