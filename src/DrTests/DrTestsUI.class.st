@@ -184,6 +184,7 @@ DrTestsUI >> initializePluginsDropList [
 	pluginsDropList := self newDropList.
 	
 	self pluginsDropList
+		help: 'Select the plugin used by Dr Tests UI.';
 		items: DrTestsPlugin availablePlugins;
 		displayBlock: [ :pluginClass | pluginClass pluginName ];
 		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
