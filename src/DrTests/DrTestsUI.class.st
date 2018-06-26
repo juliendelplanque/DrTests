@@ -176,7 +176,6 @@ DrTestsUI >> initializePluginsDropList [
 DrTestsUI >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
-	resultsListLabel help: 'The rotten tests found during latest analysis. Double click on a test to browse it in the class browser.'.
 	
 	resultsList := self instantiate: FastTableModel.
 	
