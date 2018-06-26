@@ -177,12 +177,13 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
 	
-	resultsList := self instantiate: FastTableModel.
+	resultsList := self newTree.
 	
 	resultsList
 		displayBlock: [ :rottenTest |
 			rottenTest drTestsName ];
-		sortingBlock: [ :a :b | a drTestsName < b drTestsName ]";
+		childrenBlock: [ :node |
+			node subResults ]";
 		doubleClickAction: [ 
 			self browseSelectedTest ];
 		menu: [ :menu | self menuForSelectedResult: menu. menu ]".
@@ -280,11 +281,6 @@ DrTestsUI >> resultButtonLabel: aString [
 	self browseButton label: aString
 ]
 
-{ #category : #'api - subwidgets configuration' }
-DrTestsUI >> resultListLabel: aString [
-	self resultsListLabel label: aString
-]
-
 { #category : #accessing }
 DrTestsUI >> resultSelected [
 	^ self resultsList selectedItem
@@ -293,7 +289,7 @@ DrTestsUI >> resultSelected [
 { #category : #api }
 DrTestsUI >> results: aCollectionOfDTAbstractResults [
 	self resultsList
-		items: aCollectionOfDTAbstractResults;
+		roots: aCollectionOfDTAbstractResults;
 		resetSelection
 ]
 
@@ -387,9 +383,7 @@ DrTestsUI >> updateResultsListLabel [
 	self resultsListLabel
 		label: (String streamContents: [ :s |
 			s
-				<< 'Results (';
-				<< (self resultsList ifNil: [ 0 ] ifNotNil: [ :list | list listItems size ]);
-				<< '):' ])
+				<< 'Results:' ])
 ]
 
 { #category : #api }

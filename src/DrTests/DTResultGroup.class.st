@@ -10,7 +10,12 @@ Class {
 
 { #category : #accessing }
 DTResultGroup >> drTestsName [
-	^ self name
+	^ String streamContents: [ :s |
+		s
+			<< self name;
+			<< $(;
+			<< self subResults size;
+			<< $) ]
 ]
 
 { #category : #accessing }
