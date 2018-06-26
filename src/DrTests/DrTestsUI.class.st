@@ -346,6 +346,15 @@ DrTestsUI >> subwidgetsToLock [
 ]
 
 { #category : #api }
+DrTestsUI >> testSuiteFromSelection [
+	| suite |
+	suite := TestSuite new.
+	self classesSelected collect: #suite thenDo: [ :s |
+		suite addTests: s tests ].
+	^ suite
+]
+
+{ #category : #api }
 DrTestsUI >> title: aString [
 	super title: 'Dr Tests - ' translated , aString
 ]
