@@ -67,8 +67,8 @@ DrTestsUI >> browseButton [
 ]
 
 { #category : #actions }
-DrTestsUI >> browseSelectedTest [
-	self resultSelected rtfBrowserBrowse
+DrTestsUI >> browseSelectedResult [
+	self resultSelected ifNotNil: [ :selected | selected content drTestBrowse ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -183,9 +183,9 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 		displayBlock: [ :rottenTest |
 			rottenTest drTestsName ];
 		childrenBlock: [ :node |
-			node subResults ]";
-		doubleClickAction: [ 
-			self browseSelectedTest ];
+			node subResults ];
+		doubleClick: [ 
+			self browseSelectedResult ]";
 		menu: [ :menu | self menuForSelectedResult: menu. menu ]".
 ]
 

@@ -24,6 +24,11 @@ DTResult >> content: anObject [
 	content := anObject
 ]
 
+{ #category : #actions }
+DTResult >> drTestBrowse [
+	self content drTestBrowse
+]
+
 { #category : #accessing }
 DTResult >> drTestsName [
 	^ self content drTestsName
