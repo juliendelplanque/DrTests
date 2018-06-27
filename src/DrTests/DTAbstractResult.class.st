@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #actions }
-DTAbstractResult >> drTestBrowse [
+DTAbstractResult >> drTestsBrowse [
 	"Actions to perform in order to browse the result.
 	 Does nothing by default."
 ]

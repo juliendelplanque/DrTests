@@ -25,8 +25,8 @@ DTResult >> content: anObject [
 ]
 
 { #category : #actions }
-DTResult >> drTestBrowse [
-	self content drTestBrowse
+DTResult >> drTestsBrowse [
+	self content drTestsBrowse
 ]
 
 { #category : #accessing }

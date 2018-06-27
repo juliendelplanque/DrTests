@@ -68,7 +68,7 @@ DrTestsUI >> browseButton [
 
 { #category : #actions }
 DrTestsUI >> browseSelectedResult [
-	self resultSelected ifNotNil: [ :selected | selected content drTestBrowse ]
+	self resultSelected ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -234,7 +234,7 @@ DrTestsUI >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
 	
 	self resultSelected
-		rtfBuilderBuildContextMenu: menu
+		drTestsBuildContextMenu: menu
 ]
 
 { #category : #actions }
