@@ -15,11 +15,6 @@ DTRottenTestsPlugin class >> weight [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> resultButtonAction [
-	^ [ self halt ]
-]
-
-{ #category : #api }
 DTRottenTestsPlugin >> resultButtonHelp [
 	^ 'Browse the rotten test selected in the results list.' translated
 ]

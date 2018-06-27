@@ -43,7 +43,7 @@ DrTestsPlugin >> pluginName [
 
 { #category : #api }
 DrTestsPlugin >> resultButtonAction [
-	^ self subclassResponsibility
+	^ [ self ui browseSelectedResult ]
 ]
 
 { #category : #api }

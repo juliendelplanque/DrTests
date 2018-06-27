@@ -15,11 +15,6 @@ DTTestsRunner class >> weight [
 ]
 
 { #category : #api }
-DTTestsRunner >> resultButtonAction [
-	^ [ self halt ]
-]
-
-{ #category : #api }
 DTTestsRunner >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
