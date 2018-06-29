@@ -3,10 +3,26 @@ Class {
 	#superclass : #DTAbstractResult,
 	#instVars : [
 		'name',
-		'subResults'
+		'subResults',
+		'contextMenuBlock'
 	],
 	#category : #DrTests
 }
+
+{ #category : #accessing }
+DTResultGroup >> contextMenuBlock [
+	^ contextMenuBlock
+]
+
+{ #category : #accessing }
+DTResultGroup >> contextMenuBlock: anObject [
+	contextMenuBlock := anObject
+]
+
+{ #category : #menu }
+DTResultGroup >> drTestsBuildContextMenu: menu [
+	self contextMenuBlock value: menu
+]
 
 { #category : #accessing }
 DTResultGroup >> drTestsName [
@@ -16,6 +32,13 @@ DTResultGroup >> drTestsName [
 			<< $(;
 			<< self subResults size;
 			<< $) ]
+]
+
+{ #category : #initialization }
+DTResultGroup >> initialize [
+	super initialize.
+	self
+		contextMenuBlock: [ :menu | ] "Does nothing by default."
 ]
 
 { #category : #accessing }

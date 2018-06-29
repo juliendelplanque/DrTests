@@ -29,6 +29,11 @@ DTResult >> drTestsBrowse [
 	self content drTestsBrowse
 ]
 
+{ #category : #menu }
+DTResult >> drTestsBuildContextMenu: menu [
+	self content drTestsBuildContextMenu: menu
+]
+
 { #category : #accessing }
 DTResult >> drTestsName [
 	^ self content drTestsName

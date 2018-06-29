@@ -185,8 +185,10 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 		childrenBlock: [ :node |
 			node subResults ];
 		doubleClick: [ 
-			self browseSelectedResult ]";
-		menu: [ :menu | self menuForSelectedResult: menu. menu ]".
+			self browseSelectedResult ];
+		menu: [ :menu |
+			self menuForSelectedResult: menu.
+			menu ]
 ]
 
 { #category : #initialization }
@@ -233,7 +235,7 @@ DrTestsUI >> locked: aBoolean [
 DrTestsUI >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
 	
-	self resultSelected
+	self resultSelected content
 		drTestsBuildContextMenu: menu
 ]
 
