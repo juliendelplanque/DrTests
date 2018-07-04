@@ -14,6 +14,11 @@ DTTestsRunner class >> weight [
 	^ 0
 ]
 
+{ #category : #private }
+DTTestsRunner >> reRunResultGroup: aDTResultGroup [
+	self halt
+]
+
 { #category : #api }
 DTTestsRunner >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
@@ -58,8 +63,16 @@ DTTestsRunner >> runTests [
 		self ui lock.
 		self ui updateStatus: 'Tests started.'.
 		
-		results := self runTestSuites: self ui testSuiteFromSelection tests.
-		self ui results: results asResultsForDrTests.
+		results := (self runTestSuites: self ui testSuiteFromSelection tests) asResultsForDrTests.
+		results do: [ :resultGroup |
+			resultGroup contextMenuBlock: [ :menu |
+				menu
+					addGroup: [ :group |
+						group addItem: [ :item |
+							item
+								name: 'Re-run';
+								action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
+		self ui results: results.
 		self ui updateResultsListLabel.
 		self ui updateStatus: 'Tests finished.'.
 	] ensure: [ self ui unlock ]
