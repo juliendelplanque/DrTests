@@ -1,6 +1,6 @@
 Class {
 	#name : #DrTestsUI,
-	#superclass : #ComposableModel,
+	#superclass : #ComposablePresenter,
 	#instVars : [
 		'pluginsDropList',
 		'packagesList',
@@ -81,7 +81,7 @@ DrTestsUI >> classesListLabel [
 	^ classesListLabel
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 DrTestsUI >> classesSelected [
 	^ self classesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
@@ -258,7 +258,7 @@ DrTestsUI >> packagesListLabel [
 	^ packagesListLabel
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 DrTestsUI >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
@@ -337,11 +337,12 @@ DrTestsUI >> subwidgetsToLock [
 
 { #category : #api }
 DrTestsUI >> testSuiteFromSelection [
-	| suite |
-	suite := TestSuite new.
-	self classesSelected reject: #isAbstract thenDo: [ :s |
-		suite addTest: s suite ].
-	^ suite
+	^ self testsConfiguration asTestSuite
+]
+
+{ #category : #accessing }
+DrTestsUI >> testsConfiguration [
+	^ DTTestsConfiguration testClasses: self classesSelected
 ]
 
 { #category : #api }

@@ -29,6 +29,11 @@ DTTestsRunner >> resultButtonLabel [
 	^ 'Browse test' translated
 ]
 
+{ #category : #api }
+DTTestsRunner >> run [
+	self runTests
+]
+
 { #category : #private }
 DTTestsRunner >> runSuite: aTestSuite [
 	self executeSuite: aTestSuite as: [ :aSuite :aResult | aSuite run: aResult ].
@@ -76,11 +81,6 @@ DTTestsRunner >> runTests [
 		self ui updateResultsListLabel.
 		self ui updateStatus: 'Tests finished.'.
 	] ensure: [ self ui unlock ]
-]
-
-{ #category : #api }
-DTTestsRunner >> startButtonBlock [
-	^ [ self runTests ]
 ]
 
 { #category : #api }

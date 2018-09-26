@@ -21,7 +21,7 @@ DrTestsPlugin class >> isAbstract [
 
 { #category : #'api - accessing' }
 DrTestsPlugin class >> pluginIcon [
-	^ #blank asIcon
+	^ self iconNamed: #blank
 ]
 
 { #category : #'api - accessing' }
@@ -57,13 +57,13 @@ DrTestsPlugin >> resultButtonLabel [
 ]
 
 { #category : #api }
-DrTestsPlugin >> startAnalysis [
+DrTestsPlugin >> run [
 	self subclassResponsibility
 ]
 
 { #category : #api }
 DrTestsPlugin >> startButtonBlock [
-	^ self subclassResponsibility
+	^ [ self run ]
 ]
 
 { #category : #api }
