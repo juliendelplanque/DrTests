@@ -1,6 +1,6 @@
 Class {
 	#name : #DrTestsUI,
-	#superclass : #ComposablePresenter,
+	#superclass : #DrTestsMiniUI,
 	#instVars : [
 		'pluginsDropList',
 		'packagesList',
@@ -9,11 +9,9 @@ Class {
 		'classesListLabel',
 		'resultsList',
 		'resultsListLabel',
-		'startButton',
 		'browseButton',
 		'toolbar',
-		'statusLabel',
-		'currentPlugin'
+		'statusLabel'
 	],
 	#category : #DrTests
 }
@@ -50,17 +48,6 @@ DrTestsUI class >> defaultSpec [
 		yourself
 ]
 
-{ #category : #accessing }
-DrTestsUI class >> labelHeight [
-	^ StandardFonts defaultFont height + 2
-]
-
-{ #category : #api }
-DrTestsUI class >> open [
-	^ self new
-		openWithSpec
-]
-
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> browseButton [
 	^ browseButton
@@ -86,20 +73,6 @@ DrTestsUI >> classesSelected [
 	^ self classesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
-{ #category : #accessing }
-DrTestsUI >> currentPlugin [
-	^ currentPlugin
-]
-
-{ #category : #accessing }
-DrTestsUI >> currentPlugin: anObject [
-	currentPlugin := anObject.
-	
-	self currentPlugin
-		ui: self;
-		uiInitialized
-]
-
 { #category : #private }
 DrTestsUI >> dateAndTimeString [
 	^ String streamContents: [ :stream |
@@ -123,7 +96,7 @@ DrTestsUI >> initialize [
 
 { #category : #initialization }
 DrTestsUI >> initializeButtons [
-	startButton := self newButton.
+	super initializeButtons.
 	browseButton := self newButton
 ]
 
@@ -206,29 +179,16 @@ DrTestsUI >> initializeToolbar [
 
 { #category : #initialization }
 DrTestsUI >> initializeWidgets [
+	super initializeWidgets.
 	self
 		initializePackagesListAndLabel;
 		initializeClassesListAndLabel;
-		initializeResultsTreeAndLabel;
-		initializeButtons.
+		initializeResultsTreeAndLabel.
 	
 	statusLabel := self newLabel.
 	
 	self initializeToolbar.
 	self initializePluginsDropList
-]
-
-{ #category : #'api - locking' }
-DrTestsUI >> lock [
-	"Lock the UI, once this method is called, the user is not able to click on buttons or lists anymore."
-	self locked: false
-]
-
-{ #category : #'api - locking' }
-DrTestsUI >> locked: aBoolean [
-	"Lock or unlock widgets returned by #subwidgetsToLock depending on aBoolean."
-	self subwidgetsToLock
-		do: [ :subwidget | subwidget enabled: aBoolean ]
 ]
 
 { #category : #private }
@@ -289,9 +249,9 @@ DrTestsUI >> resultSelected [
 ]
 
 { #category : #api }
-DrTestsUI >> results: aCollectionOfDTAbstractResults [
+DrTestsUI >> results: aResultGroup [
 	self resultsList
-		roots: aCollectionOfDTAbstractResults;
+		roots: aResultGroup subResults;
 		resetSelection
 ]
 
@@ -306,26 +266,6 @@ DrTestsUI >> resultsListLabel [
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> startButton [
-	^ startButton
-]
-
-{ #category : #'api - subwidgets configuration' }
-DrTestsUI >> startButtonAction: aBlock [
-	self startButton action: aBlock
-]
-
-{ #category : #'api - subwidgets configuration' }
-DrTestsUI >> startButtonHelp: aString [
-	self startButton help: aString
-]
-
-{ #category : #'api - subwidgets configuration' }
-DrTestsUI >> startButtonLabel: aString [
-	self startButton label: aString
-]
-
-{ #category : #'accessing - subwidgets' }
 DrTestsUI >> statusLabel [
 	^ statusLabel
 ]
@@ -335,14 +275,18 @@ DrTestsUI >> subwidgetsToLock [
 	^ { self packagesList. self classesList. self resultsList. self startButton. self browseButton }
 ]
 
-{ #category : #api }
-DrTestsUI >> testSuiteFromSelection [
-	^ self testsConfiguration asTestSuite
-]
-
 { #category : #accessing }
 DrTestsUI >> testsConfiguration [
 	^ DTTestsConfiguration testClasses: self classesSelected
+]
+
+{ #category : #accessing }
+DrTestsUI >> testsConfiguration: aDTTestsConfiguration [
+	self packagesList listItems withIndexDo: [ :package :i |
+		(aDTTestsConfiguration packages includes: package)
+			ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
+		
+	self packagesList changed: #listElementAt:
 ]
 
 { #category : #api }
@@ -353,12 +297,6 @@ DrTestsUI >> title: aString [
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> toolbar [
 	^ toolbar
-]
-
-{ #category : #'api - locking' }
-DrTestsUI >> unlock [
-	"Unlock the UI, once this method is called, the user is able to click on buttons or lists and to launch analysis."
-	self locked: true
 ]
 
 { #category : #private }
@@ -384,20 +322,13 @@ DrTestsUI >> updatePackagesListLabel [
 { #category : #private }
 DrTestsUI >> updateResultsListLabel [
 	self resultsListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Results:' ])
+		label: 'Results:'
 ]
 
 { #category : #api }
 DrTestsUI >> updateStatus: aString [
 	self statusLabel
 		label: ('{1}: {2}' format: { self dateAndTimeString . aString })
-]
-
-{ #category : #api }
-DrTestsUI >> updateStatus: aString format: aCollection [
-	self updateStatus: (aString format: aCollection)
 ]
 
 { #category : #private }

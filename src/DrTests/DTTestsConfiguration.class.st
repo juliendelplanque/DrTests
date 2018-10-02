@@ -25,7 +25,7 @@ DTTestsConfiguration >> asTestSuite [
 
 { #category : #accessing }
 DTTestsConfiguration >> packages [
-	^ (self testClasses select: #package) asSet
+	^ (self testClasses collect: #package) asSet
 ]
 
 { #category : #accessing }

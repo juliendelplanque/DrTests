@@ -68,8 +68,8 @@ DTTestsRunner >> runTests [
 		self ui lock.
 		self ui updateStatus: 'Tests started.'.
 		
-		results := (self runTestSuites: self ui testSuiteFromSelection tests) asResultsForDrTests.
-		results do: [ :resultGroup |
+		results := (self runTestSuites: self ui testsConfiguration asTestSuite tests) asResultsForDrTests.
+		results subResults do: [ :resultGroup |
 			resultGroup contextMenuBlock: [ :menu |
 				menu
 					addGroup: [ :group |
@@ -78,7 +78,6 @@ DTTestsRunner >> runTests [
 								name: 'Re-run';
 								action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
 		self ui results: results.
-		self ui updateResultsListLabel.
 		self ui updateStatus: 'Tests finished.'.
 	] ensure: [ self ui unlock ]
 ]
