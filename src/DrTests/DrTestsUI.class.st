@@ -106,7 +106,7 @@ DrTestsUI >> initializeClassesListAndLabel [
 	self updateClassesListLabel.
 	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
 	
-	classesList :=  self instantiate: FastTableModel.
+	classesList :=  self newList.
 	
 	classesList
 		sortingBlock: [ :a :b | a name < b name ];
@@ -123,7 +123,7 @@ DrTestsUI >> initializePackagesListAndLabel [
 	self updatePackagesListLabel.
 	packagesListLabel help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
 	
-	packagesList :=  self instantiate: FastTableModel.
+	packagesList :=  self newList.
 	packagesList
 		items: (RPackage organizer packages select: [ :p |
 			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]);
