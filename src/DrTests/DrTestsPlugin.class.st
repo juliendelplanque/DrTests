@@ -62,6 +62,18 @@ DrTestsPlugin >> run [
 ]
 
 { #category : #api }
+DrTestsPlugin >> selectClasesFrom: packagesSelected [
+^ (packagesSelected collect: [ :p | 
+		p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ])
+]
+
+{ #category : #api }
+DrTestsPlugin >> selectPackages [
+^(RPackage organizer packages select: [ :p |
+			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ])
+]
+
+{ #category : #api }
 DrTestsPlugin >> startButtonBlock [
 	^ [ self run ]
 ]
@@ -101,5 +113,6 @@ DrTestsPlugin >> uiInitialized [
 		resultButtonHelp: self resultButtonHelp;
 		resultButtonAction: self resultButtonAction;
 		title: self title;
-		updateStatus: self pluginName , ' plugin is ready to work!' translated
+		updateStatus: (self pluginName , ' plugin is ready to work!' translated);
+		updatePackagesList.
 ]

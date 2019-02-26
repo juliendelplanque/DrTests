@@ -91,7 +91,9 @@ DrTestsUI >> helpText [
 DrTestsUI >> initialize [
 	super initialize.
 	self pluginsDropList
-		setSelectedIndex: 1
+		setSelectedIndex: 1.
+	"self currentPlugin: self pluginsDropList listItems first."
+	
 ]
 
 { #category : #initialization }
@@ -310,6 +312,17 @@ DrTestsUI >> updateClassesListLabel [
 ]
 
 { #category : #private }
+DrTestsUI >> updatePackagesList [
+packagesList resetSelection.
+packagesList items: (currentPlugin selectPackages);
+	
+			sortingBlock: [ :a :b | b name < a name ];
+		displayBlock: [ :package | package name ];
+		beMultipleSelection.
+	
+]
+
+{ #category : #private }
 DrTestsUI >> updatePackagesListLabel [
 	self packagesListLabel
 		label: (String streamContents: [ :s |
@@ -328,13 +341,13 @@ DrTestsUI >> updateResultsListLabel [
 { #category : #api }
 DrTestsUI >> updateStatus: aString [
 	self statusLabel
-		label: ('{1}: {2}' format: { self dateAndTimeString . aString })
+		label: ('{1}: {2}' format: { self dateAndTimeString . aString }).
+
 ]
 
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
-	classesList items: (packagesSelected collect: [ :p | 
-		p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]) flattened.
+	classesList items: (currentPlugin selectClasesFrom: packagesSelected) flattened. 
 	self updatePackagesListLabel
 ]
