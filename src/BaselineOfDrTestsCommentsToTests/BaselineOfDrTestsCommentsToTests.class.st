@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfDrTestsCommentToTest,
+	#name : #BaselineOfDrTestsCommentsToTests,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfDrTestsCommentToTest
+	#category : #BaselineOfDrTestsCommentsToTests
 }
 
 { #category : #baselines }
-BaselineOfDrTestsCommentToTest >> baseline: spec [
+BaselineOfDrTestsCommentsToTests >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
@@ -14,6 +14,6 @@ BaselineOfDrTestsCommentToTest >> baseline: spec [
 				package: 'DrTests';
 				package: 'DrTests-TestsRunner' with: [ spec requires: #('DrTests') ];
 				package: 'DrTests-RottenTests'with: [ spec requires: #('DrTests') ];
-				package: 'DrTests-CommentToTest' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ]
+				package: 'DrTests-CommentsToTests' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ]
 				]
 ]
