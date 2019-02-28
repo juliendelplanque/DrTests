@@ -19,37 +19,81 @@ DrTestsUITest >> setUp [
 ]
 
 { #category : #tests }
+DrTestsUITest >> testBrowseButton [
+	
+]
+
+{ #category : #tests }
+DrTestsUITest >> testButtonRunOnMultipleClassesSelected [
+	
+]
+
+{ #category : #tests }
+DrTestsUITest >> testButtonRunOnOneClass [
+	
+]
+
+{ #category : #tests }
 DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
-	| currentPluginSelected newPluginSelected |
+	| currentPluginSelected  randomPackage newPackagesSelected classesList|
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-	self assert: drTestsUI currentPlugin class equals: currentPluginSelected.
+   newPackagesSelected  := OrderedCollection new.
+	randomPackage:=(drTestsUI packagesList listItems) anyOne.
+	newPackagesSelected add: randomPackage.
+	drTestsUI whenPackagesSelectionChanged: newPackagesSelected   .
+	classesList := (currentPluginSelected new selectClasesFrom: newPackagesSelected ).
 	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
+	self assertCollection: drTestsUI classesList listItems hasSameElements: classesList flattened .
 	
-	newPluginSelected := drTestsUI pluginsDropList selectedItem.
+	
+	
+"	newPluginSelected := drTestsUI pluginsDropList selectedItem.
 	
 	self deny: currentPluginSelected equals: newPluginSelected.
 	
-	self assert: drTestsUI currentPlugin class equals: newPluginSelected .
+	self assertCollection: drTestsUI packagesList listItems hasSameElements: newPluginSelected new selectPackages."
+]
+
+{ #category : #tests }
+DrTestsUITest >> testNoPackageSelected [
+	| currentPluginSelected  currentPackage newPackageSelected classesList|
+	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
+	
+	currentPackage := drTestsUI packagesSelected.
+	classesList := drTestsUI classesList getList.
+	
+	
+	self assertCollection: drTestsUI classesList listItems hasSameElements: #().
+	currentPackage:=(drTestsUI packagesList listItems ) anyOne.
+	
+	
+	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
+	
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
-	| currentPluginSelected newPluginSelected |
+	| currentPluginSelected  randomPackage newPackagesSelected classesList|
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-	self assert: drTestsUI currentPlugin class equals: currentPluginSelected.
+   newPackagesSelected  := OrderedCollection new.
+	randomPackage:=(drTestsUI packagesList listItems) anyOne.
+	newPackagesSelected add: randomPackage.
+	drTestsUI whenPackagesSelectionChanged: newPackagesSelected   .
+	classesList := (currentPluginSelected new selectClasesFrom: newPackagesSelected ).
 	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
+	self assertCollection: drTestsUI classesList listItems hasSameElements: classesList flattened .
 	
-	newPluginSelected := drTestsUI pluginsDropList selectedItem.
+	
+	
+"	newPluginSelected := drTestsUI pluginsDropList selectedItem.
 	
 	self deny: currentPluginSelected equals: newPluginSelected.
 	
-	self assert: drTestsUI currentPlugin class equals: newPluginSelected .
+	self assertCollection: drTestsUI packagesList listItems hasSameElements: newPluginSelected new selectPackages."
 ]
 
 { #category : #tests }
-DrTestsUITest >> testSelectingPluginWillCurrentPluginInstanceVariable [
+DrTestsUITest >> testSelectingPluginWillUpdateCurrentPluginInstanceVariable [
 	| currentPluginSelected newPluginSelected |
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
 	self assert: drTestsUI currentPlugin class equals: currentPluginSelected.

@@ -92,7 +92,6 @@ DrTestsUI >> initialize [
 	super initialize.
 	self pluginsDropList
 		setSelectedIndex: 1.
-	"self currentPlugin: self pluginsDropList listItems first."
 	
 ]
 
