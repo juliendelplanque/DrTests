@@ -42,13 +42,83 @@ CommentTestCase class >> errorComment: stringComment class: aClass selector: aSy
 ]
 
 { #category : #accessing }
+CommentTestCase >> classExample [ 
+	^ classExample
+]
+
+{ #category : #accessing }
+CommentTestCase >> classExample: anObject [ 
+	classExample := anObject
+]
+
+{ #category : #accessing }
+CommentTestCase >> cleanUpInstanceVariables [
+	"self class allInstVarNames do: [ :name |
+		name = 'testSelector' ifFalse: [
+			self instVarNamed: name put: nil ] ]"
+]
+
+{ #category : #accessing }
+CommentTestCase >> currentValue [
+	^ currentValue
+]
+
+{ #category : #accessing }
+CommentTestCase >> currentValue: anObject [
+	currentValue := anObject
+]
+
+{ #category : #accessing }
 CommentTestCase >> drTestsBrowse [
-	Smalltalk tools browser
-		openOnClass: classExample
-		selector: selectorExample
+	Smalltalk tools browser openOnClass: classExample  selector: selectorExample
+]
+
+{ #category : #accessing }
+CommentTestCase >> drTestsName [
+	^ self asString
+]
+
+{ #category : #accessing }
+CommentTestCase >> expectedValue [
+	^ expectedValue
+]
+
+{ #category : #accessing }
+CommentTestCase >> expectedValue: anObject [
+	expectedValue := anObject
+]
+
+{ #category : #accessing }
+CommentTestCase >> expression [
+	^ expression
+]
+
+{ #category : #accessing }
+CommentTestCase >> expression: anObject [
+	expression := anObject
+]
+
+{ #category : #accessing }
+CommentTestCase >> printString [
+	^ expression
+]
+
+{ #category : #accessing }
+CommentTestCase >> selectorExample [
+	^ selectorExample
+]
+
+{ #category : #accessing }
+CommentTestCase >> selectorExample: anObject [
+	selectorExample := anObject
 ]
 
 { #category : #accessing }
 CommentTestCase >> testError [
 	self error:'syntax error on the comment'
+]
+
+{ #category : #accessing }
+CommentTestCase >> testIt [
+self assert: expectedValue equals: currentValue
 ]
