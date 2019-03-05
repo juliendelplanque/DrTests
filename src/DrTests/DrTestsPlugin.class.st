@@ -109,13 +109,8 @@ DrTestsPlugin >> ui: anObject [
 { #category : #'api - ui callbacks' }
 DrTestsPlugin >> uiInitialized [
 	self ui
-		startButtonLabel: self startButtonLabel;
-		startButtonHelp: self startButtonHelp;
 		startButtonAction: self startButtonBlock;
-		resultButtonLabel: self resultButtonLabel;
-		resultButtonHelp: self resultButtonHelp;
 		resultButtonAction: self resultButtonAction;
-		title: self title;
 		updateStatus: (self pluginName , ' plugin is ready to work!' translated);
 		updatePackagesList.
 ]

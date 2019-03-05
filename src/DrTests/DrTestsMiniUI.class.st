@@ -36,8 +36,9 @@ DrTestsMiniUI >> currentPlugin: anObject [
 	currentPlugin := anObject.
 	
 	self currentPlugin
-		ui: self;
-		uiInitialized
+		ui: self.
+	
+	self updateUI
 ]
 
 { #category : #initialization }
@@ -132,4 +133,16 @@ DrTestsMiniUI >> updateStatus: aString [
 { #category : #api }
 DrTestsMiniUI >> updateStatus: aString format: aCollection [
 	self updateStatus: (aString format: aCollection)
+]
+
+{ #category : #accessing }
+DrTestsMiniUI >> updateUI [
+
+	self
+		startButtonLabel: self currentPlugin startButtonLabel;
+		startButtonHelp: self currentPlugin startButtonHelp;
+		resultButtonLabel: self currentPlugin resultButtonLabel;
+		resultButtonHelp: self currentPlugin resultButtonHelp;
+		title: self currentPlugin title.
+	self currentPlugin uiInitialized
 ]
