@@ -148,7 +148,7 @@ DrTestsUI >> initializePluginsDropList [
 { #category : #initialization }
 DrTestsUI >> initializePresenter [
 
-	self startButton action: [ self currentPlugin run ]
+	self startButton action: [ self runPlugin ]
 ]
 
 { #category : #initialization }
@@ -274,6 +274,12 @@ DrTestsUI >> resultsList [
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> resultsListLabel [
 	^ resultsListLabel
+]
+
+{ #category : #initialization }
+DrTestsUI >> runPlugin [
+
+	self currentPlugin run
 ]
 
 { #category : #initialization }
