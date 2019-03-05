@@ -146,6 +146,12 @@ DrTestsUI >> initializePluginsDropList [
 ]
 
 { #category : #initialization }
+DrTestsUI >> initializePresenter [
+
+	self startButton action: [ self currentPlugin run ]
+]
+
+{ #category : #initialization }
 DrTestsUI >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.

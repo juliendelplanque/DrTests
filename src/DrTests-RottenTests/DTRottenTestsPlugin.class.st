@@ -24,6 +24,11 @@ DTRottenTestsPlugin >> resultButtonLabel [
 	^ 'Browse test' translated
 ]
 
+{ #category : #api }
+DTRottenTestsPlugin >> run [
+	^ self startAnalysis
+]
+
 { #category : #private }
 DTRottenTestsPlugin >> startAnalysis [
 	[
