@@ -11,7 +11,8 @@ Class {
 		'resultsListLabel',
 		'browseButton',
 		'toolbar',
-		'statusLabel'
+		'statusLabel',
+		'plugins'
 	],
 	#category : #DrTests
 }
@@ -136,14 +137,12 @@ DrTestsUI >> initializePackagesListAndLabel [
 { #category : #initialization }
 DrTestsUI >> initializePluginsDropList [
 	pluginsDropList := self newDropList.
-	
 	self pluginsDropList
 		help: 'Select the plugin used by Dr Tests UI.';
-		items: DrTestsPlugin availablePlugins;
+		items: self plugins;
 		displayBlock: [ :pluginClass | pluginClass pluginName ];
 		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
-		whenSelectedItemChanged: [ :pluginClass |
-			self currentPlugin: pluginClass new ].
+		whenSelectedItemChanged: [ :pluginClass | self currentPlugin: pluginClass new ]
 ]
 
 { #category : #initialization }
@@ -224,6 +223,11 @@ DrTestsUI >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
+{ #category : #initialization }
+DrTestsUI >> plugins [
+	^ plugins ifNil: [ DrTestsPlugin availablePlugins ]
+]
+
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> pluginsDropList [
 	^ pluginsDropList
@@ -264,6 +268,12 @@ DrTestsUI >> resultsList [
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> resultsListLabel [
 	^ resultsListLabel
+]
+
+{ #category : #initialization }
+DrTestsUI >> setModelBeforeInitialization: aDomainObject [
+	
+	plugins := aDomainObject
 ]
 
 { #category : #'accessing - subwidgets' }

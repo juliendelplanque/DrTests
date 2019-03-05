@@ -69,8 +69,10 @@ DrTestsPlugin >> selectClasesFrom: packagesSelected [
 
 { #category : #api }
 DrTestsPlugin >> selectPackages [
-^(RPackage organizer packages select: [ :p |
-			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ])
+	^ RPackage organizer packages
+		select: [ :p | 
+			p definedClasses
+				anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]
 ]
 
 { #category : #api }
