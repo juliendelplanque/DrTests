@@ -49,13 +49,8 @@ DTCommentToTest >> resultButtonLabel [
 
 { #category : #api }
 DTCommentToTest >> run [
-	[ | results |
-	self ui lock.
-	self ui updateStatus: 'Tests started.'.
-	results := self createResults.
-	self ui results: results.
-	self ui updateStatus: 'Tests finished.' ]
-		ensure: [ self ui unlock ]
+	
+	^ self createResults
 ]
 
 { #category : #api }

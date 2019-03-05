@@ -279,7 +279,13 @@ DrTestsUI >> resultsListLabel [
 { #category : #initialization }
 DrTestsUI >> runPlugin [
 
-	self currentPlugin run
+	[ | results |
+	self lock.
+	self updateStatus: 'Tests started.'.
+	results := self currentPlugin run.
+	self results: results.
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
 ]
 
 { #category : #initialization }

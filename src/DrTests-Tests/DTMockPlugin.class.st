@@ -39,8 +39,10 @@ DTMockPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTMockPlugin >> run [
-	
-	hasBeenRun := true
+	hasBeenRun := true.
+	^ DTResultGroup new
+		subResults: {};
+		yourself
 ]
 
 { #category : #api }

@@ -31,9 +31,7 @@ DTTestsRunner >> resultButtonLabel [
 
 { #category : #api }
 DTTestsRunner >> run [
-	[ | results |
-	self ui lock.
-	self ui updateStatus: 'Tests started.'.
+	| results |
 	results := (self
 		runTestSuites: self ui testsConfiguration asTestSuite tests)
 		asResultsForDrTests.
@@ -48,9 +46,7 @@ DTTestsRunner >> run [
 									item
 										name: 'Re-run';
 										action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
-	self ui results: results.
-	self ui updateStatus: 'Tests finished.' ]
-		ensure: [ self ui unlock ]
+	^ results
 ]
 
 { #category : #private }

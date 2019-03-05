@@ -26,7 +26,23 @@ DTRottenTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTRottenTestsPlugin >> run [
-	^ self startAnalysis
+	[ [ | results |
+	results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
+	^ results asResultsForDrTests ]
+		on: Warning
+		do: [ :warning | 
+			Transcript
+				show: warning messageText;
+				cr.
+			warning resume ] ]
+		on: RTFTestAnalysed
+		do: [ :notif | 
+			self ui
+				updateStatus: 'Analyzed test: {1}'
+				format: {notif compiledMethod printString}.
+			notif resume ].
+	self ui updateResultsListLabel.
+	^ self
 ]
 
 { #category : #private }
