@@ -111,6 +111,22 @@ DrTestsUITest >> testPluginsAreConfiguredPluginsOnly [
 ]
 
 { #category : #tests }
+DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
+	
+	self
+		assert: drTestsUI browseButton help
+		equals: drTestsUI currentPlugin resultButtonHelp
+]
+
+{ #category : #tests }
+DrTestsUITest >> testResultButtonLabelIsCurrentPluginResultButtonLabel [
+	
+	self
+		assert: drTestsUI browseButton label
+		equals: drTestsUI currentPlugin resultButtonLabel
+]
+
+{ #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	| newPackagesSelected |
 	newPackagesSelected := {drTestsUI packagesList listItems anyOne}.
@@ -142,4 +158,20 @@ DrTestsUITest >> testSelectingPluginWillUpdateWindowTitle [
 	drTestsUI pluginsDropList setSelectedItem: plugin2.
 	
 	self assert: drTestsUI title equals: 'Dr Tests - ' , plugin2 pluginName.
+]
+
+{ #category : #tests }
+DrTestsUITest >> testStartButtonHelpIsCurrentPluginStartButtonHelp [
+	
+	self
+		assert: drTestsUI startButton help
+		equals: drTestsUI currentPlugin startButtonHelp
+]
+
+{ #category : #tests }
+DrTestsUITest >> testStartButtonLabelIsCurrentPluginStartButtonLabel [
+	
+	self
+		assert: drTestsUI startButton label
+		equals: drTestsUI currentPlugin startButtonLabel
 ]
