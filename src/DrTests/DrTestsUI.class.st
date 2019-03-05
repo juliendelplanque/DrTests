@@ -359,6 +359,13 @@ DrTestsUI >> updateStatus: aString [
 
 ]
 
+{ #category : #accessing }
+DrTestsUI >> updateUI [
+
+	super updateUI.
+	self updatePackagesList
+]
+
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
