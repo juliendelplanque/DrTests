@@ -49,7 +49,13 @@ DTCommentToTest >> resultButtonLabel [
 
 { #category : #api }
 DTCommentToTest >> run [
-	self runTests
+	[ | results |
+	self ui lock.
+	self ui updateStatus: 'Tests started.'.
+	results := self createResults.
+	self ui results: results.
+	self ui updateStatus: 'Tests finished.' ]
+		ensure: [ self ui unlock ]
 ]
 
 { #category : #api }
@@ -73,17 +79,6 @@ DTCommentToTest >> runTestSuites: testSuites [
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
 	^ result
-]
-
-{ #category : #api }
-DTCommentToTest >> runTests [
-	[ | results |
-	self ui lock.
-	self ui updateStatus: 'Tests started.'.
-	results := self createResults.
-	self ui results: results.
-	self ui updateStatus: 'Tests finished.' ]
-		ensure: [ self ui unlock ]
 ]
 
 { #category : #api }

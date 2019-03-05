@@ -31,7 +31,26 @@ DTTestsRunner >> resultButtonLabel [
 
 { #category : #api }
 DTTestsRunner >> run [
-	self runTests
+	[ | results |
+	self ui lock.
+	self ui updateStatus: 'Tests started.'.
+	results := (self
+		runTestSuites: self ui testsConfiguration asTestSuite tests)
+		asResultsForDrTests.
+	results subResults
+		do: [ :resultGroup | 
+			resultGroup
+				contextMenuBlock: [ :menu | 
+					menu
+						addGroup: [ :group | 
+							group
+								addItem: [ :item | 
+									item
+										name: 'Re-run';
+										action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
+	self ui results: results.
+	self ui updateStatus: 'Tests finished.' ]
+		ensure: [ self ui unlock ]
 ]
 
 { #category : #private }
@@ -59,27 +78,6 @@ DTTestsRunner >> runTestSuites: testSuites [
 			displayingProgress: 'Running Tests'
 	].
 	^ result
-]
-
-{ #category : #private }
-DTTestsRunner >> runTests [
-	[
-		|results|
-		self ui lock.
-		self ui updateStatus: 'Tests started.'.
-		
-		results := (self runTestSuites: self ui testsConfiguration asTestSuite tests) asResultsForDrTests.
-		results subResults do: [ :resultGroup |
-			resultGroup contextMenuBlock: [ :menu |
-				menu
-					addGroup: [ :group |
-						group addItem: [ :item |
-							item
-								name: 'Re-run';
-								action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
-		self ui results: results.
-		self ui updateStatus: 'Tests finished.'.
-	] ensure: [ self ui unlock ]
 ]
 
 { #category : #api }
