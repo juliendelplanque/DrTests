@@ -77,11 +77,6 @@ DrTestsPlugin >> selectPackages [
 ]
 
 { #category : #api }
-DrTestsPlugin >> startButtonBlock [
-	^ [ self run ]
-]
-
-{ #category : #api }
 DrTestsPlugin >> startButtonHelp [
 	^ self subclassResponsibility
 ]

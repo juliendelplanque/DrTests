@@ -54,11 +54,6 @@ DTRottenTestsPlugin >> startAnalysis [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> startButtonBlock [
-	^ [ self startAnalysis ]
-]
-
-{ #category : #api }
 DTRottenTestsPlugin >> startButtonHelp [
 	^ 'Run the analysis to find rotten tests.' translated
 ]
