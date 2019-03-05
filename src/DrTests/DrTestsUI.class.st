@@ -328,13 +328,12 @@ DrTestsUI >> updateClassesListLabel [
 
 { #category : #private }
 DrTestsUI >> updatePackagesList [
-packagesList resetSelection.
-packagesList items: (currentPlugin selectPackages);
-	
-			sortingBlock: [ :a :b | b name < a name ];
+	packagesList resetSelection.
+	packagesList
+		items: currentPlugin selectPackages;
+		sortingBlock: [ :a :b | b name < a name ];
 		displayBlock: [ :package | package name ];
-		beMultipleSelection.
-	
+		beMultipleSelection
 ]
 
 { #category : #private }

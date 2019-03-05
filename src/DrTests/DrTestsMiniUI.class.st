@@ -144,5 +144,6 @@ DrTestsMiniUI >> updateUI [
 		resultButtonLabel: self currentPlugin resultButtonLabel;
 		resultButtonHelp: self currentPlugin resultButtonHelp;
 		title: self currentPlugin title.
-	self currentPlugin uiInitialized
+	self currentPlugin uiInitialized.
+	self updatePackagesList
 ]
