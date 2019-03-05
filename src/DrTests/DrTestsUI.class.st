@@ -357,6 +357,6 @@ DrTestsUI >> updateStatus: aString [
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
-	classesList items: (currentPlugin selectClasesFrom: packagesSelected) flattened. 
+	classesList items: (currentPlugin selectClasesFrom: packagesSelected). 
 	self updatePackagesListLabel
 ]

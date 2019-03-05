@@ -118,7 +118,7 @@ DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	
 	self
 		assertCollection: drTestsUI classesList listItems
-		hasSameElements: (drTestsUI currentPlugin selectClasesFrom: newPackagesSelected) flattened
+		hasSameElements: (drTestsUI currentPlugin selectClasesFrom: newPackagesSelected)
 ]
 
 { #category : #tests }

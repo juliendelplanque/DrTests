@@ -89,7 +89,7 @@ DTCommentToTest >> runTests [
 { #category : #api }
 DTCommentToTest >> selectClasesFrom: packagesSelected [
 	^ packagesSelected
-		collect: [ :p | 
+		gather: [ :p | 
 			p definedClasses
 				select: [ :c | 
 					c methods
