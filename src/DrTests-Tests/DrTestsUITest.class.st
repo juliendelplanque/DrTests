@@ -69,6 +69,16 @@ DrTestsUITest >> testInitialSelectedPluginIsFirstPluginInList [
 ]
 
 { #category : #tests }
+DrTestsUITest >> testInitialStatusIsInitialStatusPluginName [
+	|status|
+	status:= (drTestsUI currentPlugin pluginName , ' plugin is ready to work!') translated.
+			
+	self
+		assert: drTestsUI statusLabel label
+		equals: ('{1}: {2}' format: { (drTestsUI  dateAndTimeString ). status }).
+]
+
+{ #category : #tests }
 DrTestsUITest >> testInitialWindowTitleIsInitialPluginWindowTitle [
 	
 	self
@@ -116,6 +126,12 @@ DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
 	self
 		assert: drTestsUI browseButton help
 		equals: drTestsUI currentPlugin resultButtonHelp
+]
+
+{ #category : #tests }
+DrTestsUITest >> testResultButtonIsCurrentPluginResultButton [
+
+
 ]
 
 { #category : #tests }

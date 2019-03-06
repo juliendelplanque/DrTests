@@ -100,10 +100,3 @@ DrTestsPlugin >> ui [
 DrTestsPlugin >> ui: anObject [
 	ui := anObject
 ]
-
-{ #category : #'api - ui callbacks' }
-DrTestsPlugin >> uiInitialized [
-	self ui
-		resultButtonAction: self resultButtonAction;
-		updateStatus: (self pluginName , ' plugin is ready to work!' translated).
-]

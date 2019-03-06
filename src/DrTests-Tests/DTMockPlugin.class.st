@@ -13,6 +13,11 @@ DTMockPlugin class >> pluginName [
 	^ 'Mock plugin for test'
 ]
 
+{ #category : #'api - accessing' }
+DTMockPlugin class >> weight [
+	^ 40
+]
+
 { #category : #accessing }
 DTMockPlugin >> hasBeenRun [
 	^ hasBeenRun

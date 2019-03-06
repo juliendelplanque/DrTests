@@ -137,12 +137,13 @@ DrTestsMiniUI >> updateStatus: aString format: aCollection [
 
 { #category : #accessing }
 DrTestsMiniUI >> updateUI [
-
 	self
 		startButtonLabel: self currentPlugin startButtonLabel;
 		startButtonHelp: self currentPlugin startButtonHelp;
 		resultButtonLabel: self currentPlugin resultButtonLabel;
 		resultButtonHelp: self currentPlugin resultButtonHelp;
-		title: self currentPlugin title.
-	self currentPlugin uiInitialized
+		title: self currentPlugin title;
+		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated;
+		resultButtonAction: self currentPlugin resultButtonAction.
+
 ]
