@@ -64,7 +64,7 @@ DrTestsPlugin >> run [
 { #category : #api }
 DrTestsPlugin >> selectClasesFrom: packagesSelected [
 	^ packagesSelected
-		gather:
+		flatCollect:
 			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
 ]
 
