@@ -80,7 +80,7 @@ DTCommentToTest >> runTestSuites: testSuites [
 { #category : #api }
 DTCommentToTest >> selectClasesFrom: packagesSelected [
 	^ packagesSelected
-		gather: [ :p | 
+		flatCollect: [ :p | 
 			p definedClasses
 				select: [ :c | 
 					c methods
