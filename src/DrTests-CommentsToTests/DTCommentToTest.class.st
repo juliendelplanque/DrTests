@@ -21,6 +21,7 @@ DTCommentToTest >> createResults [
 	| results cmdConf |
 	cmdConf := DTCommentTestConfiguration
 		testClasses: self ui testsConfiguration testClasses.
+	"testClasses from the UI to create a DTCommentTestConf"
 	results := (self runTestSuites: {cmdConf asTestSuite})
 		asResultsForDrTests.
 	results subResults
@@ -38,6 +39,19 @@ DTCommentToTest >> createResults [
 ]
 
 { #category : #api }
+DTCommentToTest >> packagesAvailableForAnalysis [
+	^ RPackage organizer packages
+		select: [ :p | 
+			p definedClasses
+				anySatisfy: [ :c | 
+					c methods
+						anySatisfy: [ :m | 
+							m comment isNotNil
+								and: [ ((m methodClass commentsAt: m selector)
+										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ] ]
+]
+
+{ #category : #api }
 DTCommentToTest >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
@@ -49,7 +63,8 @@ DTCommentToTest >> resultButtonLabel [
 
 { #category : #api }
 DTCommentToTest >> run [
-	self runTests
+	
+	^ self createResults
 ]
 
 { #category : #api }
@@ -76,39 +91,15 @@ DTCommentToTest >> runTestSuites: testSuites [
 ]
 
 { #category : #api }
-DTCommentToTest >> runTests [
-	[ | results |
-	self ui lock.
-	self ui updateStatus: 'Tests started.'.
-	results := self createResults.
-	self ui results: results.
-	self ui updateStatus: 'Tests finished.' ]
-		ensure: [ self ui unlock ]
-]
-
-{ #category : #api }
 DTCommentToTest >> selectClasesFrom: packagesSelected [
 	^ packagesSelected
-		collect: [ :p | 
+		flatCollect: [ :p | 
 			p definedClasses
 				select: [ :c | 
 					c methods
 						anySatisfy: [ :m | 
 							((m methodClass commentsAt: m selector)
 								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
-]
-
-{ #category : #api }
-DTCommentToTest >> selectPackages [
-	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | 
-					c methods
-						anySatisfy: [ :m | 
-							m comment isNotNil
-								and: [ ((m methodClass commentsAt: m selector)
-										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ] ]
 ]
 
 { #category : #api }

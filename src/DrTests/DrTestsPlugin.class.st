@@ -37,6 +37,14 @@ DrTestsPlugin class >> weight [
 ]
 
 { #category : #api }
+DrTestsPlugin >> packagesAvailableForAnalysis [
+	^ RPackage organizer packages
+		select: [ :p | 
+			p definedClasses
+				anySatisfy: [ :c | c isTestCase ] ]
+]
+
+{ #category : #api }
 DrTestsPlugin >> pluginName [
 	^ self class pluginName
 ]
@@ -63,19 +71,9 @@ DrTestsPlugin >> run [
 
 { #category : #api }
 DrTestsPlugin >> selectClasesFrom: packagesSelected [
-^ (packagesSelected collect: [ :p | 
-		p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ])
-]
-
-{ #category : #api }
-DrTestsPlugin >> selectPackages [
-^(RPackage organizer packages select: [ :p |
-			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ])
-]
-
-{ #category : #api }
-DrTestsPlugin >> startButtonBlock [
-	^ [ self run ]
+	^ packagesSelected
+		flatCollect:
+			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
 ]
 
 { #category : #api }
@@ -101,18 +99,4 @@ DrTestsPlugin >> ui [
 { #category : #api }
 DrTestsPlugin >> ui: anObject [
 	ui := anObject
-]
-
-{ #category : #'api - ui callbacks' }
-DrTestsPlugin >> uiInitialized [
-	self ui
-		startButtonLabel: self startButtonLabel;
-		startButtonHelp: self startButtonHelp;
-		startButtonAction: self startButtonBlock;
-		resultButtonLabel: self resultButtonLabel;
-		resultButtonHelp: self resultButtonHelp;
-		resultButtonAction: self resultButtonAction;
-		title: self title;
-		updateStatus: (self pluginName , ' plugin is ready to work!' translated);
-		updatePackagesList.
 ]

@@ -11,7 +11,8 @@ Class {
 		'resultsListLabel',
 		'browseButton',
 		'toolbar',
-		'statusLabel'
+		'statusLabel',
+		'plugins'
 	],
 	#category : #DrTests
 }
@@ -136,14 +137,18 @@ DrTestsUI >> initializePackagesListAndLabel [
 { #category : #initialization }
 DrTestsUI >> initializePluginsDropList [
 	pluginsDropList := self newDropList.
-	
 	self pluginsDropList
 		help: 'Select the plugin used by Dr Tests UI.';
-		items: DrTestsPlugin availablePlugins;
+		items: self plugins;
 		displayBlock: [ :pluginClass | pluginClass pluginName ];
 		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
-		whenSelectedItemChanged: [ :pluginClass |
-			self currentPlugin: pluginClass new ].
+		whenSelectedItemChanged: [ :pluginClass | self currentPlugin: pluginClass new ]
+]
+
+{ #category : #initialization }
+DrTestsUI >> initializePresenter [
+
+	self startButton action: [ self runPlugin ]
 ]
 
 { #category : #initialization }
@@ -224,6 +229,11 @@ DrTestsUI >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
+{ #category : #initialization }
+DrTestsUI >> plugins [
+	^ plugins ifNil: [ DrTestsPlugin availablePlugins ]
+]
+
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> pluginsDropList [
 	^ pluginsDropList
@@ -264,6 +274,24 @@ DrTestsUI >> resultsList [
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> resultsListLabel [
 	^ resultsListLabel
+]
+
+{ #category : #initialization }
+DrTestsUI >> runPlugin [
+
+	[ | results |
+	self lock.
+	self updateStatus: 'Tests started.'.
+	results := self currentPlugin run.
+	self results: results.
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
+]
+
+{ #category : #initialization }
+DrTestsUI >> setModelBeforeInitialization: aDomainObject [
+	
+	plugins := aDomainObject
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -312,13 +340,12 @@ DrTestsUI >> updateClassesListLabel [
 
 { #category : #private }
 DrTestsUI >> updatePackagesList [
-packagesList resetSelection.
-packagesList items: (currentPlugin selectPackages);
-	
-			sortingBlock: [ :a :b | b name < a name ];
+	packagesList resetSelection.
+	packagesList
+		items: currentPlugin packagesAvailableForAnalysis;
+		sortingBlock: [ :a :b | b name < a name ];
 		displayBlock: [ :package | package name ];
-		beMultipleSelection.
-	
+		beMultipleSelection
 ]
 
 { #category : #private }
@@ -344,9 +371,16 @@ DrTestsUI >> updateStatus: aString [
 
 ]
 
+{ #category : #accessing }
+DrTestsUI >> updateUI [
+
+	super updateUI.
+	self updatePackagesList
+]
+
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
-	classesList items: (currentPlugin selectClasesFrom: packagesSelected) flattened. 
+	classesList items: (currentPlugin selectClasesFrom: packagesSelected). 
 	self updatePackagesListLabel
 ]

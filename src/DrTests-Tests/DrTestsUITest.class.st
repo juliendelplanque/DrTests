@@ -5,7 +5,10 @@ Class {
 	#name : #DrTestsUITest,
 	#superclass : #TestCase,
 	#instVars : [
-		'drTestsUI'
+		'drTestsUI',
+		'plugins',
+		'plugin1',
+		'plugin2'
 	],
 	#category : #'DrTests-Tests'
 }
@@ -13,9 +16,12 @@ Class {
 { #category : #running }
 DrTestsUITest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
+
 	super setUp.
-	
-	drTestsUI := DrTestsUI new
+	plugin1 := DTTestsRunner.
+	plugin2 := DTMockPlugin.
+	plugins := {plugin1. plugin2}.
+	drTestsUI := DrTestsUI on: plugins
 ]
 
 { #category : #tests }
@@ -24,114 +30,164 @@ DrTestsUITest >> testBrowseButton [
 ]
 
 { #category : #tests }
-DrTestsUITest >> testButtonRunOnMultipleClassesSelected [
+DrTestsUITest >> testClickButtonRunCallsPluginRun [
+
+	drTestsUI pluginsDropList setSelectedItem: DTMockPlugin.
 	
+	drTestsUI startButton performAction.
+	
+	self assert: drTestsUI currentPlugin hasBeenRun
 ]
 
 { #category : #tests }
-DrTestsUITest >> testButtonRunOnOneClass [
+DrTestsUITest >> testCurrentPluginIsSelectedInDropDown [
+	| currentPluginSelected  |
+	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
+	self
+		assert: drTestsUI currentPlugin class
+		equals: currentPluginSelected
+]
+
+{ #category : #tests }
+DrTestsUITest >> testInitialPackagesAreInitialPluginPackages [
+
+	self
+		assertCollection: drTestsUI packagesList listItems
+		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
+]
+
+{ #category : #tests }
+DrTestsUITest >> testInitialResultListIsEmpty [
+
+	self assert: drTestsUI resultsList roots isEmpty
+]
+
+{ #category : #tests }
+DrTestsUITest >> testInitialSelectedPluginIsFirstPluginInList [
+
+	self assert: drTestsUI currentPlugin class equals: plugins first
+]
+
+{ #category : #tests }
+DrTestsUITest >> testInitialStatusIsInitialStatusPluginName [
+	|status|
+	status:= (drTestsUI currentPlugin pluginName , ' plugin is ready to work!') translated.
+			
+	self
+		assert: drTestsUI statusLabel label
+		equals: ('{1}: {2}' format: { (drTestsUI  dateAndTimeString ). status }).
+]
+
+{ #category : #tests }
+DrTestsUITest >> testInitialWindowTitleIsInitialPluginWindowTitle [
 	
+	self
+		assert: drTestsUI title
+		equals: 'Dr Tests - ' , drTestsUI currentPlugin pluginName.
 ]
 
 { #category : #tests }
 DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
-	| currentPluginSelected  randomPackage newPackagesSelected classesList|
+	| currentPluginSelected randomPackage newPackagesSelected classesList packageSelected |
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-   newPackagesSelected  := OrderedCollection new.
-	randomPackage:=(drTestsUI packagesList listItems) anyOne.
+	newPackagesSelected := OrderedCollection new.
+	packageSelected := drTestsUI packagesList listItems anyOne.
+	randomPackage := (drTestsUI packagesList listItems
+		\ {packageSelected}) anyOne.
+	newPackagesSelected add: packageSelected.
 	newPackagesSelected add: randomPackage.
-	drTestsUI whenPackagesSelectionChanged: newPackagesSelected   .
-	classesList := (currentPluginSelected new selectClasesFrom: newPackagesSelected ).
-	
-	self assertCollection: drTestsUI classesList listItems hasSameElements: classesList flattened .
-	
-	
-	
-"	newPluginSelected := drTestsUI pluginsDropList selectedItem.
-	
-	self deny: currentPluginSelected equals: newPluginSelected.
-	
-	self assertCollection: drTestsUI packagesList listItems hasSameElements: newPluginSelected new selectPackages."
+	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
+	classesList := currentPluginSelected new
+		selectClasesFrom: newPackagesSelected.
+	self
+		assertCollection: drTestsUI classesList listItems
+		hasSameElements: classesList flattened
+
+
 ]
 
 { #category : #tests }
 DrTestsUITest >> testNoPackageSelected [
-	| currentPluginSelected  currentPackage newPackageSelected classesList|
-	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
+	self
+		assertCollection: drTestsUI classesList listItems
+		hasSameElements: #()
+]
+
+{ #category : #tests }
+DrTestsUITest >> testPluginsAreConfiguredPluginsOnly [
+	self
+		assert: drTestsUI pluginsDropList listItems asArray
+		equals: plugins
+]
+
+{ #category : #tests }
+DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
 	
-	currentPackage := drTestsUI packagesSelected.
-	classesList := drTestsUI classesList getList.
+	self
+		assert: drTestsUI browseButton help
+		equals: drTestsUI currentPlugin resultButtonHelp
+]
+
+{ #category : #tests }
+DrTestsUITest >> testResultButtonIsCurrentPluginResultButton [
+	self fail.
+	self flag:#TODO
+]
+
+{ #category : #tests }
+DrTestsUITest >> testResultButtonLabelIsCurrentPluginResultButtonLabel [
 	
-	
-	self assertCollection: drTestsUI classesList listItems hasSameElements: #().
-	currentPackage:=(drTestsUI packagesList listItems ) anyOne.
-	
-	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
-	
+	self
+		assert: drTestsUI browseButton label
+		equals: drTestsUI currentPlugin resultButtonLabel
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
-	| currentPluginSelected  randomPackage newPackagesSelected classesList|
-	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-   newPackagesSelected  := OrderedCollection new.
-	randomPackage:=(drTestsUI packagesList listItems) anyOne.
-	newPackagesSelected add: randomPackage.
-	drTestsUI whenPackagesSelectionChanged: newPackagesSelected   .
-	classesList := (currentPluginSelected new selectClasesFrom: newPackagesSelected ).
+	| newPackagesSelected |
+	newPackagesSelected := {drTestsUI packagesList listItems anyOne}.
+	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
 	
-	self assertCollection: drTestsUI classesList listItems hasSameElements: classesList flattened .
-	
-	
-	
-"	newPluginSelected := drTestsUI pluginsDropList selectedItem.
-	
-	self deny: currentPluginSelected equals: newPluginSelected.
-	
-	self assertCollection: drTestsUI packagesList listItems hasSameElements: newPluginSelected new selectPackages."
+	self
+		assertCollection: drTestsUI classesList listItems
+		hasSameElements: (drTestsUI currentPlugin selectClasesFrom: newPackagesSelected)
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdateCurrentPluginInstanceVariable [
-	| currentPluginSelected newPluginSelected |
-	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-	self assert: drTestsUI currentPlugin class equals: currentPluginSelected.
-	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
-	
-	newPluginSelected := drTestsUI pluginsDropList selectedItem.
-	
-	self deny: currentPluginSelected equals: newPluginSelected.
-	
-	self assert: drTestsUI currentPlugin class equals: newPluginSelected .
+	drTestsUI pluginsDropList setSelectedItem: plugin2.
+
+	self assert: drTestsUI currentPlugin class equals: plugin2
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdatePackagesList [
-	| currentPluginSelected newPluginSelected |
-	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-	self assertCollection: drTestsUI packagesList listItems hasSameElements: currentPluginSelected new selectPackages.
-	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
-	
-	newPluginSelected := drTestsUI pluginsDropList selectedItem.
-	
-	self deny: currentPluginSelected equals: newPluginSelected.
-	
-	self assertCollection: drTestsUI packagesList listItems hasSameElements: newPluginSelected new selectPackages.
+	drTestsUI pluginsDropList setSelectedItem: plugin2.
+
+	self
+		assertCollection: drTestsUI packagesList listItems
+		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdateWindowTitle [
-	| currentPluginSelected newPluginSelected |
-	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
-	self assert: drTestsUI title equals: 'Dr Tests - ' , currentPluginSelected pluginName.
+	drTestsUI pluginsDropList setSelectedItem: plugin2.
 	
-	drTestsUI pluginsDropList setSelectedItem: (drTestsUI pluginsDropList listItems \ { currentPluginSelected }) anyOne.
+	self assert: drTestsUI title equals: 'Dr Tests - ' , plugin2 pluginName.
+]
+
+{ #category : #tests }
+DrTestsUITest >> testStartButtonHelpIsCurrentPluginStartButtonHelp [
 	
-	newPluginSelected := drTestsUI pluginsDropList selectedItem.
+	self
+		assert: drTestsUI startButton help
+		equals: drTestsUI currentPlugin startButtonHelp
+]
+
+{ #category : #tests }
+DrTestsUITest >> testStartButtonLabelIsCurrentPluginStartButtonLabel [
 	
-	self deny: currentPluginSelected equals: newPluginSelected.
-	self assert: drTestsUI title equals: 'Dr Tests - ' , newPluginSelected pluginName.
+	self
+		assert: drTestsUI startButton label
+		equals: drTestsUI currentPlugin startButtonLabel
 ]
