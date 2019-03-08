@@ -53,9 +53,11 @@ CommentTestCase >> classExample: anObject [
 
 { #category : #accessing }
 CommentTestCase >> cleanUpInstanceVariables [
-	"self class allInstVarNames do: [ :name |
-		name = 'testSelector' ifFalse: [
-			self instVarNamed: name put: nil ] ]"
+	self class allInstVarNames
+		do: [ :name | 
+			(#('testSelector' 'currentValue' 'expression' 'classExample' 'selectorExample')
+				includes: name)
+				ifFalse: [ self instVarNamed: name put: nil ] ]
 ]
 
 { #category : #accessing }

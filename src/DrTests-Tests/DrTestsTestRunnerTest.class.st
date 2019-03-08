@@ -18,14 +18,14 @@ DrTestsTestRunnerTest >> setUp [
 DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 
 	| package |
-	package := plugin selectPackages anyOne.
+	package := plugin packagesAvailableForAnalysis anyOne.
 	self assert: ((plugin selectClasesFrom: {package}) flattened allSatisfy: [ :each | each isTestCase ])
 ]
 
 { #category : #tests }
 DrTestsTestRunnerTest >> testSelectedPackagesContainTestCases [
 
-	self assert: (plugin selectPackages allSatisfy: [ :package |
+	self assert: (plugin packagesAvailableForAnalysis allSatisfy: [ :package |
 		package definedClasses anySatisfy: [ :class |
 			class isTestCase ] ])
 ]

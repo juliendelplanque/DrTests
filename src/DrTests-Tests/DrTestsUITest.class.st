@@ -53,7 +53,7 @@ DrTestsUITest >> testInitialPackagesAreInitialPluginPackages [
 
 	self
 		assertCollection: drTestsUI packagesList listItems
-		hasSameElements: drTestsUI currentPlugin selectPackages
+		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #tests }
@@ -130,8 +130,8 @@ DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
 
 { #category : #tests }
 DrTestsUITest >> testResultButtonIsCurrentPluginResultButton [
-
-
+	self fail.
+	self flag:#TODO
 ]
 
 { #category : #tests }
@@ -166,7 +166,7 @@ DrTestsUITest >> testSelectingPluginWillUpdatePackagesList [
 
 	self
 		assertCollection: drTestsUI packagesList listItems
-		hasSameElements: drTestsUI currentPlugin selectPackages
+		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #tests }

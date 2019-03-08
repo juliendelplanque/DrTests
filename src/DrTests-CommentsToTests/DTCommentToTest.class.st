@@ -39,6 +39,19 @@ DTCommentToTest >> createResults [
 ]
 
 { #category : #api }
+DTCommentToTest >> packagesAvailableForAnalysis [
+	^ RPackage organizer packages
+		select: [ :p | 
+			p definedClasses
+				anySatisfy: [ :c | 
+					c methods
+						anySatisfy: [ :m | 
+							m comment isNotNil
+								and: [ ((m methodClass commentsAt: m selector)
+										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ] ]
+]
+
+{ #category : #api }
 DTCommentToTest >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
@@ -87,19 +100,6 @@ DTCommentToTest >> selectClasesFrom: packagesSelected [
 						anySatisfy: [ :m | 
 							((m methodClass commentsAt: m selector)
 								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
-]
-
-{ #category : #api }
-DTCommentToTest >> selectPackages [
-	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | 
-					c methods
-						anySatisfy: [ :m | 
-							m comment isNotNil
-								and: [ ((m methodClass commentsAt: m selector)
-										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ] ]
 ]
 
 { #category : #api }

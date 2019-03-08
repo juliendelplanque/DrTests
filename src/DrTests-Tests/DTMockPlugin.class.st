@@ -31,6 +31,13 @@ DTMockPlugin >> initialize [
 ]
 
 { #category : #api }
+DTMockPlugin >> packagesAvailableForAnalysis [
+	"This is a seleciton only for tests"
+
+	^ {self class package}
+]
+
+{ #category : #api }
 DTMockPlugin >> resultButtonHelp [
 	
 	^ 'Result help?'
@@ -48,13 +55,6 @@ DTMockPlugin >> run [
 	^ DTResultGroup new
 		subResults: {};
 		yourself
-]
-
-{ #category : #api }
-DTMockPlugin >> selectPackages [
-	"This is a seleciton only for tests"
-
-	^ {self class package}
 ]
 
 { #category : #api }

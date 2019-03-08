@@ -37,6 +37,14 @@ DrTestsPlugin class >> weight [
 ]
 
 { #category : #api }
+DrTestsPlugin >> packagesAvailableForAnalysis [
+	^ RPackage organizer packages
+		select: [ :p | 
+			p definedClasses
+				anySatisfy: [ :c | c isTestCase ] ]
+]
+
+{ #category : #api }
 DrTestsPlugin >> pluginName [
 	^ self class pluginName
 ]
@@ -66,14 +74,6 @@ DrTestsPlugin >> selectClasesFrom: packagesSelected [
 	^ packagesSelected
 		flatCollect:
 			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
-]
-
-{ #category : #api }
-DrTestsPlugin >> selectPackages [
-	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | c isTestCase ] ]
 ]
 
 { #category : #api }
