@@ -19,7 +19,7 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 
 	| package |
 	package := plugin packagesAvailableForAnalysis anyOne.
-	self assert: ((plugin selectClasesFrom: {package}) flattened allSatisfy: [ :each | each isTestCase ])
+	self assert: ((plugin itemsToBeAnalysedFor: {package}) flattened allSatisfy: [ :each | each isTestCase ])
 ]
 
 { #category : #tests }

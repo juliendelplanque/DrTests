@@ -37,6 +37,16 @@ DrTestsPlugin class >> weight [
 ]
 
 { #category : #api }
+DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
+	"This method returns the items to be analysed by the plugin.
+	For most plugins it will be TestCases but some plugins will return other objects like comments."
+
+	^ packagesSelected
+		flatCollect:
+			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
+]
+
+{ #category : #api }
 DrTestsPlugin >> packagesAvailableForAnalysis [
 	^ RPackage organizer packages
 		select: [ :p | 
@@ -67,13 +77,6 @@ DrTestsPlugin >> resultButtonLabel [
 { #category : #api }
 DrTestsPlugin >> run [
 	self subclassResponsibility
-]
-
-{ #category : #api }
-DrTestsPlugin >> selectClasesFrom: packagesSelected [
-	^ packagesSelected
-		flatCollect:
-			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
 ]
 
 { #category : #api }

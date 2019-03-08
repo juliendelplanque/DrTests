@@ -39,6 +39,18 @@ DTCommentToTest >> createResults [
 ]
 
 { #category : #api }
+DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
+	^ packagesSelected
+		flatCollect: [ :p | 
+			p definedClasses
+				select: [ :c | 
+					c methods
+						anySatisfy: [ :m | 
+							((m methodClass commentsAt: m selector)
+								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
+]
+
+{ #category : #api }
 DTCommentToTest >> packagesAvailableForAnalysis [
 	^ RPackage organizer packages
 		select: [ :p | 
@@ -88,18 +100,6 @@ DTCommentToTest >> runTestSuites: testSuites [
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
 	^ result
-]
-
-{ #category : #api }
-DTCommentToTest >> selectClasesFrom: packagesSelected [
-	^ packagesSelected
-		flatCollect: [ :p | 
-			p definedClasses
-				select: [ :c | 
-					c methods
-						anySatisfy: [ :m | 
-							((m methodClass commentsAt: m selector)
-								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
 ]
 
 { #category : #api }

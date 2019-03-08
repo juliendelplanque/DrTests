@@ -98,7 +98,7 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 	newPackagesSelected add: randomPackage.
 	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
 	classesList := currentPluginSelected new
-		selectClasesFrom: newPackagesSelected.
+		itemsToBeAnalysedFor: newPackagesSelected.
 	self
 		assertCollection: drTestsUI classesList listItems
 		hasSameElements: classesList flattened
@@ -150,7 +150,7 @@ DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	
 	self
 		assertCollection: drTestsUI classesList listItems
-		hasSameElements: (drTestsUI currentPlugin selectClasesFrom: newPackagesSelected)
+		hasSameElements: (drTestsUI currentPlugin itemsToBeAnalysedFor: newPackagesSelected)
 ]
 
 { #category : #tests }

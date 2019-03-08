@@ -381,6 +381,6 @@ DrTestsUI >> updateUI [
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
-	classesList items: (currentPlugin selectClasesFrom: packagesSelected). 
+	classesList items: (currentPlugin itemsToBeAnalysedFor: packagesSelected). 
 	self updatePackagesListLabel
 ]
