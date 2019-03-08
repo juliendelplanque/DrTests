@@ -21,6 +21,7 @@ DTCommentToTest >> createResults [
 	| results cmdConf |
 	cmdConf := DTCommentTestConfiguration
 		testClasses: self ui testsConfiguration testClasses.
+	"testClasses from the UI to create a DTCommentTestConf"
 	results := (self runTestSuites: {cmdConf asTestSuite})
 		asResultsForDrTests.
 	results subResults

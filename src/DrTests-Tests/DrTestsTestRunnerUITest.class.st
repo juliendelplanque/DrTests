@@ -16,8 +16,6 @@ DrTestsTestRunnerUITest >> setUp [
 
 { #category : #tests }
 DrTestsTestRunnerUITest >> testRunTestsUpdatesUIWithResults [
-
 	drTest startButton performAction.
-	
 	self assert: drTest resultsList roots notEmpty
 ]

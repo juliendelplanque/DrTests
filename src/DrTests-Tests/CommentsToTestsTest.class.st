@@ -14,26 +14,38 @@ CommentsToTestsTest >> setUp [
 
 { #category : #tests }
 CommentsToTestsTest >> testErrorComment [
-|stringComment class method commentTestCase|
-stringComment:= '(1+3)+6/0>>>4'.
-class := self class.
-method:= #testErrorComment.
-commentTestCase:= CommentTestCase errorComment: stringComment class: class selector: method.
-self assert: commentTestCase testIt. 
+	| stringComment commentTestCase |
+	stringComment := '(1+3)+6/0>>>4'.
+	commentTestCase := CommentTestCase
+		comment: stringComment
+		class: self class
+		selector: self selector.
+	self
+		assert: commentTestCase currentValue
+		equals: commentTestCase expectedValue
+]
 
-self halt.
+{ #category : #tests }
+CommentsToTestsTest >> testMultipleComments [
+	| stringComment commentTestCase |
+	stringComment := '(1+3)>>>4'.
+	commentTestCase := CommentTestCase
+		comment: stringComment
+		class: self class
+		selector: self selector.
+	self
+		assert: commentTestCase currentValue
+		equals: commentTestCase expectedValue
 ]
 
 { #category : #tests }
 CommentsToTestsTest >> testOneComment [
-	| stringComment class method commentTestCase |
+	| stringComment commentTestCase |
 	stringComment := '(1+3)>>>4'.
-	class := self class.
-	method := #testOneComment.
 	commentTestCase := CommentTestCase
 		comment: stringComment
-		class: class
-		selector: method.
+		class: self class
+		selector: self selector.
 	self
 		assert: commentTestCase currentValue
 		equals: commentTestCase expectedValue
