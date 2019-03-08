@@ -1,6 +1,6 @@
 Class {
 	#name : #DTCommentTestConfiguration,
-	#superclass : #DTTestsConfiguration,
+	#superclass : #DTPluginConfiguration,
 	#category : #'DrTests-CommentsToTests'
 }
 
@@ -9,7 +9,7 @@ DTCommentTestConfiguration >> asTestSuite [
 	| suite |
 	suite := TestSuite new.
 	suite := TestSuite named: 'Test Generated From Comments'.
-	self testClasses
+	self items
 		reject: #isAbstract
 		thenDo: [ :c | 
 			c methods

@@ -41,6 +41,11 @@ CommentTestCase class >> errorComment: stringComment class: aClass selector: aSy
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+CommentTestCase class >> testSelectors [
+	^ super testSelectors \ {#testError . #testIt}
+]
+
 { #category : #accessing }
 CommentTestCase >> classExample [ 
 	^ classExample

@@ -76,6 +76,11 @@ DrTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DrTestsPlugin >> run [
+
+]
+
+{ #category : #api }
+DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 	self subclassResponsibility
 ]
 

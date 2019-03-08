@@ -30,10 +30,10 @@ DTTestsRunner >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTTestsRunner >> run [
+DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := (self
-		runTestSuites: self ui testsConfiguration asTestSuite tests)
+		runTestSuites: aDTpluginConfiguration asTestSuite tests)
 		asResultsForDrTests.
 	results subResults
 		do: [ :resultGroup | 

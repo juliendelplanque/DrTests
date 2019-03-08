@@ -58,6 +58,14 @@ DTMockPlugin >> run [
 ]
 
 { #category : #api }
+DTMockPlugin >> runForConfiguration: aDRpluginConfiguration [
+	hasBeenRun := true.
+	^ DTResultGroup new
+		subResults: {};
+		yourself
+]
+
+{ #category : #api }
 DTMockPlugin >> startButtonHelp [
 	
 	^ 'Help me!'
