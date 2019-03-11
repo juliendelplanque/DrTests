@@ -60,11 +60,6 @@ DrTestsPlugin >> pluginName [
 ]
 
 { #category : #api }
-DrTestsPlugin >> resultButtonAction [
-	^ [ self ui browseSelectedResult ]
-]
-
-{ #category : #api }
 DrTestsPlugin >> resultButtonHelp [
 	^ self subclassResponsibility
 ]

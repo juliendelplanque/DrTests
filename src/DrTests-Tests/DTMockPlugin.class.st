@@ -58,7 +58,7 @@ DTMockPlugin >> run [
 ]
 
 { #category : #api }
-DTMockPlugin >> runForConfiguration: aDRpluginConfiguration [
+DTMockPlugin >> runForConfiguration: aDTpluginConfiguration [
 	hasBeenRun := true.
 	^ DTResultGroup new
 		subResults: {};

@@ -56,7 +56,8 @@ DrTestsUI >> browseButton [
 
 { #category : #actions }
 DrTestsUI >> browseSelectedResult [
-	self resultSelected ifNotNil: [ :selected | selected content drTestsBrowse ]
+	self resultSelected
+		ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -373,8 +374,8 @@ DrTestsUI >> updateStatus: aString [
 
 { #category : #accessing }
 DrTestsUI >> updateUI [
-
 	super updateUI.
+	self resultButtonAction: [self browseSelectedResult].
 	self updatePackagesList
 ]
 
