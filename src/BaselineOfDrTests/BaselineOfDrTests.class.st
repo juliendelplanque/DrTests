@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfDrTestsCommentsToTests,
+	#name : #BaselineOfDrTests,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfDrTestsCommentsToTests
+	#category : #BaselineOfDrTests
 }
 
 { #category : #baselines }
-BaselineOfDrTestsCommentsToTests >> baseline: spec [
+BaselineOfDrTests >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
