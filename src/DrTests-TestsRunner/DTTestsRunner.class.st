@@ -58,10 +58,12 @@ DTTestsRunner >> runSuite: aTestSuite [
 DTTestsRunner >> runSuite: aTestSuite withResult: aResult [
 	aTestSuite
 		subscribe: TestAnnouncement
-		do: [ :testAnnouncement | self ui updateStatus: 'Running test {1}.' format: { testAnnouncement test asString } ].
-	[ aTestSuite run: aResult  ] ensure: [
-		aTestSuite unsubscribe:TestAnnouncement.
-	].
+		do: [ :testAnnouncement | 
+			self ui
+				updateStatus: 'Running test {1}.'
+				format: {testAnnouncement test asString} ].
+	[ aTestSuite run: aResult ]
+		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
 
 { #category : #private }

@@ -143,7 +143,5 @@ DrTestsMiniUI >> updateUI [
 		resultButtonLabel: self currentPlugin resultButtonLabel;
 		resultButtonHelp: self currentPlugin resultButtonHelp;
 		title: self currentPlugin title;
-		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated;
-		resultButtonAction: self currentPlugin resultButtonAction.
-
+		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
 ]

@@ -282,11 +282,14 @@ DrTestsUI >> runPlugin [
 	[ | results |
 	self lock.
 	self updateStatus: 'Tests started.'.
+	
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self results: results.
+	self results: results.	
+	
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
+		
 ]
 
 { #category : #initialization }

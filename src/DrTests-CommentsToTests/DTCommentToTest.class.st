@@ -17,28 +17,6 @@ DTCommentToTest class >> weight [
 ]
 
 { #category : #api }
-DTCommentToTest >> createResults [
-	| results cmdConf |
-	cmdConf := DTCommentTestConfiguration
-		items: self ui testsConfiguration items.
-	"testClasses from the UI to create a DTCommentTestConf"
-	results := (self runTestSuites: {cmdConf asTestSuite})
-		asResultsForDrTests.
-	results subResults
-		do: [ :resultGroup | 
-			resultGroup
-				contextMenuBlock: [ :menu | 
-					menu
-						addGroup: [ :group | 
-							group
-								addItem: [ :item | 
-									item
-										name: 'Re-run';
-										action: [ "TODO: self reRunResultGroup: resultGroup" ] ] ] ] ].
-	^ results
-]
-
-{ #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
 		flatCollect: [ :p | 
