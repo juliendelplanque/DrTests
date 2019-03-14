@@ -2,7 +2,7 @@ Class {
 	#name : #DrTestsPlugin,
 	#superclass : #Object,
 	#instVars : [
-		'ui'
+		'announcer'
 	],
 	#category : #DrTests
 }
@@ -34,6 +34,11 @@ DrTestsPlugin class >> pluginName [
 DrTestsPlugin class >> weight [
 	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+DrTestsPlugin >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #api }
@@ -92,14 +97,4 @@ DrTestsPlugin >> startButtonLabel [
 { #category : #api }
 DrTestsPlugin >> title [
 	^ self pluginName
-]
-
-{ #category : #api }
-DrTestsPlugin >> ui [
-	^ ui
-]
-
-{ #category : #api }
-DrTestsPlugin >> ui: anObject [
-	ui := anObject
 ]

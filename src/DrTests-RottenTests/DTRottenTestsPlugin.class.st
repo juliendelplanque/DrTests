@@ -26,7 +26,8 @@ DTRottenTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTRottenTestsPlugin >> run [
-	[ [ | results |
+	self flag: #TODO; halt. "This code is broken for now. Needs to be redone."
+	"[ [ | results |
 	results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
 	^ results asResultsForDrTests ]
 		on: Warning
@@ -37,12 +38,11 @@ DTRottenTestsPlugin >> run [
 			warning resume ] ]
 		on: RTFTestAnalysed
 		do: [ :notif | 
-			self ui
-				updateStatus: 'Analyzed test: {1}'
-				format: {notif compiledMethod printString}.
+			self announcer
+				announce: (DTStatusUpdate message: ('Analyzed test {1}.' format: {notif compiledMethod printString})).
 			notif resume ].
 	self ui updateResultsListLabel.
-	^ self
+	^ self"
 ]
 
 { #category : #api }
