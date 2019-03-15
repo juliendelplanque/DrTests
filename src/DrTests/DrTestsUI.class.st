@@ -1,3 +1,21 @@
+"
+I provide the ability to: 
+* select a plugin to create/run tests
+* select sets of items to analyze
+* obtain a detailed log of the results 
+
+UI Description 
+___________ 
+
+The droplist contains all the plugins avaible to start the analisis. 
+
+My left-most pane lists all of the categories that contain items (could subclasses of TestCase, executable comments, et c); Once items are selected, the items that can be analyzed appear in the pane to right.
+The right-most pane shows the results in diferent groups, depends the plugin's analisis. 
+
+Run and browse buttons behaviour are defined by the current plugin selected.
+
+
+"
 Class {
 	#name : #DrTestsUI,
 	#superclass : #DrTestsMiniUI,

@@ -1,3 +1,7 @@
+"
+I am a DrTestPlugin.
+I create tests from executable comments and run these tests.
+"
 Class {
 	#name : #DTCommentToTest,
 	#superclass : #DrTestsPlugin,

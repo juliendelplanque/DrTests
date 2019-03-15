@@ -1,3 +1,8 @@
+"
+I am a TestCase created from a comment.
+To create a new instance you can call one of my factory methods, if you want to understand it better you can look at the example in my class side.
+
+"
 Class {
 	#name : #CommentTestCase,
 	#superclass : #TestCase,
@@ -39,6 +44,12 @@ CommentTestCase class >> errorComment: stringComment class: aClass selector: aSy
 		currentValue: nil;
 		selectorExample: aSymbol;
 		yourself
+]
+
+{ #category : #example }
+CommentTestCase class >> example [
+	"1 + 1 >>> 2"
+	^ CommentTestCase comment: '1 + 1 >>> 2' class: CommentTestCase class selector: #example
 ]
 
 { #category : #'as yet unclassified' }

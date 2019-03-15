@@ -1,3 +1,8 @@
+"
+I am a Plugin used to execute an analysis
+
+For run I need a DTPluginConfiguration that contains the items I will analyse. I define the way to execute the analysis and create a result (could be a TestResult). 
+"
 Class {
 	#name : #DrTestsPlugin,
 	#superclass : #Object,

@@ -1,3 +1,6 @@
+"
+I hold the information that would be used by a DrTestPlugin.
+"
 Class {
 	#name : #DTPluginConfiguration,
 	#superclass : #Object,

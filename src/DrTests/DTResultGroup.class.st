@@ -1,3 +1,11 @@
+"
+I have the results of a DrTestPlugin analysis listed in groups: 
+-Errors
+-Failures
+-Skipped tests
+-PAssed test
+I am used in DrTestsUI to show the results in a orderly manner.
+"
 Class {
 	#name : #DTResultGroup,
 	#superclass : #DTAbstractResult,

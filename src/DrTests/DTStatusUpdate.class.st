@@ -1,3 +1,6 @@
+"
+Notify when executing an analisis.
+"
 Class {
 	#name : #DTStatusUpdate,
 	#superclass : #Announcement,

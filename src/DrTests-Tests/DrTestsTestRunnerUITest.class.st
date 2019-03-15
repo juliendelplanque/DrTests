@@ -1,3 +1,6 @@
+"
+A DrTestsUITest is a test class for testing the behavior of 
+"
 Class {
 	#name : #DrTestsTestRunnerUITest,
 	#superclass : #TestCase,
