@@ -1,3 +1,7 @@
+"
+I am a DrTestPlugin.
+I create tests from executable comments and run these tests.
+"
 Class {
 	#name : #DTCommentToTest,
 	#superclass : #DrTestsPlugin,
@@ -17,25 +21,15 @@ DTCommentToTest class >> weight [
 ]
 
 { #category : #api }
-DTCommentToTest >> createResults [
-	| results cmdConf |
-	cmdConf := DTCommentTestConfiguration
-		testClasses: self ui testsConfiguration testClasses.
-	"testClasses from the UI to create a DTCommentTestConf"
-	results := (self runTestSuites: {cmdConf asTestSuite})
-		asResultsForDrTests.
-	results subResults
-		do: [ :resultGroup | 
-			resultGroup
-				contextMenuBlock: [ :menu | 
-					menu
-						addGroup: [ :group | 
-							group
-								addItem: [ :item | 
-									item
-										name: 'Re-run';
-										action: [ "TODO: self reRunResultGroup: resultGroup" ] ] ] ] ].
-	^ results
+DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
+	^ packagesSelected
+		flatCollect: [ :p | 
+			p definedClasses
+				select: [ :c | 
+					c methods
+						anySatisfy: [ :m | 
+							((m methodClass commentsAt: m selector)
+								anySatisfy: [ :com | com includesSubstring: '>>>' ]) ] ] ]
 ]
 
 { #category : #api }
@@ -62,9 +56,24 @@ DTCommentToTest >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTCommentToTest >> run [
-	
-	^ self createResults
+DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
+	| results cmdConf |
+	cmdConf := DTCommentTestConfiguration
+		items: aDTpluginConfiguration items.	
+	results := (self runTestSuites: {cmdConf asTestSuite})
+		asResultsForDrTests.
+	results subResults
+		do: [ :resultGroup | 
+			resultGroup
+				contextMenuBlock: [ :menu | 
+					menu
+						addGroup: [ :group | 
+							group
+								addItem: [ :item | 
+									item
+										name: 'Re-run';
+										action: [ "TODO: self reRunResultGroup: resultGroup" ] ] ] ] ].
+	^ results
 ]
 
 { #category : #api }
@@ -72,9 +81,8 @@ DTCommentToTest >> runSuite: aTestSuite withResult: aResult [
 	aTestSuite
 		subscribe: TestAnnouncement
 		do: [ :testAnnouncement | 
-			self ui
-				updateStatus: 'Running test {1}.'
-				format: {testAnnouncement test asString} ].
+			self announcer
+				announce: (DTStatusUpdate message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
@@ -88,18 +96,6 @@ DTCommentToTest >> runTestSuites: testSuites [
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
 	^ result
-]
-
-{ #category : #api }
-DTCommentToTest >> selectClasesFrom: packagesSelected [
-	^ packagesSelected
-		flatCollect: [ :p | 
-			p definedClasses
-				select: [ :c | 
-					c methods
-						anySatisfy: [ :m | 
-							((m methodClass commentsAt: m selector)
-								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
 ]
 
 { #category : #api }

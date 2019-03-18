@@ -1,8 +1,13 @@
+"
+I am a Plugin used to execute an analysis
+
+To run, I need a DTPluginConfiguration that contains the items I will analyse. I define the way to execute the analysis and create a result (could be a TestResult). 
+"
 Class {
 	#name : #DrTestsPlugin,
 	#superclass : #Object,
 	#instVars : [
-		'ui'
+		'announcer'
 	],
 	#category : #DrTests
 }
@@ -36,6 +41,21 @@ DrTestsPlugin class >> weight [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+DrTestsPlugin >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #api }
+DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
+	"This method returns the items to be analysed by the plugin.
+	For most plugins it will be TestCases but some plugins will return other objects like comments."
+
+	^ packagesSelected
+		flatCollect:
+			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
+]
+
 { #category : #api }
 DrTestsPlugin >> packagesAvailableForAnalysis [
 	^ RPackage organizer packages
@@ -50,11 +70,6 @@ DrTestsPlugin >> pluginName [
 ]
 
 { #category : #api }
-DrTestsPlugin >> resultButtonAction [
-	^ [ self ui browseSelectedResult ]
-]
-
-{ #category : #api }
 DrTestsPlugin >> resultButtonHelp [
 	^ self subclassResponsibility
 ]
@@ -66,14 +81,12 @@ DrTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DrTestsPlugin >> run [
-	self subclassResponsibility
+
 ]
 
 { #category : #api }
-DrTestsPlugin >> selectClasesFrom: packagesSelected [
-	^ packagesSelected
-		flatCollect:
-			[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ]
+DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
+	self subclassResponsibility
 ]
 
 { #category : #api }
@@ -89,14 +102,4 @@ DrTestsPlugin >> startButtonLabel [
 { #category : #api }
 DrTestsPlugin >> title [
 	^ self pluginName
-]
-
-{ #category : #api }
-DrTestsPlugin >> ui [
-	^ ui
-]
-
-{ #category : #api }
-DrTestsPlugin >> ui: anObject [
-	ui := anObject
 ]

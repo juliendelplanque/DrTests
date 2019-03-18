@@ -1,3 +1,6 @@
+"
+A DrTestsUITest is a test class for testing the behavior of DrTests-TestRunner
+"
 Class {
 	#name : #DrTestsTestRunnerTest,
 	#superclass : #TestCase,
@@ -19,7 +22,7 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 
 	| package |
 	package := plugin packagesAvailableForAnalysis anyOne.
-	self assert: ((plugin selectClasesFrom: {package}) flattened allSatisfy: [ :each | each isTestCase ])
+	self assert: ((plugin itemsToBeAnalysedFor: {package}) flattened allSatisfy: [ :each | each isTestCase ])
 ]
 
 { #category : #tests }

@@ -1,3 +1,21 @@
+"
+I provide the ability to: 
+* select a plugin to create/run tests
+* select sets of items to analyze
+* obtain a detailed log of the results 
+
+UI Description 
+___________ 
+
+The droplist contains all the plugins available to start the analysis. 
+
+My left-most pane lists all of the categories that contain items (could subclasses of TestCase, executable comments, etc.); Once items are selected, the items that can be analyzed appear in the pane to right.
+The right-most pane shows the results in different groups, depends the plugin's analysis. 
+
+Run and browse buttons behaviour are defined by the current plugin selected.
+
+
+"
 Class {
 	#name : #DrTestsUI,
 	#superclass : #DrTestsMiniUI,
@@ -56,7 +74,8 @@ DrTestsUI >> browseButton [
 
 { #category : #actions }
 DrTestsUI >> browseSelectedResult [
-	self resultSelected ifNotNil: [ :selected | selected content drTestsBrowse ]
+	self resultSelected
+		ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -278,14 +297,17 @@ DrTestsUI >> resultsListLabel [
 
 { #category : #initialization }
 DrTestsUI >> runPlugin [
-
 	[ | results |
 	self lock.
 	self updateStatus: 'Tests started.'.
-	results := self currentPlugin run.
-	self results: results.
+	
+	results := self currentPlugin
+		runForConfiguration: self testsConfiguration.
+	self results: results.	
+	
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
+		
 ]
 
 { #category : #initialization }
@@ -306,7 +328,7 @@ DrTestsUI >> subwidgetsToLock [
 
 { #category : #accessing }
 DrTestsUI >> testsConfiguration [
-	^ DTTestsConfiguration testClasses: self classesSelected
+	^ DTPluginConfiguration items: self classesSelected
 ]
 
 { #category : #accessing }
@@ -373,14 +395,14 @@ DrTestsUI >> updateStatus: aString [
 
 { #category : #accessing }
 DrTestsUI >> updateUI [
-
 	super updateUI.
+	self resultButtonAction: [self browseSelectedResult].
 	self updatePackagesList
 ]
 
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
 	classesList resetSelection.
-	classesList items: (currentPlugin selectClasesFrom: packagesSelected). 
+	classesList items: (currentPlugin itemsToBeAnalysedFor: packagesSelected). 
 	self updatePackagesListLabel
 ]

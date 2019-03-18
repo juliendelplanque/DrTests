@@ -30,10 +30,10 @@ DTTestsRunner >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTTestsRunner >> run [
+DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := (self
-		runTestSuites: self ui testsConfiguration asTestSuite tests)
+		runTestSuites: aDTpluginConfiguration asTestSuite tests)
 		asResultsForDrTests.
 	results subResults
 		do: [ :resultGroup | 
@@ -58,10 +58,11 @@ DTTestsRunner >> runSuite: aTestSuite [
 DTTestsRunner >> runSuite: aTestSuite withResult: aResult [
 	aTestSuite
 		subscribe: TestAnnouncement
-		do: [ :testAnnouncement | self ui updateStatus: 'Running test {1}.' format: { testAnnouncement test asString } ].
-	[ aTestSuite run: aResult  ] ensure: [
-		aTestSuite unsubscribe:TestAnnouncement.
-	].
+		do: [ :testAnnouncement | 
+			self announcer
+				announce: (DTStatusUpdate message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
+	[ aTestSuite run: aResult ]
+		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
 
 { #category : #private }

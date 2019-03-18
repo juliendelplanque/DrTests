@@ -33,12 +33,21 @@ DrTestsMiniUI >> currentPlugin [
 
 { #category : #accessing }
 DrTestsMiniUI >> currentPlugin: anObject [
+	"If a plugin was set before, unsubscribe first."
+	currentPlugin ifNotNil: [ 
+		currentPlugin announcer
+			unsubscribe: self ].
 	currentPlugin := anObject.
 	
-	self currentPlugin
-		ui: self.
+	currentPlugin announcer
+		when: DTStatusUpdate send: #handlePluginStatusUpdate: to: self.
 	
 	self updateUI
+]
+
+{ #category : #'announcement handling' }
+DrTestsMiniUI >> handlePluginStatusUpdate: aDTStatusUpdate [
+	self updateStatus: aDTStatusUpdate message
 ]
 
 { #category : #initialization }
@@ -143,7 +152,5 @@ DrTestsMiniUI >> updateUI [
 		resultButtonLabel: self currentPlugin resultButtonLabel;
 		resultButtonHelp: self currentPlugin resultButtonHelp;
 		title: self currentPlugin title;
-		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated;
-		resultButtonAction: self currentPlugin resultButtonAction.
-
+		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
 ]

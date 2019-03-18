@@ -1,3 +1,6 @@
+"
+A Mock object used in test
+"
 Class {
 	#name : #DTMockPlugin,
 	#superclass : #DrTestsPlugin,
@@ -51,6 +54,14 @@ DTMockPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTMockPlugin >> run [
+	hasBeenRun := true.
+	^ DTResultGroup new
+		subResults: {};
+		yourself
+]
+
+{ #category : #api }
+DTMockPlugin >> runForConfiguration: aDTpluginConfiguration [
 	hasBeenRun := true.
 	^ DTResultGroup new
 		subResults: {};
