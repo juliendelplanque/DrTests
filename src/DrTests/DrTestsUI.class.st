@@ -10,7 +10,7 @@ ___________
 The droplist contains all the plugins available to start the analysis. 
 
 My left-most pane lists all of the categories that contain items (could subclasses of TestCase, executable comments, etc.); Once items are selected, the items that can be analyzed appear in the pane to right.
-The right-most pane shows the results in diferent groups, depends the plugin's analisis. 
+The right-most pane shows the results in different groups, depends the plugin's analysis. 
 
 Run and browse buttons behaviour are defined by the current plugin selected.
 
