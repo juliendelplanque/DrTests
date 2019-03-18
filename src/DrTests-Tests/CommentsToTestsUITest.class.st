@@ -1,5 +1,5 @@
 "
-A DrTestsUITest is a test class for testing the behavior of DrTests-CommentsToTestsTest  UI
+A DrTestsUITest is a test class for testing the behavior of DrTests-CommentsToTestsTest UI.
 "
 Class {
 	#name : #CommentsToTestsUITest,
