@@ -129,15 +129,6 @@ DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
 ]
 
 { #category : #tests }
-DrTestsUITest >> testResultButtonIsCurrentPluginResultButton [
-	drTestsUI pluginsDropList setSelectedItem: DTMockPlugin.
-	drTestsUI resultButtonAction: [ ^ true ].
-	self
-		assert: drTestsUI browseSelectedResult
-		equals: drTestsUI browseButton performAction
-]
-
-{ #category : #tests }
 DrTestsUITest >> testResultButtonLabelIsCurrentPluginResultButtonLabel [
 	
 	self
