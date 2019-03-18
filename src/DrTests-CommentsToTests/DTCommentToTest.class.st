@@ -29,7 +29,7 @@ DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 					c methods
 						anySatisfy: [ :m | 
 							((m methodClass commentsAt: m selector)
-								select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ]
+								anySatisfy: [ :com | com includesSubstring: '>>>' ]) ] ] ]
 ]
 
 { #category : #api }
