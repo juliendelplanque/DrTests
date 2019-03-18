@@ -1,5 +1,5 @@
 "
-A DrTestsUITest is a test class for testing the behavior of 
+A DrTestsUITest is a test class for testing the behavior of DrTests-TestRunner UI
 "
 Class {
 	#name : #DrTestsTestRunnerUITest,

@@ -1,3 +1,6 @@
+"
+I am an especial result for RottenTests
+"
 Class {
 	#name : #DTResult,
 	#superclass : #DTAbstractResult,

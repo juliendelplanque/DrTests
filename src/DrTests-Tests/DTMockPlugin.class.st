@@ -1,3 +1,6 @@
+"
+A Mock object used in test
+"
 Class {
 	#name : #DTMockPlugin,
 	#superclass : #DrTestsPlugin,
