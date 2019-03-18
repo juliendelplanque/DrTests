@@ -7,7 +7,7 @@ I provide the ability to:
 UI Description 
 ___________ 
 
-The droplist contains all the plugins avaible to start the analisis. 
+The droplist contains all the plugins available to start the analysis. 
 
 My left-most pane lists all of the categories that contain items (could subclasses of TestCase, executable comments, et c); Once items are selected, the items that can be analyzed appear in the pane to right.
 The right-most pane shows the results in diferent groups, depends the plugin's analisis. 
