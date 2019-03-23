@@ -1,2 +1,2 @@
 # DrTests
-A extendable, plugins-based UI for testing Pharo projects.
+An extendable, plugins-based UI for testing Pharo projects.
