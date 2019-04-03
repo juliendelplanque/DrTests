@@ -21,9 +21,16 @@ DrTestsMiniUI class >> defaultSpec [
 
 { #category : #api }
 DrTestsMiniUI class >> open [
-	^ self new
-		openWithSpec;
-		yourself
+	^ self openWithExtent: 150@150
+]
+
+{ #category : #api }
+DrTestsMiniUI class >> openWithExtent: extent [
+	| toReturn window |
+	toReturn := self new.
+	window := toReturn openWithSpec.
+	window extent: extent.
+	^ toReturn
 ]
 
 { #category : #accessing }

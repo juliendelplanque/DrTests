@@ -67,6 +67,11 @@ DrTestsUI class >> defaultSpec [
 		yourself
 ]
 
+{ #category : #api }
+DrTestsUI class >> open [
+	^ self openWithExtent: World extent / 3
+]
+
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> browseButton [
 	^ browseButton
