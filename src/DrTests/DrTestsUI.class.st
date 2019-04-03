@@ -397,7 +397,8 @@ DrTestsUI >> updateStatus: aString [
 DrTestsUI >> updateUI [
 	super updateUI.
 	self resultButtonAction: [self browseSelectedResult].
-	self updatePackagesList
+	self updatePackagesList.
+	self results: DTResultGroup empty
 ]
 
 { #category : #private }

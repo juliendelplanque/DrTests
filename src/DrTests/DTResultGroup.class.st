@@ -17,6 +17,13 @@ Class {
 	#category : #DrTests
 }
 
+{ #category : #'instance creation' }
+DTResultGroup class >> empty [
+	^ self new
+		subResults: #();
+		yourself
+]
+
 { #category : #accessing }
 DTResultGroup >> contextMenuBlock [
 	^ contextMenuBlock
