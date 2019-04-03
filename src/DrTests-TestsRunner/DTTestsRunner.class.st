@@ -14,6 +14,29 @@ DTTestsRunner class >> weight [
 	^ 0
 ]
 
+{ #category : #api }
+DTTestsRunner >> convertToResultsForDrTests: testResult [
+	^ DTResultGroup new
+		subResults:
+			{(DTResultGroup new
+				name: 'Errors';
+				subResults: (testResult errors collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Failures';
+				subResults: (testResult failures collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Skipped tests';
+				subResults: (testResult skipped collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Passed tests';
+				subResults: (testResult passed collect: #asResultForDrTest);
+				yourself)};
+			yourself
+]
+
 { #category : #private }
 DTTestsRunner >> reRunResultGroup: aDTResultGroup [
 	self halt
@@ -32,9 +55,7 @@ DTTestsRunner >> resultButtonLabel [
 { #category : #api }
 DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
-	results := (self
-		runTestSuites: aDTpluginConfiguration asTestSuite tests)
-		asResultsForDrTests.
+	results := self convertToResultsForDrTests: (self runTestSuites: aDTpluginConfiguration asTestSuite tests).
 	results subResults
 		do: [ :resultGroup | 
 			resultGroup
