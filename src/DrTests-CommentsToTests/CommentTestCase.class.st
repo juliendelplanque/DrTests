@@ -52,7 +52,7 @@ CommentTestCase class >> example [
 	^ CommentTestCase comment: '1 + 1 >>> 2' class: CommentTestCase class selector: #example
 ]
 
-{ #category : #'accessing' }
+{ #category : #accessing }
 CommentTestCase class >> testSelectors [
 	^ super testSelectors \ {#testError . #testIt}
 ]

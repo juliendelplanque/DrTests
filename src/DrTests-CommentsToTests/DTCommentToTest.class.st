@@ -34,15 +34,16 @@ DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 
 { #category : #api }
 DTCommentToTest >> packagesAvailableForAnalysis [
+	self flag: #TODO. "We changed this method to make it faster but now it does not find examples in other comments than the first one."
 	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | 
-					c methods
-						anySatisfy: [ :m | 
-							m comment isNotNil
-								and: [ ((m methodClass commentsAt: m selector)
-										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ] ] ] ]
+		select: [ :package | 
+			package definedClasses
+				anySatisfy: [ :class | 
+					class methods
+						anySatisfy: [ :method | 
+							method comment isNotNil and: [ method comment includesSubstring: '>>>' ]
+								"and: [ ((class commentsAt: method selector)
+										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ]" ] ] ]
 ]
 
 { #category : #api }
