@@ -4,6 +4,12 @@ Class {
 	#category : #'DrTests-RottenTests'
 }
 
+{ #category : #testing }
+DTRottenTestsPlugin class >> isAbstract [
+	self flag: #TODO. "It is broken so it should not appear in available plugins list."
+	^ true
+]
+
 { #category : #'api - accessing' }
 DTRottenTestsPlugin class >> pluginName [
 	^ 'Rotten Tests Finder'

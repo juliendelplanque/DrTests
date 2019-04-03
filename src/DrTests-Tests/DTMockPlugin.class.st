@@ -10,6 +10,11 @@ Class {
 	#category : #'DrTests-Tests'
 }
 
+{ #category : #testing }
+DTMockPlugin class >> isAbstract [
+	^ self = DTMockPlugin
+]
+
 { #category : #'api - accessing' }
 DTMockPlugin class >> pluginName [
 	
