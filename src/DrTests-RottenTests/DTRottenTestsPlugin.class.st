@@ -4,12 +4,6 @@ Class {
 	#category : #'DrTests-RottenTests'
 }
 
-{ #category : #testing }
-DTRottenTestsPlugin class >> isAbstract [
-	self flag: #TODO. "It is broken so it should not appear in available plugins list."
-	^ true
-]
-
 { #category : #'api - accessing' }
 DTRottenTestsPlugin class >> pluginName [
 	^ 'Rotten Tests Finder'
@@ -18,6 +12,18 @@ DTRottenTestsPlugin class >> pluginName [
 { #category : #'api - accessing' }
 DTRottenTestsPlugin class >> weight [
 	^ 20
+]
+
+{ #category : #api }
+DTRottenTestsPlugin >> convertToResultsForDrTests: aRottenTestsSet [ 
+	^ DTResultGroup new
+		subResults:
+			{(DTResultGroup new
+				name: 'Rotten tests';
+				subResults: (aRottenTestsSet rottenTests collect: #asResultForDrTest);
+				yourself)
+			};
+			yourself
 ]
 
 { #category : #api }
@@ -31,24 +37,16 @@ DTRottenTestsPlugin >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> run [
-	self flag: #TODO; halt. "This code is broken for now. Needs to be redone."
-	"[ [ | results |
-	results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
-	^ results asResultsForDrTests ]
-		on: Warning
-		do: [ :warning | 
-			Transcript
-				show: warning messageText;
-				cr.
-			warning resume ] ]
-		on: RTFTestAnalysed
-		do: [ :notif | 
+DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
+	| results |
+	[
+		results := self convertToResultsForDrTests: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite).
+		^ results
+	] on: Warning, RTFTestAnalysed
+	do: [ :resumableException |
 			self announcer
-				announce: (DTStatusUpdate message: ('Analyzed test {1}.' format: {notif compiledMethod printString})).
-			notif resume ].
-	self ui updateResultsListLabel.
-	^ self"
+				announce: (DTStatusUpdate message: ('Announcement: {1}.' format: {resumableException messageText})) .
+			resumableException resume ]
 ]
 
 { #category : #api }
