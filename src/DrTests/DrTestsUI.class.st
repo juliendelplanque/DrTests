@@ -364,10 +364,7 @@ DrTestsUI >> updateClassesListLabel [
 DrTestsUI >> updatePackagesList [
 	packagesList resetSelection.
 	packagesList
-		items: currentPlugin packagesAvailableForAnalysis;
-		sortingBlock: [ :a :b | b name < a name ];
-		displayBlock: [ :package | package name ];
-		beMultipleSelection
+		items: currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #private }
