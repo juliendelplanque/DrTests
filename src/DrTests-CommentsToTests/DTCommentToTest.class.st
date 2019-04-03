@@ -25,10 +25,6 @@ DTCommentToTest >> convertToResultsForDrTests: testResult [
 	^ DTResultGroup new
 		subResults:
 			{(DTResultGroup new
-				name: 'Parse Errors';
-				subResults: (testResult errors select: [ :commentTestCase | commentTestCase exceptionCaught class = SyntaxErrorNotification ] thenCollect: #asResultForDrTest);
-				yourself).
-			(DTResultGroup new
 				name: 'Errors';
 				subResults: (testResult errors collect: #asResultForDrTest);
 				yourself).
