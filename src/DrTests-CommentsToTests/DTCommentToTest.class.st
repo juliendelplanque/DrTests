@@ -21,6 +21,33 @@ DTCommentToTest class >> weight [
 ]
 
 { #category : #api }
+DTCommentToTest >> convertToResultsForDrTests: testResult [
+	^ DTResultGroup new
+		subResults:
+			{(DTResultGroup new
+				name: 'Parse Errors';
+				subResults: (testResult errors select: [ :commentTestCase | commentTestCase exceptionCaught class = SyntaxErrorNotification ] thenCollect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Errors';
+				subResults: (testResult errors collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Failures';
+				subResults: (testResult failures collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Skipped tests';
+				subResults: (testResult skipped collect: #asResultForDrTest);
+				yourself).
+			(DTResultGroup new
+				name: 'Passed tests';
+				subResults: (testResult passed collect: #asResultForDrTest);
+				yourself)};
+			yourself
+]
+
+{ #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
 		flatCollect: [ :p | 
@@ -61,8 +88,7 @@ DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
 	| results cmdConf |
 	cmdConf := DTCommentTestConfiguration
 		items: aDTpluginConfiguration items.	
-	results := (self runTestSuites: {cmdConf asTestSuite})
-		asResultsForDrTests.
+	results := self convertToResultsForDrTests: (self runTestSuites: {cmdConf asTestSuite}).
 	results subResults
 		do: [ :resultGroup | 
 			resultGroup
