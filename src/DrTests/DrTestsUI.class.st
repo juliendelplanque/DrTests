@@ -146,8 +146,6 @@ DrTestsUI >> initializePackagesListAndLabel [
 	
 	packagesList :=  self newList.
 	packagesList
-		items: (RPackage organizer packages select: [ :p |
-			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]);
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
 		beMultipleSelection.
