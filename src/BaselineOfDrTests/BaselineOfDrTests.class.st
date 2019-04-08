@@ -12,11 +12,11 @@ BaselineOfDrTests >> baseline: spec [
 		do: [ 
 			spec
 				package: 'DrTests';
-				package: 'DrTests-TestsRunner' with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
-				package: 'DrTests-RottenTests'with: [ spec requires: #('DrTests') ];
+				package: 'DrTests-TestsRunner' with: [ spec requires: #('DrTests') ];
+				package: 'DrTests-RottenTests'with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
 				package: 'DrTests-Tests' with: [ spec requires: #('DrTests') ];
-				package: 'DrTests-CommentsToTests' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner').
+				package: 'DrTests-CommentsToTests' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
 			spec baseline: 'RottenTestsFinder' with: [ 
 				spec
-					repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ] ]
+					repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
 ]
