@@ -14,29 +14,6 @@ DTTestsRunner class >> weight [
 	^ 0
 ]
 
-{ #category : #api }
-DTTestsRunner >> convertToResultsForDrTests: testResult [
-	^ DTTreeNode new
-		subResults:
-			{(DTTreeNode new
-				name: 'Errors';
-				subResults: (testResult errors collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Failures';
-				subResults: (testResult failures collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Skipped tests';
-				subResults: (testResult skipped collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Passed tests';
-				subResults: (testResult passed collect: #asResultForDrTest);
-				yourself)};
-			yourself
-]
-
 { #category : #private }
 DTTestsRunner >> reRunResultGroup: aDTResultGroup [
 	self halt
@@ -55,8 +32,10 @@ DTTestsRunner >> resultButtonLabel [
 { #category : #api }
 DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
-	results := self convertToResultsForDrTests: (self runTestSuites: aDTpluginConfiguration asTestSuite tests).
-	results subResults
+	results := DTTestsRunnerResult new
+					testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+					yourself.
+	"results subResults
 		do: [ :resultGroup | 
 			resultGroup
 				contextMenuBlock: [ :menu | 
@@ -66,7 +45,7 @@ DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 								addItem: [ :item | 
 									item
 										name: 'Re-run';
-										action: [ self reRunResultGroup: resultGroup ] ] ] ] ].
+										action: [ self reRunResultGroup: resultGroup ] ] ] ] ]."
 	^ results
 ]
 

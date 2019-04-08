@@ -38,10 +38,10 @@ DTRottenTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
-	| results |
 	[
-		results := self convertToResultsForDrTests: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite).
-		^ results
+		^ DTRottenTestsResult new
+			rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
+			yourself
 	] on: Warning, RTFTestAnalysed
 	do: [ :resumableException |
 			self announcer

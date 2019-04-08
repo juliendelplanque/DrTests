@@ -84,18 +84,9 @@ DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
 	| results cmdConf |
 	cmdConf := DTCommentTestConfiguration
 		items: aDTpluginConfiguration items.	
-	results := self convertToResultsForDrTests: (self runTestSuites: {cmdConf asTestSuite}).
-	results subResults
-		do: [ :resultGroup | 
-			resultGroup
-				contextMenuBlock: [ :menu | 
-					menu
-						addGroup: [ :group | 
-							group
-								addItem: [ :item | 
-									item
-										name: 'Re-run';
-										action: [ "TODO: self reRunResultGroup: resultGroup" ] ] ] ] ].
+	results := DTCommentToTestResult new
+					testsResult: (self runTestSuites: {cmdConf asTestSuite});
+					yourself.
 	^ results
 ]
 

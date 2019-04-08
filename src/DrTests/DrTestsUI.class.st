@@ -306,7 +306,7 @@ DrTestsUI >> runPlugin [
 	
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self results: results.	
+	self results: results buildTreeForUI.	
 	
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
