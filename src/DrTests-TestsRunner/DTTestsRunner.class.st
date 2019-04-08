@@ -16,21 +16,21 @@ DTTestsRunner class >> weight [
 
 { #category : #api }
 DTTestsRunner >> convertToResultsForDrTests: testResult [
-	^ DTResultGroup new
+	^ DTTreeNode new
 		subResults:
-			{(DTResultGroup new
+			{(DTTreeNode new
 				name: 'Errors';
 				subResults: (testResult errors collect: #asResultForDrTest);
 				yourself).
-			(DTResultGroup new
+			(DTTreeNode new
 				name: 'Failures';
 				subResults: (testResult failures collect: #asResultForDrTest);
 				yourself).
-			(DTResultGroup new
+			(DTTreeNode new
 				name: 'Skipped tests';
 				subResults: (testResult skipped collect: #asResultForDrTest);
 				yourself).
-			(DTResultGroup new
+			(DTTreeNode new
 				name: 'Passed tests';
 				subResults: (testResult passed collect: #asResultForDrTest);
 				yourself)};

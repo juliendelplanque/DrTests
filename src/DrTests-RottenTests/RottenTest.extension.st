@@ -2,7 +2,7 @@ Extension { #name : #RottenTest }
 
 { #category : #'*DrTests-RottenTests' }
 RottenTest >> asResultForDrTest [
-	^ DTResult content: self
+	^ DTTreeLeaf content: self
 ]
 
 { #category : #'*DrTests-RottenTests' }

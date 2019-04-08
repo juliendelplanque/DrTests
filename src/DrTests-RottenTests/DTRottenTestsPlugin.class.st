@@ -16,9 +16,9 @@ DTRottenTestsPlugin class >> weight [
 
 { #category : #api }
 DTRottenTestsPlugin >> convertToResultsForDrTests: aRottenTestsSet [ 
-	^ DTResultGroup new
+	^ DTTreeNode new
 		subResults:
-			{(DTResultGroup new
+			{(DTTreeNode new
 				name: 'Rotten tests';
 				subResults: (aRottenTestsSet rottenTests collect: #asResultForDrTest);
 				yourself)

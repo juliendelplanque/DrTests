@@ -60,7 +60,7 @@ DTMockPlugin >> resultButtonLabel [
 { #category : #api }
 DTMockPlugin >> runForConfiguration: aDTpluginConfiguration [
 	hasBeenRun := true.
-	^ DTResultGroup new
+	^ DTTreeNode new
 		subResults: {};
 		yourself
 ]

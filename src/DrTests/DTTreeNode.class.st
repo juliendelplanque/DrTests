@@ -7,8 +7,8 @@ I have the results of a DrTestPlugin analysis listed in groups:
 I am used in DrTestsUI to show the results in a orderly manner.
 "
 Class {
-	#name : #DTResultGroup,
-	#superclass : #DTAbstractResult,
+	#name : #DTTreeNode,
+	#superclass : #DTAbstractTreeNode,
 	#instVars : [
 		'name',
 		'subResults',
@@ -18,29 +18,29 @@ Class {
 }
 
 { #category : #'instance creation' }
-DTResultGroup class >> empty [
+DTTreeNode class >> empty [
 	^ self new
 		subResults: #();
 		yourself
 ]
 
 { #category : #accessing }
-DTResultGroup >> contextMenuBlock [
+DTTreeNode >> contextMenuBlock [
 	^ contextMenuBlock
 ]
 
 { #category : #accessing }
-DTResultGroup >> contextMenuBlock: anObject [
+DTTreeNode >> contextMenuBlock: anObject [
 	contextMenuBlock := anObject
 ]
 
 { #category : #menu }
-DTResultGroup >> drTestsBuildContextMenu: menu [
+DTTreeNode >> drTestsBuildContextMenu: menu [
 	self contextMenuBlock value: menu
 ]
 
 { #category : #accessing }
-DTResultGroup >> drTestsName [
+DTTreeNode >> drTestsName [
 	^ String streamContents: [ :s |
 		s
 			<< self name;
@@ -50,28 +50,28 @@ DTResultGroup >> drTestsName [
 ]
 
 { #category : #initialization }
-DTResultGroup >> initialize [
+DTTreeNode >> initialize [
 	super initialize.
 	self
 		contextMenuBlock: [ :menu | ] "Does nothing by default."
 ]
 
 { #category : #accessing }
-DTResultGroup >> name [
+DTTreeNode >> name [
 	^ name
 ]
 
 { #category : #accessing }
-DTResultGroup >> name: anObject [
+DTTreeNode >> name: anObject [
 	name := anObject
 ]
 
 { #category : #accessing }
-DTResultGroup >> subResults [
+DTTreeNode >> subResults [
 	^ subResults
 ]
 
 { #category : #accessing }
-DTResultGroup >> subResults: anObject [
+DTTreeNode >> subResults: anObject [
 	subResults := anObject
 ]

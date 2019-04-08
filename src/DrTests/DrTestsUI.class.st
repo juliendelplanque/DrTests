@@ -398,7 +398,7 @@ DrTestsUI >> updateUI [
 	super updateUI.
 	self resultButtonAction: [self browseSelectedResult].
 	self updatePackagesList.
-	self results: DTResultGroup empty
+	self results: DTTreeNode empty
 ]
 
 { #category : #private }

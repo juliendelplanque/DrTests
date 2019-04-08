@@ -2,8 +2,8 @@
 I am an especial result for RottenTests
 "
 Class {
-	#name : #DTResult,
-	#superclass : #DTAbstractResult,
+	#name : #DTTreeLeaf,
+	#superclass : #DTAbstractTreeNode,
 	#instVars : [
 		'content'
 	],
@@ -11,33 +11,33 @@ Class {
 }
 
 { #category : #'instance creation' }
-DTResult class >> content: aRottenTest [ 
+DTTreeLeaf class >> content: aRottenTest [ 
 	^ self new
 		content: aRottenTest;
 		yourself
 ]
 
 { #category : #accessing }
-DTResult >> content [
+DTTreeLeaf >> content [
 	^ content
 ]
 
 { #category : #accessing }
-DTResult >> content: anObject [
+DTTreeLeaf >> content: anObject [
 	content := anObject
 ]
 
 { #category : #actions }
-DTResult >> drTestsBrowse [
+DTTreeLeaf >> drTestsBrowse [
 	self content drTestsBrowse
 ]
 
 { #category : #menu }
-DTResult >> drTestsBuildContextMenu: menu [
+DTTreeLeaf >> drTestsBuildContextMenu: menu [
 	self content drTestsBuildContextMenu: menu
 ]
 
 { #category : #accessing }
-DTResult >> drTestsName [
+DTTreeLeaf >> drTestsName [
 	^ self content drTestsName
 ]
