@@ -1,3 +1,6 @@
+"
+I am the abstract superclass for all classes thar are nodes or leafs used to show results.
+"
 Class {
 	#name : #DTAbstractTreeNode,
 	#superclass : #Object,

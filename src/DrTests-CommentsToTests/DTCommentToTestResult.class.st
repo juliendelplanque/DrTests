@@ -1,3 +1,10 @@
+"
+I build a tree with the testsResult created by comments listed in groups: 
+-Errors
+-Failures
+-Passed test
+I am used in DrTestsUI to show the results in a orderly manner.
+"
 Class {
 	#name : #DTCommentToTestResult,
 	#superclass : #DTPluginResult,

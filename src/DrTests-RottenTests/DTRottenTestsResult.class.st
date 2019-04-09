@@ -1,3 +1,7 @@
+"
+I build a list with the rottenTests.
+I am used in DrTestsUI to show the results in a orderly manner.
+"
 Class {
 	#name : #DTRottenTestsResult,
 	#superclass : #DTPluginResult,

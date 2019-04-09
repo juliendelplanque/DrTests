@@ -1,5 +1,6 @@
 "
-I am an especial result for RottenTests
+I am a leaf of a Result Tree.
+I have te content and I know the way to browse myself. 
 "
 Class {
 	#name : #DTTreeLeaf,

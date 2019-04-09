@@ -1,3 +1,11 @@
+"
+I build a tree with the testsResult listed in groups: 
+-Errors
+-Failures
+-Skipped tests
+-Passed test
+I am used in DrTestsUI to show the results in a orderly manner.
+"
 Class {
 	#name : #DTTestsRunnerResult,
 	#superclass : #DTPluginResult,
