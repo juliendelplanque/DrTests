@@ -38,14 +38,15 @@ DTRottenTestsPlugin >> resultButtonLabel [
 
 { #category : #api }
 DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
-	[
-		^ DTRottenTestsResult new
-			rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
-			yourself
-	] on: Warning, RTFTestAnalysed
-	do: [ :resumableException |
+	[ ^ DTRottenTestsResult new
+		rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
+		yourself ]
+		on: Warning , RTFTestAnalysed
+		do: [ :resumableException | 
 			self announcer
-				announce: (DTStatusUpdate message: ('Announcement: {1}.' format: {resumableException messageText})) .
+				announce:
+					(DTStatusUpdate
+						message: ('Announcement: {1}.' format: {resumableException messageText})).
 			resumableException resume ]
 ]
 

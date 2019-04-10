@@ -331,7 +331,7 @@ DrTestsUI >> subwidgetsToLock [
 
 { #category : #accessing }
 DrTestsUI >> testsConfiguration [
-	^ DTPluginConfiguration items: self classesSelected
+	^ DTPluginConfiguration items: (self classesSelected) packages: (self packagesSelected).
 ]
 
 { #category : #accessing }

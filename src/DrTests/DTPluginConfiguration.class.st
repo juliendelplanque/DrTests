@@ -5,7 +5,8 @@ Class {
 	#name : #DTPluginConfiguration,
 	#superclass : #Object,
 	#instVars : [
-		'items'
+		'items',
+		'packagesSelected'
 	],
 	#category : #DrTests
 }
@@ -15,6 +16,14 @@ DTPluginConfiguration class >> items: aCollectionOfClasses [
 	^ self new
 		items: aCollectionOfClasses;
 		yourself
+]
+
+{ #category : #tests }
+DTPluginConfiguration class >> items: aCollectionOfClasses packages: aCollectionOfPackages [
+	^ self new
+		items: aCollectionOfClasses;
+		packagesSelected: aCollectionOfPackages;
+		yourself.
 ]
 
 { #category : #converting }
@@ -37,6 +46,22 @@ DTPluginConfiguration >> items: anObject [
 ]
 
 { #category : #accessing }
+DTPluginConfiguration >> items: anObject packages: packages [
+	items := anObject.
+	packagesSelected := packages
+]
+
+{ #category : #accessing }
 DTPluginConfiguration >> packages [
 	^ (self items collect: #package) asSet
+]
+
+{ #category : #accessing }
+DTPluginConfiguration >> packagesSelected [
+	^ packagesSelected
+]
+
+{ #category : #accessing }
+DTPluginConfiguration >> packagesSelected: packages [
+	packagesSelected := packages
 ]
