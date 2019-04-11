@@ -2,7 +2,8 @@ Class {
 	#name : #DTTestCoverageResult,
 	#superclass : #DTPluginResult,
 	#instVars : [
-		'methodList'
+		'methodList',
+		'message'
 	],
 	#category : #'DrTests-TestCoverage'
 }
@@ -17,9 +18,12 @@ DTTestCoverageResult >> asResultForDrTest: aCollectionOfMethods [
 { #category : #'as yet unclassified' }
 DTTestCoverageResult >> buildTreeForUI [
 	^ DTTreeNode new
-	name: 'Uncovered methods';
+	subResults: { (
+	DTTreeNode new
+		name: 'Uncovered methods';
 	subResults: (self methodList collect: #asResultForDrTest);
-	yourself 
+	yourself ). }
+
 ]
 
 { #category : #'as yet unclassified' }

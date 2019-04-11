@@ -22,6 +22,8 @@ DTTestCoverage >> convertToResultsForDrTests: coverageResult [
 { #category : #api }
 DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 	^ RPackage organizer packages
+		reject: [ :p | 
+			p name includesSubstring: 'Tests' ]
 ]
 
 { #category : #api }
