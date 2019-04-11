@@ -15,21 +15,6 @@ DTTestCoverage class >> weight [
 ]
 
 { #category : #api }
-DTTestCoverage >> addMethodsUnderTestIn: listOfPackages to: methods [
-	listOfPackages
-		reject: #isNil
-		thenDo: [ :package | 
-			package methodReferences
-				reject: [ :method | 
-					(#(#packageNamesUnderTest #classNamesNotUnderTest)
-						includes: method selector)
-						or: [ method compiledMethod isAbstract
-								or: [ (method compiledMethod refersToLiteral: #ignoreForCoverage)
-										or: [ method methodClass instanceSide allSuperclasses includes: TestCase ] ] ] ]
-				thenDo: [ :method | methods add: method ] ]
-]
-
-{ #category : #api }
 DTTestCoverage >> convertToResultsForDrTests: coverageResult [
 	^ DTTreeNode new
 ]
@@ -41,27 +26,24 @@ DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 
 { #category : #api }
 DTTestCoverage >> resultButtonHelp [
-	^ 'Browse the test selected in the results list.' translated
+	^ 'Browse the method selected in the results list.' translated
 ]
 
 { #category : #api }
 DTTestCoverage >> resultButtonLabel [
-	^ 'Browse test' translated
+	^ 'Browse method' translated
 ]
 
 { #category : #api }
 DTTestCoverage >> runCoverage: aDTpluginConfiguration [
-	"in DTConf we have the TestPackageSelected and the (items)packagesSelected"
+	"Run tests and report the methods that are not executed"
 
-	| suite link methods testClasses|
-	methods := aDTpluginConfiguration items.
-		methods := OrderedCollection new.
-	self 
-		addMethodsUnderTestIn: aDTpluginConfiguration items 
-		to: methods.
-	"self excludeClassesNotUnderTestFrom: methods."
-	testClasses:=  aDTpluginConfiguration packagesSelected flatCollect:[:p| p classes].
-	suite := self suiteFor: testClasses .
+	| suite link methods testClasses notExecuted |
+	methods := aDTpluginConfiguration items
+		flatCollect: [ :p | p methods ].
+	testClasses := aDTpluginConfiguration packagesSelected
+		flatCollect: [ :p | p classes ].
+	suite := self suiteFor: testClasses.
 	"resetResult;"
 	link := MetaLink new
 		selector: #tagExecuted;
@@ -69,30 +51,29 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 	[ methods do: [ :meth | meth ast link: link ].
 	[ self runTestSuites: {suite} ]
 		ensure: [ link uninstall ] ] valueUnpreemptively.
-	
-	(methods reject: [ :each | each ast hasBeenExecuted ])
-		ifEmpty: [ UIManager default
+	notExecuted := methods reject: [ :each | each ast hasBeenExecuted ].
+	notExecuted isEmpty
+		ifTrue: [ UIManager default
 				inform: 'Congratulations. Your tests cover all code under analysis.' ]
-		ifNotEmpty: [ :notExecutedMethods | 
-			Smalltalk tools messageList
-				browse: notExecutedMethods
-				title:
+		ifFalse: [ UIManager default
+				inform:
 					'Not Covered Code ('
-						, (100 - (100 * notExecutedMethods size // methods size)) printString
+						, (100 - (100 * notExecuted size // methods size)) printString
 						, '% Code Coverage)' ].
-					
-		"cleanup the annotations"				
+
+	"cleanup the annotations"
 	methods
-		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ]
+		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ].
+	^ notExecuted
 ]
 
 { #category : #api }
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| results covConf |
 	covConf := DTTestCoverageConfiguration
-		items: aDTpluginConfiguration items.
+		items: aDTpluginConfiguration items packages: aDTpluginConfiguration packagesSelected .
 	results := DTTestCoverageResult new
-		testsResult: (self runCoverage: aDTpluginConfiguration);
+		methodList: (self runCoverage: covConf);
 		yourself.
 	^ results
 ]
