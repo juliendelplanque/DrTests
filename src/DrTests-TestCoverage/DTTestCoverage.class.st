@@ -73,7 +73,8 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| results covConf |
 	covConf := DTTestCoverageConfiguration
-		items: aDTpluginConfiguration items packages: aDTpluginConfiguration packagesSelected .
+		items: aDTpluginConfiguration items
+		packages: aDTpluginConfiguration packagesSelected.
 	results := DTTestCoverageResult new
 		methodList: (self runCoverage: covConf);
 		yourself.
