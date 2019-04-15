@@ -1,3 +1,7 @@
+"
+I am a DTPluginConfiguration.
+I know the items to create a testSuite that will be analysed by a DrTestsPlugin.
+"
 Class {
 	#name : #DTTestCoverageConfiguration,
 	#superclass : #DTPluginConfiguration,

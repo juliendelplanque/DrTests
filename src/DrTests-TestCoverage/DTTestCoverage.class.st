@@ -1,3 +1,7 @@
+"
+I am a DrTestPlugin.
+I create show the percentage of covered methods with tests and show the list of the uncovered methods.
+"
 Class {
 	#name : #DTTestCoverage,
 	#superclass : #DrTestsPlugin,
@@ -38,9 +42,8 @@ DTTestCoverage >> resultButtonLabel [
 
 { #category : #api }
 DTTestCoverage >> runCoverage: aDTpluginConfiguration [
-	"Run tests and report the methods that are not executed"
-
-	| suite link methods testClasses notExecuted |
+	| suite link methods testClasses notExecuted result |
+	result := DTTestCoverageResult new.
 	methods := aDTpluginConfiguration items
 		flatCollect: [ :p | p methods ].
 	testClasses := aDTpluginConfiguration packagesSelected
@@ -55,18 +58,15 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 		ensure: [ link uninstall ] ] valueUnpreemptively.
 	notExecuted := methods reject: [ :each | each ast hasBeenExecuted ].
 	notExecuted isEmpty
-		ifTrue: [ UIManager default
-				inform: 'Congratulations. Your tests cover all code under analysis.' ]
-		ifFalse: [ UIManager default
-				inform:
-					'Not Covered Code ('
-						, (100 - (100 * notExecuted size // methods size)) printString
-						, '% Code Coverage)' ].
+		ifTrue: [ result percent: 100 ]
+		ifFalse: [ result
+				percent: 100 - (100 * notExecuted size // methods size);
+				methodList: notExecuted ].
 
 	"cleanup the annotations"
 	methods
 		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ].
-	^ notExecuted
+	^ result
 ]
 
 { #category : #api }
@@ -75,9 +75,7 @@ DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	covConf := DTTestCoverageConfiguration
 		items: aDTpluginConfiguration items
 		packages: aDTpluginConfiguration packagesSelected.
-	results := DTTestCoverageResult new
-		methodList: (self runCoverage: covConf);
-		yourself.
+	results := self runCoverage: covConf.
 	^ results
 ]
 
