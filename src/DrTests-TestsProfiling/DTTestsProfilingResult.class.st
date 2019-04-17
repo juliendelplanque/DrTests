@@ -2,7 +2,8 @@ Class {
 	#name : #DTTestsProfilingResult,
 	#superclass : #DTPluginResult,
 	#instVars : [
-		'testsResult'
+		'testsResult',
+		'timeData'
 	],
 	#category : #'DrTests-TestsProfiling'
 }
@@ -38,4 +39,14 @@ DTTestsProfilingResult >> testsResult [
 { #category : #accessing }
 DTTestsProfilingResult >> testsResult: anObject [
 	testsResult := anObject
+]
+
+{ #category : #accessing }
+DTTestsProfilingResult >> timeData [
+	^ timeData
+]
+
+{ #category : #accessing }
+DTTestsProfilingResult >> timeData: anObject [
+	timeData := anObject
 ]

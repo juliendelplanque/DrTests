@@ -1,6 +1,9 @@
 Class {
 	#name : #DTTestsProfiling,
 	#superclass : #DrTestsPlugin,
+	#instVars : [
+		'dataTestTime'
+	],
 	#category : #'DrTests-TestsProfiling'
 }
 
@@ -26,31 +29,41 @@ DTTestsProfiling >> resultButtonLabel [
 
 { #category : #api }
 DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
-	| results |
+	| results testsResult |
+	testsResult := aDTpluginConfiguration asTestSuite tests.
 	results := DTTestsProfilingResult new
-		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+		testsResult: (self runTestSuites: testsResult);
 		yourself.
 	^ results
 ]
 
 { #category : #api }
 DTTestsProfiling >> runSuite: aTestSuite withResult: aResult [
+	| time |
 	aTestSuite
 		subscribe: TestAnnouncement
 		do: [ :testAnnouncement | 
 			self announcer
-				announce: (DTStatusUpdate message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
-	[ aTestSuite run: aResult ]
+				announce:
+					(DTStatusUpdate
+						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
+					
+	[ time := [ aTestSuite run: aResult ] timeToRun.
+	self halt.
+	dataTestTime at: [ aTestSuite run: aResult ] put: time ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
 
 { #category : #api }
 DTTestsProfiling >> runTestSuites: testSuites [ 
-	|result|
+	|result |
+	"save each testSuite in a dictionary"
+	dataTestTime := Dictionary new.
 	result := TestAsserter classForTestResult new.
 	CurrentExecutionEnvironment runTestsBy: [
 		testSuites
 			do: [:testSuite | self runSuite: testSuite withResult: result ]
+			"generate the pair in "
 			displayingProgress: 'Running Tests'
 	].
 	^ result
