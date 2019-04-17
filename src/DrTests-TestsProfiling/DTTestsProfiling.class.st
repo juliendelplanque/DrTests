@@ -29,17 +29,19 @@ DTTestsProfiling >> resultButtonLabel [
 
 { #category : #api }
 DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
-	| results testsResult |
-	testsResult := aDTpluginConfiguration asTestSuite tests.
+	| results profilerVisitor |
+	profilerVisitor := DTTestsProfilerVisitor new.
+	aDTpluginConfiguration asTestSuite
+		acceptSUnitVisitor: profilerVisitor.
 	results := DTTestsProfilingResult new
-		testsResult: (self runTestSuites: testsResult);
+		testsResult: profilerVisitor profilingData;
 		yourself.
+	"	self halt."
 	^ results
 ]
 
 { #category : #api }
 DTTestsProfiling >> runSuite: aTestSuite withResult: aResult [
-	| time |
 	aTestSuite
 		subscribe: TestAnnouncement
 		do: [ :testAnnouncement | 
@@ -47,10 +49,7 @@ DTTestsProfiling >> runSuite: aTestSuite withResult: aResult [
 				announce:
 					(DTStatusUpdate
 						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
-					
-	[ time := [ aTestSuite run: aResult ] timeToRun.
-	self halt.
-	dataTestTime at: [ aTestSuite run: aResult ] put: time ]
+	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
 

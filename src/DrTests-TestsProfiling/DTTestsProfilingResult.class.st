@@ -14,19 +14,47 @@ DTTestsProfilingResult >> buildTreeForUI [
 		subResults:
 			{(DTTreeNode new
 				name: 'Errors';
-				subResults: (self testsResult errors collect: #asResultForDrTest);
+				subResults:
+					((self testsResult
+						select:
+							[ :testCaseToTimeTaken | testCaseToTimeTaken testResult errors isNotEmpty ])
+						collect: [ :testCaseToTimeTaken | 
+							DTTreeLeaf new
+								content: testCaseToTimeTaken;
+								yourself ]);
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
-				subResults: (self testsResult failures collect: #asResultForDrTest);
+				subResults:
+					((self testsResult
+						select:
+							[ :testCaseToTimeTaken | testCaseToTimeTaken testResult failures isNotEmpty ])
+						collect: [ :testCaseToTimeTaken | 
+							DTTreeLeaf new
+								content: testCaseToTimeTaken;
+								yourself ]);
 				yourself).
 			(DTTreeNode new
 				name: 'Skipped tests';
-				subResults: (self testsResult skipped collect: #asResultForDrTest);
+				subResults:
+					((self testsResult
+						select:
+							[ :testCaseToTimeTaken | testCaseToTimeTaken testResult skipped isNotEmpty ])
+						collect: [ :testCaseToTimeTaken | 
+							DTTreeLeaf new
+								content: testCaseToTimeTaken;
+								yourself ]);
 				yourself).
 			(DTTreeNode new
 				name: 'Passed tests';
-				subResults: (self testsResult passed collect: #asResultForDrTest);
+				subResults:
+					((self testsResult
+						select:
+							[ :testProfilerResult | testProfilerResult testResult passed isNotEmpty ])
+						collect: [ :testCaseToTimeTaken | 
+							DTTreeLeaf new
+								content: testCaseToTimeTaken;
+								yourself ]);
 				yourself)};
 		yourself
 ]
@@ -39,14 +67,4 @@ DTTestsProfilingResult >> testsResult [
 { #category : #accessing }
 DTTestsProfilingResult >> testsResult: anObject [
 	testsResult := anObject
-]
-
-{ #category : #accessing }
-DTTestsProfilingResult >> timeData [
-	^ timeData
-]
-
-{ #category : #accessing }
-DTTestsProfilingResult >> timeData: anObject [
-	timeData := anObject
 ]
