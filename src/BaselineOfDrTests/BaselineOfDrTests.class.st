@@ -20,7 +20,7 @@ BaselineOfDrTests >> baseline: spec [
 				package: 'DrTests-CommentsToTests' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
 			spec baseline: 'SUnitVisitor' with: [ 
 				spec
-					repository: 'github://juliendelplanque/SUnitVisitor:v2.0.0/src' ].
+					repository: 'github://juliendelplanque/SUnit-Visitor:v2.0.0/src' ].
 			spec baseline: 'RottenTestsFinder' with: [ 
 				spec
 					repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
