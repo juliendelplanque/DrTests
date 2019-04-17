@@ -8,7 +8,8 @@ Class {
 	#instVars : [
 		'name',
 		'subResults',
-		'contextMenuBlock'
+		'contextMenuBlock',
+		'subResultsAggregator'
 	],
 	#category : #DrTests
 }
@@ -41,7 +42,7 @@ DTTreeNode >> drTestsName [
 		s
 			<< self name;
 			<< $(;
-			<< self subResults size;
+			<< (self subResultsAggregator value: self subResults) asString;
 			<< $) ]
 ]
 
@@ -49,7 +50,8 @@ DTTreeNode >> drTestsName [
 DTTreeNode >> initialize [
 	super initialize.
 	self
-		contextMenuBlock: [ :menu | ] "Does nothing by default."
+		contextMenuBlock: [ :menu | ]. "Does nothing by default."
+	self subResultsAggregator: [ :subRes | subRes size ]
 ]
 
 { #category : #accessing }
@@ -70,4 +72,14 @@ DTTreeNode >> subResults [
 { #category : #accessing }
 DTTreeNode >> subResults: anObject [
 	subResults := anObject
+]
+
+{ #category : #accessing }
+DTTreeNode >> subResultsAggregator [
+	^ subResultsAggregator
+]
+
+{ #category : #accessing }
+DTTreeNode >> subResultsAggregator: anObject [
+	subResultsAggregator := anObject
 ]
