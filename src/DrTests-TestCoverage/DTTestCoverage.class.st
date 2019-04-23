@@ -45,7 +45,7 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 	| suite link methods testClasses notExecuted result |
 	result := DTTestCoverageResult new.
 	methods := aDTpluginConfiguration items
-		flatCollect: [ :p | p methods ].
+		flatCollect: [ :p | p methods reject: [ :meth | meth isTestMethod  ] ].
 	testClasses := aDTpluginConfiguration packagesSelected
 		flatCollect: [ :p | p classes ].
 	suite := self suiteFor: testClasses.
@@ -56,7 +56,8 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 	[ methods do: [ :meth | meth ast link: link ].
 	[ self runTestSuites: {suite} ]
 		ensure: [ link uninstall ] ] valueUnpreemptively.
-	notExecuted := methods reject: [ :each | each ast hasBeenExecuted ].
+	notExecuted := methods
+		reject: [ :each | each ast hasBeenExecuted ].
 	notExecuted isEmpty
 		ifTrue: [ result percent: 100 ]
 		ifFalse: [ result
@@ -119,6 +120,7 @@ DTTestCoverage >> suiteFor: classesSelected [
 			classesSelected
 				do: [ :each | 
 					each isAbstract
-						ifFalse: [ each addToSuiteFromSelectors: suite ] ].
+						ifFalse: [ each isTestCase
+								ifTrue: [ each addToSuiteFromSelectors: suite ] ] ].
 			suite name: 'Test' ]
 ]
