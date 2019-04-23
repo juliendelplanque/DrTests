@@ -41,34 +41,6 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 ]
 
 { #category : #api }
-DTTestsProfiling >> runSuite: aTestSuite withResult: aResult [
-	aTestSuite
-		subscribe: TestAnnouncement
-		do: [ :testAnnouncement | 
-			self announcer
-				announce:
-					(DTStatusUpdate
-						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
-	[ aTestSuite run: aResult ]
-		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
-]
-
-{ #category : #api }
-DTTestsProfiling >> runTestSuites: testSuites [ 
-	|result |
-	"save each testSuite in a dictionary"
-	dataTestTime := Dictionary new.
-	result := TestAsserter classForTestResult new.
-	CurrentExecutionEnvironment runTestsBy: [
-		testSuites
-			do: [:testSuite | self runSuite: testSuite withResult: result ]
-			"generate the pair in "
-			displayingProgress: 'Running Tests'
-	].
-	^ result
-]
-
-{ #category : #api }
 DTTestsProfiling >> startButtonHelp [
 	^ 'Run tests selected.' translated
 ]
