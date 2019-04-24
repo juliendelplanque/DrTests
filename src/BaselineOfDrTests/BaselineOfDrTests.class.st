@@ -9,19 +9,31 @@ BaselineOfDrTests >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ 
-			spec
+		do: [ spec
 				package: 'DrTests';
-				package: 'DrTests-TestsRunner' with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
-				package: 'DrTests-TestCoverage' with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
-				package: 'DrTests-TestsProfiling' with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
-				package: 'DrTests-RottenTests'with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
+				package: 'DrTests-TestsRunner'
+					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+				package: 'DrTests-TestCoverage'
+					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+				package: 'DrTests-TestsProfiling'
+					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+				package: 'DrTests-RottenTests'
+					with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
 				package: 'DrTests-Tests' with: [ spec requires: #('DrTests') ];
-				package: 'DrTests-CommentsToTests' with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
-			spec baseline: 'SUnitVisitor' with: [ 
-				spec
-					repository: 'github://juliendelplanque/SUnit-Visitor:v2.0.0/src' ].
-			spec baseline: 'RottenTestsFinder' with: [ 
-				spec
-					repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
+				package: 'DrTests-TestCoverage-Tests'
+					with: [ spec requires: #('DrTests-TestCoverage') ];
+				package: 'DrTests-TestsProfiling-Tests'
+					with: [ spec requires: #('DrTests-TestsProfiling') ];
+				package: 'DrTests-TestCoverage-MocksForTests'
+					with: [ spec requires: #('DrTests-TestCoverage') ];
+				package: 'DrTests-CommentsToTests'
+					with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
+			spec
+				baseline: 'SUnitVisitor'
+				with: [ spec
+						repository: 'github://juliendelplanque/SUnit-Visitor:v2.0.0/src' ].
+			spec
+				baseline: 'RottenTestsFinder'
+				with:
+					[ spec repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
 ]
