@@ -39,6 +39,17 @@ DTTestProfilingTest >> testDTTestCoverageResulLeafsContentHaveATestCase [
 ]
 
 { #category : #running }
+DTTestProfilingTest >> testDTTestCoverageResulLeafsContentHaveATestResult [
+	| resultTree leafs |
+	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
+	leafs := resultTree subResults at: 4.
+	self
+		assert:
+			(leafs subResults
+				allSatisfy: [ :subResult | subResult content testResult isKindOf: TestResult ])
+]
+
+{ #category : #running }
 DTTestProfilingTest >> testDTTestCoverageResulLeafsContentHaveDuration [
 	| resultTree leafs |
 	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
@@ -76,4 +87,11 @@ DTTestProfilingTest >> testDTTestCoverageResultTheThirdNodeSubResultsLeafsConten
 		assert:
 			(leafs subResults
 				allSatisfy: [ :subResult | subResult content isKindOf: DTTestCaseProfilingData  ])
+]
+
+{ #category : #running }
+DTTestProfilingTest >> testItemsAvailableInTestProfilerPlugin [
+	| items |
+	items := plugin itemsToBeAnalysedFor: {package}.
+	self assert: (items anyOne name includesSubstring: 'Test')
 ]
