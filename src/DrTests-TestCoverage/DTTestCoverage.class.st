@@ -45,7 +45,7 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 	| suite link methods testClasses notExecuted result |
 	result := DTTestCoverageResult new.
 	methods := aDTpluginConfiguration items
-		flatCollect: [ :p | p methods reject: [ :meth | meth isTestMethod  ] ].
+		flatCollect: [ :p | p methods reject: [ :meth | meth isTestMethod or: meth methodClass isTestCase  ] ].
 	testClasses := aDTpluginConfiguration packagesSelected
 		flatCollect: [ :p | p classes ].
 	suite := self suiteFor: testClasses.
