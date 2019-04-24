@@ -41,21 +41,48 @@ DTTestCoverageTest >> testDTTestCoverageResultAsResultForDrTests [
 ]
 
 { #category : #running }
-DTTestCoverageTest >> testDTTestCoverageResultBuildTreeForUI [
-	"here the package tests"
-self flag: #TODO
-"	| items |
-	items := plugin packagesAvailableForAnalysis.
-	self assert: (items anyOne name includesSubstring: 'Tests')"
+DTTestCoverageTest >> testDTTestCoverageResultBuildTreeForUIContainsNodes [
+	| resultTree |
+	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
+	self
+		assert:
+			(resultTree subResults
+				allSatisfy: [ :subResult | subResult isKindOf: DTTreeNode ])
+]
+
+{ #category : #running }
+DTTestCoverageTest >> testDTTestCoverageResultHas2Nodes [
+	| resultTree |
+	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
+	self assert: resultTree subResults size equals: 2
+]
+
+{ #category : #running }
+DTTestCoverageTest >> testDTTestCoverageResultTheFirstNodeIsPercent [
+	| resultTree |
+	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
+	self
+		assert:
+			((resultTree subResults at: 1) name
+				includesSubstring: '% Code Coverage')
+]
+
+{ #category : #running }
+DTTestCoverageTest >> testDTTestCoverageResultTheSecondNodeSubResultsAreLeafs [
+	| resultTree leafs |
+	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
+	leafs := resultTree subResults at: 2.
+	self
+		assert:
+			(leafs subResults
+				allSatisfy: [ :subResult | subResult isKindOf: DTTreeLeaf ])
 ]
 
 { #category : #running }
 DTTestCoverageTest >> testItemsAvailableInTestCoveragePlugin [
-	"here the non package tests"
-
 	| items |
 	items := plugin itemsToBeAnalysedFor: package.
-	self deny: (items anyOne name includesSubstring: 'Tests').
+	self deny: (items anyOne name includesSubstring: 'Tests')
 ]
 
 { #category : #running }
@@ -75,8 +102,6 @@ DTTestCoverageTest >> testNotExecutedMethodList [
 
 { #category : #running }
 DTTestCoverageTest >> testPackagesAvailableInTestCoveragePlugin [
-	"here the package tests"
-
 	| items |
 	items := plugin packagesAvailableForAnalysis.
 	self assert: (items anyOne name includesSubstring: 'Tests')
