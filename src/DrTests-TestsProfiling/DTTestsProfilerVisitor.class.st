@@ -1,3 +1,7 @@
+"
+I collect the time for every executed test.
+I create a DTTestCaseProfilingData for each test and store all of them in a collection.
+"
 Class {
 	#name : #DTTestsProfilerVisitor,
 	#superclass : #SUnitVisitor,

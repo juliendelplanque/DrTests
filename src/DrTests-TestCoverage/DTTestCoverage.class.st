@@ -1,6 +1,6 @@
 "
 I am a DrTestPlugin.
-I create show the percentage of covered methods with tests and show the list of the uncovered methods.
+I show the percentage of covered methods with tests and show the list of the uncovered methods.
 "
 Class {
 	#name : #DTTestCoverage,

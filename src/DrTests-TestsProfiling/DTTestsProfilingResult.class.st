@@ -1,3 +1,12 @@
+"
+I build a tree with DTTestCaseProfilingData objects listed in groups: 
+-Errors
+-Failures
+-Skipped tests
+-Passed test
+Each group has in adition the total execution time for each test.
+I am used in DrTestsUI to show the results in a orderly manner.
+"
 Class {
 	#name : #DTTestsProfilingResult,
 	#superclass : #DTPluginResult,

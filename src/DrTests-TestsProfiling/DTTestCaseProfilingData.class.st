@@ -1,3 +1,8 @@
+"
+I stores the information for every test.
+I have the duration that is the times it takes when a test is executed. 
+I also have the testCase ande the testResult.
+"
 Class {
 	#name : #DTTestCaseProfilingData,
 	#superclass : #Object,
