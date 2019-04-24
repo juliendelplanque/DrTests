@@ -15,13 +15,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-DTTestCoverageResult >> asResultForDrTest: aCollectionOfMethods [
-	| leafs |
-	leafs := methodList collect: [ :m | DTTreeLeaf content: m ].
-	^ leafs
-]
-
-{ #category : #'as yet unclassified' }
 DTTestCoverageResult >> buildTreeForUI [
 	^ DTTreeNode new
 	subResults: { (DTTreeNode new
