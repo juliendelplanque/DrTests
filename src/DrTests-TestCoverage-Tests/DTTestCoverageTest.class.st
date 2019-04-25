@@ -30,7 +30,7 @@ DTTestCoverageTest >> testCoveragePercentForMock [
 DTTestCoverageTest >> testCoverageResultIsAnInstanceOfDTTestCoverageResult [
 | result|
 result := plugin runForConfiguration: dTconf .
-self assert: (result isKindOf: DTTestCoverageResult).
+self assert: (result class = DTTestCoverageResult).
 
 ]
 
