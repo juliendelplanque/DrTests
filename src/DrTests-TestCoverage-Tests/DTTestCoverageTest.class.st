@@ -48,7 +48,7 @@ DTTestCoverageTest >> testDTTestCoverageResultBuildTreeForUIContainsNodes [
 	self
 		assert:
 			(resultTree subResults
-				allSatisfy: [ :subResult | subResult isKindOf: DTTreeNode ])
+				allSatisfy: [ :subResult | subResult class = DTTreeNode ])
 ]
 
 { #category : #running }
