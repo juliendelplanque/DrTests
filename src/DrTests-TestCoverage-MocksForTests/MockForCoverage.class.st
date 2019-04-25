@@ -6,7 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 MockForCoverage >> method1ForMock [
-^ 1 + 1
+	^ 1 + 1
 ]
 
 { #category : #'as yet unclassified' }
