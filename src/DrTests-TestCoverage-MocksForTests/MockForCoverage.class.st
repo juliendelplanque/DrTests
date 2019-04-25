@@ -11,5 +11,5 @@ MockForCoverage >> method1ForMock [
 
 { #category : #'as yet unclassified' }
 MockForCoverage >> method2ForMock: anObject [
-^ 1 + anObject
+	^ 1 + anObject
 ]
