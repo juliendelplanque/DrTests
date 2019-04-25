@@ -76,7 +76,7 @@ DTTestCoverageTest >> testDTTestCoverageResultTheSecondNodeSubResultsAreLeafs [
 	self
 		assert:
 			(leafs subResults
-				allSatisfy: [ :subResult | subResult isKindOf: DTTreeLeaf ])
+				allSatisfy: [ :subResult | subResult class = DTTreeLeaf ])
 ]
 
 { #category : #running }
