@@ -14,6 +14,7 @@ DTTestCoverageTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
+	"The test classes are in the same package as classes under test."
 	dTconf := DTPluginConfiguration items: {package} packages: {package}.
 	plugin := DTTestCoverage new
 ]
