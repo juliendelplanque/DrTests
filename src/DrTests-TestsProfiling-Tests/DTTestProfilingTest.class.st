@@ -86,7 +86,7 @@ DTTestProfilingTest >> testDTTestCoverageResultTheThirdNodeSubResultsLeafsConten
 	self
 		assert:
 			(leafs subResults
-				allSatisfy: [ :subResult | subResult content isKindOf: DTTestCaseProfilingData  ])
+				allSatisfy: [ :subResult | subResult content class = DTTestCaseProfilingData  ])
 ]
 
 { #category : #running }
