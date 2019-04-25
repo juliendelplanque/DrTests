@@ -21,7 +21,7 @@ BaselineOfDrTests >> baseline: spec [
 					with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
 				package: 'DrTests-Tests' with: [ spec requires: #('DrTests') ];
 				package: 'DrTests-TestCoverage-Tests'
-					with: [ spec requires: #('DrTests-TestCoverage') ];
+					with: [ spec requires: #('DrTests-TestCoverage' 'DrTests-TestCoverage-MocksForTests') ];
 				package: 'DrTests-TestsProfiling-Tests'
 					with: [ spec requires: #('DrTests-TestsProfiling') ];
 				package: 'DrTests-TestCoverage-MocksForTests'
