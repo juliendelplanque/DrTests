@@ -31,7 +31,7 @@ DTTestCoverageResult >> buildTreeForUI [
 
 { #category : #'as yet unclassified' }
 DTTestCoverageResult >> methodList [
-^methodList
+	^methodList
 ]
 
 { #category : #'as yet unclassified' }
