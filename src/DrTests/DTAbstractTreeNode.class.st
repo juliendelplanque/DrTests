@@ -1,5 +1,5 @@
 "
-I am the abstract superclass for all classes thar are nodes or leafs used to show results.
+I am the abstract superclass for all classes that are nodes or leafs used to show results.
 "
 Class {
 	#name : #DTAbstractTreeNode,
