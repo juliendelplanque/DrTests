@@ -36,7 +36,7 @@ DTTestCoverageResult >> methodList [
 
 { #category : #'as yet unclassified' }
 DTTestCoverageResult >> methodList: aCollectionOfMethods [
-methodList := aCollectionOfMethods
+	methodList := aCollectionOfMethods
 ]
 
 { #category : #accessing }
