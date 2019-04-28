@@ -57,7 +57,7 @@ DTTestProfilingTest >> testDTTestCoverageResulLeafsContentHaveDuration [
 	self
 		assert:
 			(leafs subResults
-				allSatisfy: [ :subResult | subResult content duration isKindOf: Duration ])
+				allSatisfy: [ :subResult | subResult content duration class = Duration ])
 ]
 
 { #category : #running }
