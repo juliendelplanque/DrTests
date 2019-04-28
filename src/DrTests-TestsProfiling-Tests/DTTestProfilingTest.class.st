@@ -24,7 +24,7 @@ DTTestProfilingTest >> setUp [
 DTTestProfilingTest >> testCoverageResultIsAnInstanceOfDTTestProfilingResult [
 | result|
 	result := plugin runForConfiguration: dTconf .
-self assert: (result isKindOf: DTTestsProfilingResult).
+	self assert: (result class = DTTestsProfilingResult).
 ]
 
 { #category : #running }
