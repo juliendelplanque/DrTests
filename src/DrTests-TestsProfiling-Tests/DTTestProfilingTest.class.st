@@ -23,7 +23,7 @@ DTTestProfilingTest >> setUp [
 { #category : #running }
 DTTestProfilingTest >> testCoverageResultIsAnInstanceOfDTTestProfilingResult [
 | result|
-result := plugin runForConfiguration: dTconf .
+	result := plugin runForConfiguration: dTconf .
 self assert: (result isKindOf: DTTestsProfilingResult).
 ]
 
