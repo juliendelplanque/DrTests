@@ -23,22 +23,26 @@ DTTestCoverageTest >> setUp [
 DTTestCoverageTest >> testCoveragePercentForMock [
 	| result |
 	result := plugin runForConfiguration: dTconf.
-	self assert: result percent closeTo: 50
+	self assert: result percent class equals: ScaledDecimal
 ]
 
 { #category : #running }
 DTTestCoverageTest >> testCoverageResultIsAnInstanceOfDTTestCoverageResult [
-| result|
-result := plugin runForConfiguration: dTconf .
-self assert: (result class = DTTestCoverageResult).
-
+	| result |
+	result := plugin runForConfiguration: dTconf.
+	self assert: result class equals: DTTestCoverageResult
 ]
 
 { #category : #running }
 DTTestCoverageTest >> testDTTestCoverageResultAsResultForDrTests [
+	"the packages contains at least one test class"
+
 	| items |
 	items := plugin packagesAvailableForAnalysis.
-	self assert: (items anyOne name includesSubstring: 'Tests')
+	self
+		assert:
+			(items
+				allSatisfy: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase ] ])
 ]
 
 { #category : #running }
@@ -83,7 +87,10 @@ DTTestCoverageTest >> testDTTestCoverageResultTheSecondNodeSubResultsAreLeafs [
 DTTestCoverageTest >> testItemsAvailableInTestCoveragePlugin [
 	| items |
 	items := plugin itemsToBeAnalysedFor: package.
-	self deny: (items anyOne name includesSubstring: 'Tests')
+	self
+		assert:
+			(items
+				allSatisfy: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ])
 ]
 
 { #category : #running }
@@ -105,5 +112,8 @@ DTTestCoverageTest >> testNotExecutedMethodList [
 DTTestCoverageTest >> testPackagesAvailableInTestCoveragePlugin [
 	| items |
 	items := plugin packagesAvailableForAnalysis.
-	self assert: (items anyOne name includesSubstring: 'Tests')
+	self
+		assert:
+			(items
+				allSatisfy: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase ] ])
 ]

@@ -15,18 +15,6 @@ DTRottenTestsPlugin class >> weight [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> convertToResultsForDrTests: aRottenTestsSet [ 
-	^ DTTreeNode new
-		subResults:
-			{(DTTreeNode new
-				name: 'Rotten tests';
-				subResults: (aRottenTestsSet rottenTests collect: #asResultForDrTest);
-				yourself)
-			};
-			yourself
-]
-
-{ #category : #api }
 DTRottenTestsPlugin >> resultButtonHelp [
 	^ 'Browse the rotten test selected in the results list.' translated
 ]

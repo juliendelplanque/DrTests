@@ -33,19 +33,8 @@ DTTestsRunner >> resultButtonLabel [
 DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := DTTestsRunnerResult new
-					testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
-					yourself.
-	"results subResults
-		do: [ :resultGroup | 
-			resultGroup
-				contextMenuBlock: [ :menu | 
-					menu
-						addGroup: [ :group | 
-							group
-								addItem: [ :item | 
-									item
-										name: 'Re-run';
-										action: [ self reRunResultGroup: resultGroup ] ] ] ] ]."
+		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+		yourself.
 	^ results
 ]
 

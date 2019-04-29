@@ -21,29 +21,6 @@ DTCommentToTest class >> weight [
 ]
 
 { #category : #api }
-DTCommentToTest >> convertToResultsForDrTests: testResult [
-	^ DTTreeNode new
-		subResults:
-			{(DTTreeNode new
-				name: 'Errors';
-				subResults: (testResult errors collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Failures';
-				subResults: (testResult failures collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Skipped tests';
-				subResults: (testResult skipped collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Passed tests';
-				subResults: (testResult passed collect: #asResultForDrTest);
-				yourself)};
-			yourself
-]
-
-{ #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
 		flatCollect: [ :p | 

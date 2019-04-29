@@ -40,7 +40,6 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 	results := DTTestsProfilingResult new
 		testsResult: profilerVisitor profilingData;
 		yourself.
-	"	self halt."
 	^ results
 ]
 

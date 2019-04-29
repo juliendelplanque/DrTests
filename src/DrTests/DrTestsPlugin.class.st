@@ -47,12 +47,6 @@ DrTestsPlugin >> announcer [
 ]
 
 { #category : #api }
-DrTestsPlugin >> convertToResultsForDrTests: testResult [
-	"convert the result of a plugin that was run into a tree."
-	^ self subclassResponsibility
-]
-
-{ #category : #api }
 DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
 	"This method returns the items to be analysed by the plugin.
 	For most plugins it will be TestCases but some plugins will return other objects like comments."
@@ -65,9 +59,7 @@ DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
 { #category : #api }
 DrTestsPlugin >> packagesAvailableForAnalysis [
 	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | c isTestCase ] ]
+		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase ] ]
 ]
 
 { #category : #api }

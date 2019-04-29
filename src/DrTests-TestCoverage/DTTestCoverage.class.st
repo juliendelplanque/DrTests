@@ -5,6 +5,11 @@ I show the percentage of covered methods with tests and show the list of the unc
 Class {
 	#name : #DTTestCoverage,
 	#superclass : #DrTestsPlugin,
+	#instVars : [
+		'methods',
+		'testClasses',
+		'link'
+	],
 	#category : #'DrTests-TestCoverage'
 }
 
@@ -19,15 +24,22 @@ DTTestCoverage class >> weight [
 ]
 
 { #category : #api }
-DTTestCoverage >> convertToResultsForDrTests: coverageResult [
-	^ DTTreeNode new
+DTTestCoverage >> defineData: aDTpluginConfiguration [
+	methods := aDTpluginConfiguration items
+		flatCollect: [ :p | 
+			p methods
+				reject: [ :meth | meth isTestMethod or: meth methodClass isTestCase ] ].
+	testClasses := aDTpluginConfiguration packagesSelected
+		flatCollect: [ :p | p classes ].
+	link := MetaLink new
+		selector: #tagExecuted;
+		metaObject: #node
 ]
 
 { #category : #api }
 DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 	^ RPackage organizer packages
-		reject: [ :p | 
-			p name includesSubstring: 'Tests' ]
+		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
 { #category : #api }
@@ -42,28 +54,19 @@ DTTestCoverage >> resultButtonLabel [
 
 { #category : #api }
 DTTestCoverage >> runCoverage: aDTpluginConfiguration [
-	| suite link methods testClasses notExecuted result |
+	| suite notExecuted result |
 	result := DTTestCoverageResult new.
-	methods := aDTpluginConfiguration items
-		flatCollect: [ :p | p methods reject: [ :meth | meth isTestMethod or: meth methodClass isTestCase  ] ].
-	testClasses := aDTpluginConfiguration packagesSelected
-		flatCollect: [ :p | p classes ].
+	self defineData: aDTpluginConfiguration.
 	suite := self suiteFor: testClasses.
-	"resetResult;"
-	link := MetaLink new
-		selector: #tagExecuted;
-		metaObject: #node.
 	[ methods do: [ :meth | meth ast link: link ].
 	[ self runTestSuites: {suite} ]
 		ensure: [ link uninstall ] ] valueUnpreemptively.
-	notExecuted := methods
-		reject: [ :each | each ast hasBeenExecuted ].
+	notExecuted := methods reject: [ :each | each ast hasBeenExecuted ].
 	notExecuted isEmpty
-		ifTrue: [ result percent: 100 ]
+		ifTrue: [ result percent: 1.00s2 ]
 		ifFalse: [ result
-				percent: 100 - (100 * notExecuted size // methods size);
+				percent: 1.00s2 - (notExecuted size / methods size asScaledDecimal: 2);
 				methodList: notExecuted ].
-
 	"cleanup the annotations"
 	methods
 		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ].

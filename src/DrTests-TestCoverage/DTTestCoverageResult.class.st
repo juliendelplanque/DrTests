@@ -14,7 +14,7 @@ Class {
 	#category : #'DrTests-TestCoverage'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTestCoverageResult >> buildTreeForUI [
 	^ DTTreeNode new
 	subResults: { (DTTreeNode new
@@ -29,12 +29,12 @@ DTTestCoverageResult >> buildTreeForUI [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTestCoverageResult >> methodList [
 	^methodList
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTestCoverageResult >> methodList: aCollectionOfMethods [
 	methodList := aCollectionOfMethods
 ]

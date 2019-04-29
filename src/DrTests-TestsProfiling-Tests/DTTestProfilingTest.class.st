@@ -22,9 +22,9 @@ DTTestProfilingTest >> setUp [
 
 { #category : #running }
 DTTestProfilingTest >> testCoverageResultIsAnInstanceOfDTTestProfilingResult [
-| result|
-	result := plugin runForConfiguration: dTconf .
-	self assert: (result class = DTTestsProfilingResult).
+	| result |
+	result := plugin runForConfiguration: dTconf.
+	self assert: result class equals: DTTestsProfilingResult
 ]
 
 { #category : #running }
@@ -93,5 +93,8 @@ DTTestProfilingTest >> testDTTestCoverageResultTheThirdNodeSubResultsLeafsConten
 DTTestProfilingTest >> testItemsAvailableInTestProfilerPlugin [
 	| items |
 	items := plugin itemsToBeAnalysedFor: {package}.
-	self assert: (items anyOne name includesSubstring: 'Test')
+	self
+		assert:
+			(items
+				allSatisfy: [ :p | p methods anySatisfy: [ :m | m isTestMethod ] ])
 ]
