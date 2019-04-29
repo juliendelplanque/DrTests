@@ -10,6 +10,11 @@ Class {
 	#category : #'DrTests-Tests'
 }
 
+{ #category : #testing }
+DTMockPlugin class >> isAbstract [
+	^ self = DTMockPlugin
+]
+
 { #category : #'api - accessing' }
 DTMockPlugin class >> pluginName [
 	
@@ -53,19 +58,9 @@ DTMockPlugin >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTMockPlugin >> run [
-	hasBeenRun := true.
-	^ DTResultGroup new
-		subResults: {};
-		yourself
-]
-
-{ #category : #api }
 DTMockPlugin >> runForConfiguration: aDTpluginConfiguration [
 	hasBeenRun := true.
-	^ DTResultGroup new
-		subResults: {};
-		yourself
+	^ DTMockPluginResult new
 ]
 
 { #category : #api }

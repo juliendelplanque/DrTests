@@ -25,24 +25,17 @@ DTRottenTestsPlugin >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> run [
-	self flag: #TODO; halt. "This code is broken for now. Needs to be redone."
-	"[ [ | results |
-	results := RottenTestsFinder analyze: self ui testSuiteFromSelection.
-	^ results asResultsForDrTests ]
-		on: Warning
-		do: [ :warning | 
-			Transcript
-				show: warning messageText;
-				cr.
-			warning resume ] ]
-		on: RTFTestAnalysed
-		do: [ :notif | 
+DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
+	[ ^ DTRottenTestsResult new
+		rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
+		yourself ]
+		on: Warning , RTFTestAnalysed
+		do: [ :resumableException | 
 			self announcer
-				announce: (DTStatusUpdate message: ('Analyzed test {1}.' format: {notif compiledMethod printString})).
-			notif resume ].
-	self ui updateResultsListLabel.
-	^ self"
+				announce:
+					(DTStatusUpdate
+						message: ('Announcement: {1}.' format: {resumableException messageText})).
+			resumableException resume ]
 ]
 
 { #category : #api }

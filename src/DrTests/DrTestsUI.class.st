@@ -23,14 +23,14 @@ Class {
 		'pluginsDropList',
 		'packagesList',
 		'packagesListLabel',
-		'classesList',
 		'classesListLabel',
 		'resultsList',
 		'resultsListLabel',
 		'browseButton',
 		'toolbar',
 		'statusLabel',
-		'plugins'
+		'plugins',
+		'itemsList'
 	],
 	#category : #DrTests
 }
@@ -55,7 +55,7 @@ DrTestsUI class >> defaultSpec [
 						newColumn: [ :classesColumn |
 							 classesColumn
 								add: #classesListLabel height: self labelHeight;
-								add: #classesList ];
+								add: #itemsList ];
 						addSplitter;
 						newColumn: [ :resultsColumn |
 							resultsColumn
@@ -65,6 +65,11 @@ DrTestsUI class >> defaultSpec [
 				newRow: #startButton height: self buttonHeight;
 				newRow: #statusLabel height: self labelHeight ];
 		yourself
+]
+
+{ #category : #api }
+DrTestsUI class >> open [
+	^ self openWithExtent: World extent / 3
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -79,18 +84,13 @@ DrTestsUI >> browseSelectedResult [
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> classesList [
-	^ classesList
-]
-
-{ #category : #'accessing - subwidgets' }
 DrTestsUI >> classesListLabel [
 	^ classesListLabel
 ]
 
 { #category : #private }
 DrTestsUI >> classesSelected [
-	^ self classesList ifNil: [ #() ] ifNotNil: #selectedItems
+	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #private }
@@ -127,9 +127,9 @@ DrTestsUI >> initializeClassesListAndLabel [
 	self updateClassesListLabel.
 	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
 	
-	classesList :=  self newList.
+	itemsList :=  self newList.
 	
-	classesList
+	itemsList
 		sortingBlock: [ :a :b | a name < b name ];
 		whenSelectionChanged: [ self updateClassesListLabel ];
 		beMultipleSelection.
@@ -146,8 +146,6 @@ DrTestsUI >> initializePackagesListAndLabel [
 	
 	packagesList :=  self newList.
 	packagesList
-		items: (RPackage organizer packages select: [ :p |
-			p definedClasses anySatisfy: [ :c | c allSuperclasses includes: TestCase ] ]);
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
 		beMultipleSelection.
@@ -214,6 +212,11 @@ DrTestsUI >> initializeWidgets [
 	
 	self initializeToolbar.
 	self initializePluginsDropList
+]
+
+{ #category : #'accessing - subwidgets' }
+DrTestsUI >> itemsList [
+	^ itemsList
 ]
 
 { #category : #private }
@@ -300,14 +303,11 @@ DrTestsUI >> runPlugin [
 	[ | results |
 	self lock.
 	self updateStatus: 'Tests started.'.
-	
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self results: results.	
-	
+	self results: results buildTreeForUI.
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
-		
 ]
 
 { #category : #initialization }
@@ -323,12 +323,12 @@ DrTestsUI >> statusLabel [
 
 { #category : #'api - locking' }
 DrTestsUI >> subwidgetsToLock [
-	^ { self packagesList. self classesList. self resultsList. self startButton. self browseButton }
+	^ { self packagesList. self itemsList. self resultsList. self startButton. self browseButton }
 ]
 
 { #category : #accessing }
 DrTestsUI >> testsConfiguration [
-	^ DTPluginConfiguration items: self classesSelected
+	^ DTPluginConfiguration items: (self classesSelected) packages: (self packagesSelected).
 ]
 
 { #category : #accessing }
@@ -355,7 +355,7 @@ DrTestsUI >> updateClassesListLabel [
 	self classesListLabel
 		label: (String streamContents: [ :s |
 			s
-				<< 'Test cases (';
+				<< 'Items (';
 				<< (self classesSelected size);
 				<< ' selected):' ])
 ]
@@ -364,10 +364,7 @@ DrTestsUI >> updateClassesListLabel [
 DrTestsUI >> updatePackagesList [
 	packagesList resetSelection.
 	packagesList
-		items: currentPlugin packagesAvailableForAnalysis;
-		sortingBlock: [ :a :b | b name < a name ];
-		displayBlock: [ :package | package name ];
-		beMultipleSelection
+		items: currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #private }
@@ -397,12 +394,13 @@ DrTestsUI >> updateStatus: aString [
 DrTestsUI >> updateUI [
 	super updateUI.
 	self resultButtonAction: [self browseSelectedResult].
-	self updatePackagesList
+	self updatePackagesList.
+	self results: DTTreeNode empty
 ]
 
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
-	classesList resetSelection.
-	classesList items: (currentPlugin itemsToBeAnalysedFor: packagesSelected). 
+	itemsList resetSelection.
+	itemsList items: (currentPlugin itemsToBeAnalysedFor: packagesSelected). 
 	self updatePackagesListLabel
 ]

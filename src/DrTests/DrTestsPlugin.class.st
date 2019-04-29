@@ -21,7 +21,7 @@ DrTestsPlugin class >> availablePlugins [
 { #category : #testing }
 DrTestsPlugin class >> isAbstract [
 	"Should return true if the plugin is abstract and should not be instantiated."
-	^ false
+	^ self = DrTestsPlugin
 ]
 
 { #category : #'api - accessing' }
@@ -59,9 +59,7 @@ DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
 { #category : #api }
 DrTestsPlugin >> packagesAvailableForAnalysis [
 	^ RPackage organizer packages
-		select: [ :p | 
-			p definedClasses
-				anySatisfy: [ :c | c isTestCase ] ]
+		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase ] ]
 ]
 
 { #category : #api }
@@ -77,11 +75,6 @@ DrTestsPlugin >> resultButtonHelp [
 { #category : #api }
 DrTestsPlugin >> resultButtonLabel [
 	^ self subclassResponsibility
-]
-
-{ #category : #api }
-DrTestsPlugin >> run [
-
 ]
 
 { #category : #api }

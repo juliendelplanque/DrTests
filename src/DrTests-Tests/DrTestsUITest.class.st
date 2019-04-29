@@ -100,7 +100,7 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 	classesList := currentPluginSelected new
 		itemsToBeAnalysedFor: newPackagesSelected.
 	self
-		assertCollection: drTestsUI classesList listItems
+		assertCollection: drTestsUI itemsList listItems
 		hasSameElements: classesList flattened
 
 
@@ -109,7 +109,7 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 { #category : #tests }
 DrTestsUITest >> testNoPackageSelected [
 	self
-		assertCollection: drTestsUI classesList listItems
+		assertCollection: drTestsUI itemsList listItems
 		hasSameElements: #()
 ]
 
@@ -143,7 +143,7 @@ DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
 	
 	self
-		assertCollection: drTestsUI classesList listItems
+		assertCollection: drTestsUI itemsList listItems
 		hasSameElements: (drTestsUI currentPlugin itemsToBeAnalysedFor: newPackagesSelected)
 ]
 
