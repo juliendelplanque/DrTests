@@ -18,7 +18,7 @@ Run and browse buttons behaviour are defined by the current plugin selected.
 "
 Class {
 	#name : #DrTestsUI,
-	#superclass : #DrTestsMiniUI,
+	#superclass : #AbstractDrTestsUI,
 	#instVars : [
 		'pluginsDropList',
 		'packagesList',
@@ -30,46 +30,64 @@ Class {
 		'toolbar',
 		'statusLabel',
 		'plugins',
-		'itemsList'
+		'itemsList',
+		'itemsListLabel'
 	],
 	#category : #DrTests
 }
 
 { #category : #specs }
 DrTestsUI class >> defaultSpec [
-	<spec>
-	^ SpecLayout composed
-		newColumn: [ :mainCol | 
-			mainCol
-				newRow: [ :row |
-					row
-						add: #pluginsDropList;
-						add: #toolbar ] height: self toolbarHeight;
-				newRow: [ :row |
-					row
-						newColumn: [ :packagesColumn |
-							packagesColumn
-								add: #packagesListLabel height: self labelHeight;
-								add: #packagesList ];
-						addSplitter;
-						newColumn: [ :classesColumn |
-							 classesColumn
-								add: #classesListLabel height: self labelHeight;
-								add: #itemsList ];
-						addSplitter;
-						newColumn: [ :resultsColumn |
-							resultsColumn
-								add: #resultsListLabel height: self labelHeight;
-								add: #resultsList;
-								add: #browseButton height: self buttonHeight ] ];
-				newRow: #startButton height: self buttonHeight;
-				newRow: #statusLabel height: self labelHeight ];
-		yourself
+^ 	SpecBoxLayout newVertical 
+		add:(SpecBoxLayout newHorizontal  
+	add: #pluginsDropList;
+	add: #switchButton;
+	yourself) expand: false fill: true padding: 1;
+		
+		add: 
+		(SpecPanedLayout newHorizontal
+	add: ( SpecPanedLayout newHorizontal
+		add: 
+			(SpecBoxLayout newVertical
+				add: #packagesListLabel
+					withConstraints: [ :constraints | constraints height: self labelHeight ];
+				add: #packagesList; 
+				yourself);
+		add:
+			(SpecBoxLayout newVertical
+				add: #itemsListLabel
+					withConstraints: [ :constraints | constraints height: self labelHeight ];
+				add: #itemsList;
+				yourself);
+				yourself);
+		add:
+			(SpecBoxLayout newVertical
+				add: #resultsListLabel
+					withConstraints: [ :constraints | constraints height: self labelHeight ];
+				add: #resultsList;
+				add: #browseButton
+				expand: false fill: true padding: 1;
+				yourself);
+		
+			yourself);
+			
+			add: #startButton expand: false fill: true padding: 3;
+			add: #statusLabel expand: false fill: true padding: 1;
+			yourself
 ]
 
 { #category : #api }
 DrTestsUI class >> open [
-	^ self openWithExtent: World extent / 3
+	^ self openWithExtent: 700@500
+]
+
+{ #category : #api }
+DrTestsUI class >> openWithExtent: extent [
+	| toReturn window |
+	toReturn := self new.
+	window := toReturn openWithSpec.
+	window extent: extent.
+	^ toReturn
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -110,15 +128,16 @@ DrTestsUI >> helpText [
 { #category : #initialization }
 DrTestsUI >> initialize [
 	super initialize.
-	self pluginsDropList
-		setSelectedIndex: 1.
-	
+	self pluginsDropList selectedIndex: 1
 ]
 
 { #category : #initialization }
 DrTestsUI >> initializeButtons [
 	super initializeButtons.
-	browseButton := self newButton
+	browseButton := self newButton.
+		switchButton := self newButton.
+	switchButton icon: (self iconNamed: #tools);
+	label: 'switch'.
 ]
 
 { #category : #initialization }
@@ -139,16 +158,35 @@ DrTestsUI >> initializeClassesListAndLabel [
 ]
 
 { #category : #initialization }
+DrTestsUI >> initializeItemsListAndLabel [
+	itemsListLabel := self newLabel.
+	self updateItemsListLabel.
+	itemsListLabel
+		help:
+			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
+	itemsList := self newList.
+	itemsList
+		sortingBlock: [ :a :b | a name < b name ];
+		whenSelectionChangedDo: [ self updateItemsListLabel ];
+		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		beMultipleSelection.
+	packagesList
+		whenSelectionChangedDo: [ self whenPackagesSelectionChanged: self packagesSelected ]
+]
+
+{ #category : #initialization }
 DrTestsUI >> initializePackagesListAndLabel [
 	packagesListLabel := self newLabel.
 	self updatePackagesListLabel.
-	packagesListLabel help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
-	
-	packagesList :=  self newList.
+	packagesListLabel
+		help:
+			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
+	packagesList := self newList.
 	packagesList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
-		beMultipleSelection.
+		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		beMultipleSelection
 ]
 
 { #category : #initialization }
@@ -158,8 +196,8 @@ DrTestsUI >> initializePluginsDropList [
 		help: 'Select the plugin used by Dr Tests UI.';
 		items: self plugins;
 		displayBlock: [ :pluginClass | pluginClass pluginName ];
-		iconHolder: [ :pluginClass | pluginClass pluginIcon ];
-		whenSelectedItemChanged: [ :pluginClass | self currentPlugin: pluginClass new ]
+		iconBlock: [ :pluginClass | pluginClass pluginIcon ];
+		whenSelectedItemChangedDo: [ :pluginClass | self currentPlugin: pluginClass new ]
 ]
 
 { #category : #initialization }
@@ -173,11 +211,11 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
 	
-	resultsList := self newTree.
-	
+	resultsList := TreePresenter new.
+
 	resultsList
-		displayBlock: [ :rottenTest |
-			rottenTest drTestsName ];
+		displayBlock: [ :item |
+			item drTestsName ];
 		childrenBlock: [ :node |
 			node subResults ];
 		doubleClick: [ 
@@ -205,7 +243,7 @@ DrTestsUI >> initializeWidgets [
 	super initializeWidgets.
 	self
 		initializePackagesListAndLabel;
-		initializeClassesListAndLabel;
+		initializeItemsListAndLabel;
 		initializeResultsTreeAndLabel.
 	
 	statusLabel := self newLabel.
@@ -217,6 +255,16 @@ DrTestsUI >> initializeWidgets [
 { #category : #'accessing - subwidgets' }
 DrTestsUI >> itemsList [
 	^ itemsList
+]
+
+{ #category : #'accessing - subwidgets' }
+DrTestsUI >> itemsListLabel [
+	^ itemsListLabel
+]
+
+{ #category : #private }
+DrTestsUI >> itemsSelected [
+	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #private }
@@ -328,7 +376,7 @@ DrTestsUI >> subwidgetsToLock [
 
 { #category : #accessing }
 DrTestsUI >> testsConfiguration [
-	^ DTPluginConfiguration items: (self classesSelected) packages: (self packagesSelected).
+	^ DTPluginConfiguration items: (self itemsSelected) packages: (self packagesSelected).
 ]
 
 { #category : #accessing }
@@ -361,10 +409,19 @@ DrTestsUI >> updateClassesListLabel [
 ]
 
 { #category : #private }
+DrTestsUI >> updateItemsListLabel [
+	self itemsListLabel
+		label: (String streamContents: [ :s |
+			s
+				<< 'Items (';
+				<< (self itemsSelected size asString );
+				<< ' selected):' ])
+]
+
+{ #category : #private }
 DrTestsUI >> updatePackagesList [
-	packagesList resetSelection.
-	packagesList
-		items: currentPlugin packagesAvailableForAnalysis
+	packagesList unselectAll.
+	packagesList items: currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #private }
@@ -373,7 +430,7 @@ DrTestsUI >> updatePackagesListLabel [
 		label: (String streamContents: [ :s |
 			s
 				<< 'Packages (';
-				<< self packagesSelected size;
+				<< self packagesSelected size asString ;
 				<< ' selected):' ])
 ]
 
@@ -400,7 +457,8 @@ DrTestsUI >> updateUI [
 
 { #category : #private }
 DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
-	itemsList resetSelection.
-	itemsList items: (currentPlugin itemsToBeAnalysedFor: packagesSelected). 
+	itemsList unselectAll.
+	itemsList
+		items: (currentPlugin itemsToBeAnalysedFor: packagesSelected).
 	self updatePackagesListLabel
 ]
