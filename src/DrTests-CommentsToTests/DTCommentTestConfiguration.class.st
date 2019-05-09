@@ -17,7 +17,7 @@ DTCommentTestConfiguration >> asTestSuite [
 		thenDo: [ :c | 
 			c methods
 				do: [ :m | 
-					(m methodClass commentsAt: m selector)
+					(m methodClass compiledMethodAt: m selector) comments
 						do: [ :com | 
 							(com includesSubstring: '>>>')
 								ifTrue: [ suite

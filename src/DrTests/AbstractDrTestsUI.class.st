@@ -47,6 +47,7 @@ AbstractDrTestsUI >> helpButton: anObject [
 
 { #category : #initialization }
 AbstractDrTestsUI >> initializeButtons [
+
 	startButton := self newButton.
 	switchButton := self newButton.
 	helpButton := self newButton.
@@ -54,7 +55,7 @@ AbstractDrTestsUI >> initializeButtons [
 
 { #category : #initialization }
 AbstractDrTestsUI >> initializeWidgets [
-	self initializeButtons
+^self subclassResponsibility 
 ]
 
 { #category : #'api - locking' }
@@ -68,21 +69,6 @@ AbstractDrTestsUI >> locked: aBoolean [
 	"Lock or unlock widgets returned by #subwidgetsToLock depending on aBoolean."
 	self subwidgetsToLock
 		do: [ :subwidget | subwidget enabled: aBoolean ]
-]
-
-{ #category : #'api - subwidgets configuration' }
-AbstractDrTestsUI >> resultButtonAction: aBlock [
-	"Does nothing on purpose."
-]
-
-{ #category : #'api - subwidgets configuration' }
-AbstractDrTestsUI >> resultButtonHelp: aString [
-	"Does nothing on purpose."
-]
-
-{ #category : #'api - subwidgets configuration' }
-AbstractDrTestsUI >> resultButtonLabel: aString [
-	"Does nothing on purpose."
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -120,6 +106,11 @@ AbstractDrTestsUI >> switchButton: anObject [
 	switchButton := anObject
 ]
 
+{ #category : #'api - subwidgets configuration' }
+AbstractDrTestsUI >> switchButtonAction: aBlock [
+	self switchButton action: aBlock
+]
+
 { #category : #accessing }
 AbstractDrTestsUI >> testsConfiguration [
 	^ testsConfiguration
@@ -141,18 +132,8 @@ AbstractDrTestsUI >> updateStatus: aString [
 	"Does nothing on purpose."
 ]
 
-{ #category : #api }
-AbstractDrTestsUI >> updateStatus: aString format: aCollection [
-	self updateStatus: (aString format: aCollection)
-]
-
 { #category : #accessing }
 AbstractDrTestsUI >> updateUI [
-	self
-		startButtonLabel: self currentPlugin startButtonLabel;
-		startButtonHelp: self currentPlugin startButtonHelp;
-		resultButtonLabel: self currentPlugin resultButtonLabel;
-		resultButtonHelp: self currentPlugin resultButtonHelp;
-		title: self currentPlugin title;
-		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
+	^ self subclassResponsibility
+
 ]

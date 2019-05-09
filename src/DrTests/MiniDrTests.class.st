@@ -1,6 +1,9 @@
 Class {
 	#name : #MiniDrTests,
 	#superclass : #AbstractDrTestsUI,
+	#instVars : [
+		'resultsList'
+	],
 	#category : #DrTests
 }
 
@@ -29,4 +32,61 @@ MiniDrTests >> initializeButtons [
 	
 	helpButton := self newButton.
 	helpButton icon: (self iconNamed: #help).
+]
+
+{ #category : #accessing }
+MiniDrTests >> initializePresenter [
+
+	self startButton action: [ self runPlugin ].
+	self switchButton action:  self switchUI  .
+]
+
+{ #category : #initialization }
+MiniDrTests >> initializeWidgets [
+self initializeButtons 
+]
+
+{ #category : #accessing }
+MiniDrTests >> results: aResultGroup [
+resultsList := aResultGroup 
+]
+
+{ #category : #accessing }
+MiniDrTests >> resultsList [
+	^ resultsList
+]
+
+{ #category : #accessing }
+MiniDrTests >> resultsList: anObject [
+	resultsList := anObject
+]
+
+{ #category : #accessing }
+MiniDrTests >> runPlugin [
+	[ | results |
+	self lock.
+	self updateStatus: 'Tests started.'.
+	results := self currentPlugin
+		runForConfiguration: self testsConfiguration.
+	self results: results .
+	self updateStatus: 'Tests finished.' .
+	Transcript show: 'Tests finished'; cr.
+	]
+		ensure: [ self unlock ]
+]
+
+{ #category : #accessing }
+MiniDrTests >> switchUI [
+[  ]
+]
+
+{ #category : #accessing }
+MiniDrTests >> title: aString [
+	super title: 'Dr Tests - ' translated , aString
+]
+
+{ #category : #accessing }
+MiniDrTests >> updateUI [
+
+
 ]

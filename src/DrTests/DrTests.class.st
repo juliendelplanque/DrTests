@@ -17,7 +17,7 @@ Run and browse buttons behaviour are defined by the current plugin selected.
 
 "
 Class {
-	#name : #DrTestsUI,
+	#name : #DrTests,
 	#superclass : #AbstractDrTestsUI,
 	#instVars : [
 		'pluginsDropList',
@@ -37,7 +37,7 @@ Class {
 }
 
 { #category : #specs }
-DrTestsUI class >> defaultSpec [
+DrTests class >> defaultSpec [
 ^ 	SpecBoxLayout newVertical 
 		add:(SpecBoxLayout newHorizontal  
 	add: #pluginsDropList;
@@ -77,12 +77,12 @@ DrTestsUI class >> defaultSpec [
 ]
 
 { #category : #api }
-DrTestsUI class >> open [
+DrTests class >> open [
 	^ self openWithExtent: 700@500
 ]
 
 { #category : #api }
-DrTestsUI class >> openWithExtent: extent [
+DrTests class >> openWithExtent: extent [
 	| toReturn window |
 	toReturn := self new.
 	window := toReturn openWithSpec.
@@ -91,28 +91,28 @@ DrTestsUI class >> openWithExtent: extent [
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> browseButton [
+DrTests >> browseButton [
 	^ browseButton
 ]
 
 { #category : #actions }
-DrTestsUI >> browseSelectedResult [
+DrTests >> browseSelectedResult [
 	self resultSelected
 		ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> classesListLabel [
+DrTests >> classesListLabel [
 	^ classesListLabel
 ]
 
 { #category : #private }
-DrTestsUI >> classesSelected [
+DrTests >> classesSelected [
 	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #private }
-DrTestsUI >> dateAndTimeString [
+DrTests >> dateAndTimeString [
 	^ String streamContents: [ :stream |
 		|dateAndTime|
 		dateAndTime := DateAndTime now.
@@ -121,18 +121,18 @@ DrTestsUI >> dateAndTimeString [
 ]
 
 { #category : #accessing }
-DrTestsUI >> helpText [
+DrTests >> helpText [
 	^ 'TODO'
 ]
 
 { #category : #initialization }
-DrTestsUI >> initialize [
+DrTests >> initialize [
 	super initialize.
 	self pluginsDropList selectedIndex: 1
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeButtons [
+DrTests >> initializeButtons [
 	super initializeButtons.
 	browseButton := self newButton.
 		switchButton := self newButton.
@@ -141,7 +141,7 @@ DrTestsUI >> initializeButtons [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeClassesListAndLabel [
+DrTests >> initializeClassesListAndLabel [
 	classesListLabel := self newLabel.
 	self updateClassesListLabel.
 	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
@@ -158,7 +158,7 @@ DrTestsUI >> initializeClassesListAndLabel [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeItemsListAndLabel [
+DrTests >> initializeItemsListAndLabel [
 	itemsListLabel := self newLabel.
 	self updateItemsListLabel.
 	itemsListLabel
@@ -175,7 +175,7 @@ DrTestsUI >> initializeItemsListAndLabel [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializePackagesListAndLabel [
+DrTests >> initializePackagesListAndLabel [
 	packagesListLabel := self newLabel.
 	self updatePackagesListLabel.
 	packagesListLabel
@@ -190,7 +190,7 @@ DrTestsUI >> initializePackagesListAndLabel [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializePluginsDropList [
+DrTests >> initializePluginsDropList [
 	pluginsDropList := self newDropList.
 	self pluginsDropList
 		help: 'Select the plugin used by Dr Tests UI.';
@@ -201,13 +201,14 @@ DrTestsUI >> initializePluginsDropList [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializePresenter [
+DrTests >> initializePresenter [
 
-	self startButton action: [ self runPlugin ]
+	self startButton action: [ self runPlugin ].
+	self switchButton action:  self switchUI  .
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeResultsTreeAndLabel [
+DrTests >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
 	
@@ -226,7 +227,7 @@ DrTestsUI >> initializeResultsTreeAndLabel [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeToolbar [
+DrTests >> initializeToolbar [
 	toolbar := MenuModel new
 		addGroup: [ :group | 
 			group
@@ -239,8 +240,9 @@ DrTestsUI >> initializeToolbar [
 ]
 
 { #category : #initialization }
-DrTestsUI >> initializeWidgets [
-	super initializeWidgets.
+DrTests >> initializeWidgets [
+"	super initializeWidgets."
+	self initializeButtons .
 	self
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
@@ -253,22 +255,22 @@ DrTestsUI >> initializeWidgets [
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> itemsList [
+DrTests >> itemsList [
 	^ itemsList
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> itemsListLabel [
+DrTests >> itemsListLabel [
 	^ itemsListLabel
 ]
 
 { #category : #private }
-DrTestsUI >> itemsSelected [
+DrTests >> itemsSelected [
 	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #private }
-DrTestsUI >> menuForSelectedResult: menu [
+DrTests >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
 	
 	self resultSelected content
@@ -276,7 +278,7 @@ DrTestsUI >> menuForSelectedResult: menu [
 ]
 
 { #category : #actions }
-DrTestsUI >> openHelp [
+DrTests >> openHelp [
 	TextModel new
 		enabled: false;
 		title: 'Help';
@@ -285,69 +287,73 @@ DrTestsUI >> openHelp [
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> packagesList [
+DrTests >> packagesList [
 	^ packagesList
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> packagesListLabel [
+DrTests >> packagesListLabel [
 	^ packagesListLabel
 ]
 
 { #category : #private }
-DrTestsUI >> packagesSelected [
+DrTests >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #initialization }
-DrTestsUI >> plugins [
+DrTests >> plugins [
 	^ plugins ifNil: [ DrTestsPlugin availablePlugins ]
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> pluginsDropList [
+DrTests >> pluginsDropList [
 	^ pluginsDropList
 ]
 
+{ #category : #initialization }
+DrTests >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPluginResult [
+]
+
 { #category : #'api - subwidgets configuration' }
-DrTestsUI >> resultButtonAction: aBlock [
+DrTests >> resultButtonAction: aBlock [
 	self browseButton action: aBlock
 ]
 
 { #category : #'api - subwidgets configuration' }
-DrTestsUI >> resultButtonHelp: aString [
+DrTests >> resultButtonHelp: aString [
 	self browseButton help: aString
 ]
 
 { #category : #'api - subwidgets configuration' }
-DrTestsUI >> resultButtonLabel: aString [
+DrTests >> resultButtonLabel: aString [
 	self browseButton label: aString
 ]
 
 { #category : #accessing }
-DrTestsUI >> resultSelected [
+DrTests >> resultSelected [
 	^ self resultsList selectedItem
 ]
 
 { #category : #api }
-DrTestsUI >> results: aResultGroup [
+DrTests >> results: aResultGroup [
 	self resultsList
 		roots: aResultGroup subResults;
 		resetSelection
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> resultsList [
+DrTests >> resultsList [
 	^ resultsList
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> resultsListLabel [
+DrTests >> resultsListLabel [
 	^ resultsListLabel
 ]
 
 { #category : #initialization }
-DrTestsUI >> runPlugin [
+DrTests >> runPlugin [
 	[ | results |
 	self lock.
 	self updateStatus: 'Tests started.'.
@@ -359,28 +365,37 @@ DrTestsUI >> runPlugin [
 ]
 
 { #category : #initialization }
-DrTestsUI >> setModelBeforeInitialization: aDomainObject [
+DrTests >> setModelBeforeInitialization: aDomainObject [
 	
 	plugins := aDomainObject
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> statusLabel [
+DrTests >> statusLabel [
 	^ statusLabel
 ]
 
 { #category : #'api - locking' }
-DrTestsUI >> subwidgetsToLock [
+DrTests >> subwidgetsToLock [
 	^ { self packagesList. self itemsList. self resultsList. self startButton. self browseButton }
 ]
 
+{ #category : #'accessing - subwidgets' }
+DrTests >> switchUI [
+^[  self application close.
+	(MiniDrTests new 
+	testsConfiguration: self testsConfiguration;
+	currentPlugin: self currentPlugin ; yourself )openWithSpec.
+	]
+]
+
 { #category : #accessing }
-DrTestsUI >> testsConfiguration [
+DrTests >> testsConfiguration [
 	^ DTPluginConfiguration items: (self itemsSelected) packages: (self packagesSelected).
 ]
 
 { #category : #accessing }
-DrTestsUI >> testsConfiguration: aDTTestsConfiguration [
+DrTests >> testsConfiguration: aDTTestsConfiguration [
 	self packagesList listItems withIndexDo: [ :package :i |
 		(aDTTestsConfiguration packages includes: package)
 			ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
@@ -389,17 +404,17 @@ DrTestsUI >> testsConfiguration: aDTTestsConfiguration [
 ]
 
 { #category : #api }
-DrTestsUI >> title: aString [
+DrTests >> title: aString [
 	super title: 'Dr Tests - ' translated , aString
 ]
 
 { #category : #'accessing - subwidgets' }
-DrTestsUI >> toolbar [
+DrTests >> toolbar [
 	^ toolbar
 ]
 
 { #category : #private }
-DrTestsUI >> updateClassesListLabel [
+DrTests >> updateClassesListLabel [
 	self classesListLabel
 		label: (String streamContents: [ :s |
 			s
@@ -409,7 +424,7 @@ DrTestsUI >> updateClassesListLabel [
 ]
 
 { #category : #private }
-DrTestsUI >> updateItemsListLabel [
+DrTests >> updateItemsListLabel [
 	self itemsListLabel
 		label: (String streamContents: [ :s |
 			s
@@ -419,13 +434,13 @@ DrTestsUI >> updateItemsListLabel [
 ]
 
 { #category : #private }
-DrTestsUI >> updatePackagesList [
+DrTests >> updatePackagesList [
 	packagesList unselectAll.
 	packagesList items: currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #private }
-DrTestsUI >> updatePackagesListLabel [
+DrTests >> updatePackagesListLabel [
 	self packagesListLabel
 		label: (String streamContents: [ :s |
 			s
@@ -435,28 +450,34 @@ DrTestsUI >> updatePackagesListLabel [
 ]
 
 { #category : #private }
-DrTestsUI >> updateResultsListLabel [
+DrTests >> updateResultsListLabel [
 	self resultsListLabel
 		label: 'Results:'
 ]
 
 { #category : #api }
-DrTestsUI >> updateStatus: aString [
+DrTests >> updateStatus: aString [
 	self statusLabel
 		label: ('{1}: {2}' format: { self dateAndTimeString . aString }).
 
 ]
 
 { #category : #accessing }
-DrTestsUI >> updateUI [
-	super updateUI.
+DrTests >> updateUI [
+	self
+		startButtonLabel: self currentPlugin startButtonLabel;
+		startButtonHelp: self currentPlugin startButtonHelp;
+		resultButtonLabel: self currentPlugin resultButtonLabel;
+		resultButtonHelp: self currentPlugin resultButtonHelp;
+		title: self currentPlugin title;
+		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
 	self resultButtonAction: [self browseSelectedResult].
 	self updatePackagesList.
 	self results: DTTreeNode empty
 ]
 
 { #category : #private }
-DrTestsUI >> whenPackagesSelectionChanged: packagesSelected [
+DrTests >> whenPackagesSelectionChanged: packagesSelected [
 	itemsList unselectAll.
 	itemsList
 		items: (currentPlugin itemsToBeAnalysedFor: packagesSelected).

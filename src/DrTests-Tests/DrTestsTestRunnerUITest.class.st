@@ -14,7 +14,7 @@ Class {
 DrTestsTestRunnerUITest >> setUp [
 
 	super setUp.
-	drTest := DrTestsUI on: { DTTestsRunner }.
+	drTest := DrTests on: { DTTestsRunner }.
 ]
 
 { #category : #tests }
