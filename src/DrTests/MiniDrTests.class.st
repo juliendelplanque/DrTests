@@ -53,7 +53,7 @@ resultsList := aResultGroup
 
 { #category : #accessing }
 MiniDrTests >> resultsList [
-	^ resultsList
+	^ resultsList ifNil: [ ^ DTTreeNode new ] ifNotNil: [ resultsList ]
 ]
 
 { #category : #accessing }
@@ -71,13 +71,18 @@ MiniDrTests >> runPlugin [
 	self results: results .
 	self updateStatus: 'Tests finished.' .
 	Transcript show: 'Tests finished'; cr.
+	Transcript show: results asString; cr.
 	]
 		ensure: [ self unlock ]
 ]
 
 { #category : #accessing }
 MiniDrTests >> switchUI [
-[  ]
+	^ [ self application close.
+	DrTests
+		reloadConfiguration: testsConfiguration
+		withResults: resultsList
+		andPlugin: currentPlugin ]
 ]
 
 { #category : #accessing }
@@ -87,6 +92,7 @@ MiniDrTests >> title: aString [
 
 { #category : #accessing }
 MiniDrTests >> updateUI [
-
+		self title: self currentPlugin title
+		"here change the color of startButton"
 
 ]

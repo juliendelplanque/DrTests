@@ -90,6 +90,16 @@ DrTests class >> openWithExtent: extent [
 	^ toReturn
 ]
 
+{ #category : #specs }
+DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPluginResult andPlugin: aDTPlugin [
+	^ self open
+		results: aDTPluginResult buildTreeForUI;
+		testsConfiguration: aDTPluginConfiguration ;
+		updateStatus: 'Tests finished.';
+		currentPlugin: aDTPlugin;
+		runPlugin 
+]
+
 { #category : #'accessing - subwidgets' }
 DrTests >> browseButton [
 	^ browseButton
@@ -135,26 +145,10 @@ DrTests >> initialize [
 DrTests >> initializeButtons [
 	super initializeButtons.
 	browseButton := self newButton.
-		switchButton := self newButton.
-	switchButton icon: (self iconNamed: #tools);
-	label: 'switch'.
-]
-
-{ #category : #initialization }
-DrTests >> initializeClassesListAndLabel [
-	classesListLabel := self newLabel.
-	self updateClassesListLabel.
-	classesListLabel help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
-	
-	itemsList :=  self newList.
-	
-	itemsList
-		sortingBlock: [ :a :b | a name < b name ];
-		whenSelectionChanged: [ self updateClassesListLabel ];
-		beMultipleSelection.
-	
-	packagesList whenSelectionChanged: [ 
-		self whenPackagesSelectionChanged: self packagesSelected ].
+	switchButton := self newButton.
+	switchButton
+		icon: (self iconNamed: #tools);
+		label: 'switch'
 ]
 
 { #category : #initialization }
@@ -202,55 +196,38 @@ DrTests >> initializePluginsDropList [
 
 { #category : #initialization }
 DrTests >> initializePresenter [
-
 	self startButton action: [ self runPlugin ].
-	self switchButton action:  self switchUI  .
+	self switchButton action: self switchUI
 ]
 
 { #category : #initialization }
 DrTests >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
-	
-	resultsList := TreePresenter new.
-
+	resultsList := self newTreeTable.
 	resultsList
-		displayBlock: [ :item |
-			item drTestsName ];
-		childrenBlock: [ :node |
-			node subResults ];
-		doubleClick: [ 
-			self browseSelectedResult ];
-		menu: [ :menu |
-			self menuForSelectedResult: menu.
-			menu ]
-]
+		addColumn:
+			(CompositeTableColumn new
+				"title: 'title of the table';"
+				addColumn:
+					(ImageTableColumn new
+						evaluated: [ :item | item drTestsName ];
+						yourself);
+				yourself);
+		roots: {Object};
+		children: [ :node | node subResults ];
+		beResizable
 
-{ #category : #initialization }
-DrTests >> initializeToolbar [
-	toolbar := MenuModel new
-		addGroup: [ :group | 
-			group
-				addItem: [ :item | 
-					item
-						name: 'Help';
-						icon: (self iconNamed: #glamorousHelp);
-						action: [ self openHelp ] ] ].
-	toolbar applyTo: self.
 ]
 
 { #category : #initialization }
 DrTests >> initializeWidgets [
-"	super initializeWidgets."
-	self initializeButtons .
+	self initializeButtons.
 	self
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
 		initializeResultsTreeAndLabel.
-	
 	statusLabel := self newLabel.
-	
-	self initializeToolbar.
 	self initializePluginsDropList
 ]
 
@@ -272,18 +249,7 @@ DrTests >> itemsSelected [
 { #category : #private }
 DrTests >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
-	
-	self resultSelected content
-		drTestsBuildContextMenu: menu
-]
-
-{ #category : #actions }
-DrTests >> openHelp [
-	TextModel new
-		enabled: false;
-		title: 'Help';
-		text: self helpText;
-		openWithSpec
+	self resultSelected content drTestsBuildContextMenu: menu
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -311,10 +277,6 @@ DrTests >> pluginsDropList [
 	^ pluginsDropList
 ]
 
-{ #category : #initialization }
-DrTests >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPluginResult [
-]
-
 { #category : #'api - subwidgets configuration' }
 DrTests >> resultButtonAction: aBlock [
 	self browseButton action: aBlock
@@ -337,9 +299,8 @@ DrTests >> resultSelected [
 
 { #category : #api }
 DrTests >> results: aResultGroup [
-	self resultsList
-		roots: aResultGroup subResults;
-		resetSelection
+	self resultsList roots: aResultGroup subResults	";
+		resetSelection"
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -366,7 +327,6 @@ DrTests >> runPlugin [
 
 { #category : #initialization }
 DrTests >> setModelBeforeInitialization: aDomainObject [
-	
 	plugins := aDomainObject
 ]
 
@@ -382,35 +342,32 @@ DrTests >> subwidgetsToLock [
 
 { #category : #'accessing - subwidgets' }
 DrTests >> switchUI [
-^[  self application close.
-	(MiniDrTests new 
-	testsConfiguration: self testsConfiguration;
-	currentPlugin: self currentPlugin ; yourself )openWithSpec.
-	]
+	^ [ self application close.
+	(MiniDrTests new
+		testsConfiguration: self testsConfiguration;
+		currentPlugin: self currentPlugin;
+		yourself) openWithSpec ]
 ]
 
 { #category : #accessing }
 DrTests >> testsConfiguration [
-	^ DTPluginConfiguration items: (self itemsSelected) packages: (self packagesSelected).
+	^ DTPluginConfiguration
+		items: self itemsSelected
+		packages: self packagesSelected
 ]
 
 { #category : #accessing }
 DrTests >> testsConfiguration: aDTTestsConfiguration [
-	self packagesList listItems withIndexDo: [ :package :i |
-		(aDTTestsConfiguration packages includes: package)
-			ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
-		
+	self packagesList model shownItems
+		withIndexDo: [ :package :i | 
+			(aDTTestsConfiguration packages includes: package)
+				ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
 	self packagesList changed: #listElementAt:
 ]
 
 { #category : #api }
 DrTests >> title: aString [
 	super title: 'Dr Tests - ' translated , aString
-]
-
-{ #category : #'accessing - subwidgets' }
-DrTests >> toolbar [
-	^ toolbar
 ]
 
 { #category : #private }
@@ -471,7 +428,7 @@ DrTests >> updateUI [
 		resultButtonHelp: self currentPlugin resultButtonHelp;
 		title: self currentPlugin title;
 		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
-	self resultButtonAction: [self browseSelectedResult].
+	self resultButtonAction: [ self browseSelectedResult ].
 	self updatePackagesList.
 	self results: DTTreeNode empty
 ]
