@@ -19,12 +19,27 @@ add:#startButton;
 yourself.
 ]
 
+{ #category : #accessing }
+MiniDrTests >> currentPlugin: anObject [
+currentPlugin := anObject 
+]
+
+{ #category : #accessing }
+MiniDrTests >> evaluateColor [
+	resultsList testsResult errors isEmpty
+		ifFalse: [ ^ Color named: 'red' ].
+	resultsList testsResult failures isEmpty
+		ifFalse: [ ^ Color named: 'yellow' ].
+	^ Color named: 'green'
+]
+
 { #category : #initialization }
 MiniDrTests >> initializeButtons [
 	startButton := self newButton.
 	startButton label: 'run';
 	icon: (self iconNamed: #smallUpdate);
-	color: (Color named: 'green') .
+	color: (Color named: 'gray') .
+	"evaluateColor (?)"
 	
 	switchButton := self newButton.
 	switchButton icon: (self iconNamed: #tools).
@@ -43,22 +58,18 @@ MiniDrTests >> initializePresenter [
 
 { #category : #initialization }
 MiniDrTests >> initializeWidgets [
-self initializeButtons 
-]
+self initializeButtons .
 
-{ #category : #accessing }
-MiniDrTests >> results: aResultGroup [
-resultsList := aResultGroup 
 ]
 
 { #category : #accessing }
 MiniDrTests >> resultsList [
-	^ resultsList ifNil: [ ^ DTTreeNode new ] ifNotNil: [ resultsList ]
+	^ resultsList ifNil: [ DTTreeNode empty] 
 ]
 
 { #category : #accessing }
-MiniDrTests >> resultsList: anObject [
-	resultsList := anObject
+MiniDrTests >> resultsList: aResultGroup [
+resultsList := aResultGroup 
 ]
 
 { #category : #accessing }
@@ -68,11 +79,15 @@ MiniDrTests >> runPlugin [
 	self updateStatus: 'Tests started.'.
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self results: results .
-	self updateStatus: 'Tests finished.' .
-	Transcript show: 'Tests finished'; cr.
-	Transcript show: results asString; cr.
-	]
+	self resultsList: results.
+	self updateStatus: 'Tests finished.'.
+	self updateUI.
+	Transcript
+		show: 'Tests finished';
+		cr.
+	Transcript
+		show: results asString;
+		cr ]
 		ensure: [ self unlock ]
 ]
 
@@ -92,7 +107,7 @@ MiniDrTests >> title: aString [
 
 { #category : #accessing }
 MiniDrTests >> updateUI [
-		self title: self currentPlugin title
-		"here change the color of startButton"
-
+	self title: self currentPlugin title.
+	"here change the color of startButton"
+	startButton color: self evaluateColor
 ]

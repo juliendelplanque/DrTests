@@ -92,12 +92,11 @@ DrTests class >> openWithExtent: extent [
 
 { #category : #specs }
 DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPluginResult andPlugin: aDTPlugin [
-	^ self open
-		results: aDTPluginResult buildTreeForUI;
-		testsConfiguration: aDTPluginConfiguration ;
+	self open
+		testsConfiguration: aDTPluginConfiguration;
 		updateStatus: 'Tests finished.';
 		currentPlugin: aDTPlugin;
-		runPlugin 
+		results:  aDTPluginResult buildTreeForUI 
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -299,8 +298,7 @@ DrTests >> resultSelected [
 
 { #category : #api }
 DrTests >> results: aResultGroup [
-	self resultsList roots: aResultGroup subResults	";
-		resetSelection"
+ self resultsList roots: aResultGroup subResults 
 ]
 
 { #category : #'accessing - subwidgets' }
