@@ -35,18 +35,21 @@ MiniDrTests >> evaluateColor [
 
 { #category : #initialization }
 MiniDrTests >> initializeButtons [
+	| info |
+	info := ImageMorph fromString: 'run'.
+	"info color: (Color named: 'black')."
 	startButton := self newButton.
-	startButton label: 'run';
-	icon: (self iconNamed: #smallUpdate);
-	color: (Color named: 'gray') .
+	startButton
+		label: 'run';
+		icon: (self iconNamed: #smallUpdate);
+		color: (Color named: 'gray').
 	"evaluateColor (?)"
-	
 	switchButton := self newButton.
-	switchButton icon: (self iconNamed: #tools).
-	
-	
+	switchButton
+		icon: (self iconNamed: #tools);
+		label: 'configuration'.
 	helpButton := self newButton.
-	helpButton icon: (self iconNamed: #help).
+	helpButton icon: (self iconNamed: #help)
 ]
 
 { #category : #accessing }
@@ -81,13 +84,7 @@ MiniDrTests >> runPlugin [
 		runForConfiguration: self testsConfiguration.
 	self resultsList: results.
 	self updateStatus: 'Tests finished.'.
-	self updateUI.
-	Transcript
-		show: 'Tests finished';
-		cr.
-	Transcript
-		show: results asString;
-		cr ]
+	self updateUI.]
 		ensure: [ self unlock ]
 ]
 
@@ -109,5 +106,6 @@ MiniDrTests >> title: aString [
 MiniDrTests >> updateUI [
 	self title: self currentPlugin title.
 	"here change the color of startButton"
-	startButton color: self evaluateColor
+	startButton color: self evaluateColor.
+	startButton label:  resultsList  testsResult asString 
 ]
