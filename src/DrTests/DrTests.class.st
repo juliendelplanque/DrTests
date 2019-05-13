@@ -105,7 +105,7 @@ DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPlu
 	self open
 		updateStatus: 'Tests finished.';
 		currentPlugin: aDTPlugin;
-		results: aDTPluginResult buildTreeForUI;
+		results: (aDTPluginResult ifNotNil: [ aDTPluginResult buildTreeForUI ]);
 		testsConfiguration: aDTPluginConfiguration
 ]
 
@@ -309,7 +309,8 @@ DrTests >> resultSelected [
 
 { #category : #api }
 DrTests >> results: aResultGroup [
-	self resultsList roots: aResultGroup subResults
+aResultGroup ifNotNil: [  
+	self resultsList roots: aResultGroup subResults]
 ]
 
 { #category : #'accessing - subwidgets' }
