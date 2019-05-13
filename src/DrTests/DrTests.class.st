@@ -103,10 +103,10 @@ DrTests class >> openWithExtent: extent [
 { #category : #specs }
 DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPluginResult andPlugin: aDTPlugin [
 	self open
-		testsConfiguration: aDTPluginConfiguration;
 		updateStatus: 'Tests finished.';
 		currentPlugin: aDTPlugin;
-		results: aDTPluginResult buildTreeForUI
+		results: aDTPluginResult buildTreeForUI;
+		testsConfiguration: aDTPluginConfiguration
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -369,25 +369,17 @@ DrTests >> testsConfiguration [
 DrTests >> testsConfiguration: aDTTestsConfiguration [
 	self packagesList model shownItems
 		withIndexDo: [ :package :i | 
-			(aDTTestsConfiguration packages includes: package)
+			(aDTTestsConfiguration packagesSelected
+				anySatisfy: [ :p | p name = package name ])
 				ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
-	self packagesList changed: #listElementAt:
+	self packagesList changed: #listElementAt:.
+
 ]
 
 { #category : #api }
 DrTests >> title: aString [
 	super title: 'Dr Tests -' translated , aString.
 
-]
-
-{ #category : #private }
-DrTests >> updateClassesListLabel [
-	self classesListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Items (';
-				<< (self classesSelected size);
-				<< ' selected):' ])
 ]
 
 { #category : #private }
@@ -403,6 +395,8 @@ DrTests >> updateItemsListLabel [
 { #category : #private }
 DrTests >> updatePackagesList [
 	packagesList unselectAll.
+	itemsList unselectAll.
+	itemsList newEmptyModel.
 	packagesList items: currentPlugin packagesAvailableForAnalysis
 ]
 
@@ -464,6 +458,7 @@ DrTests >> whenItemsSelectionChanged: itemsSelected [
 DrTests >> whenPackagesSelectionChanged: packagesSelected [
 	itemsList unselectAll.
 	itemsList
-		items: (currentPlugin itemsToBeAnalysedFor: packagesSelected).
+		items: (currentPlugin itemsToBeAnalysedFor: packagesSelected);
+		selectAll.
 	self updatePackagesListLabel
 ]
