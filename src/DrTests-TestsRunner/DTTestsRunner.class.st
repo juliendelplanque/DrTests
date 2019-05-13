@@ -14,9 +14,9 @@ DTTestsRunner class >> weight [
 	^ 0
 ]
 
-{ #category : #private }
-DTTestsRunner >> reRunResultGroup: aDTResultGroup [
-	self halt
+{ #category : #api }
+DTTestsRunner >> allowMiniDrTests [
+	^ true
 ]
 
 { #category : #api }

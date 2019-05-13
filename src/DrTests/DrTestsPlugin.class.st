@@ -41,6 +41,11 @@ DrTestsPlugin class >> weight [
 	^ self subclassResponsibility
 ]
 
+{ #category : #api }
+DrTestsPlugin >> allowMiniDrTests [
+	^ false
+]
+
 { #category : #accessing }
 DrTestsPlugin >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]

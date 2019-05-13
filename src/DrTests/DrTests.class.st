@@ -147,7 +147,8 @@ DrTests >> initializeButtons [
 	switchButton := self newButton.
 	switchButton
 		icon: (self iconNamed: #tools);
-		label: 'switch'
+		label: 'switch';
+		disable.
 ]
 
 { #category : #initialization }
@@ -160,7 +161,7 @@ DrTests >> initializeItemsListAndLabel [
 	itemsList := self newList.
 	itemsList
 		sortingBlock: [ :a :b | a name < b name ];
-		whenSelectionChangedDo: [ self updateItemsListLabel ];
+		whenSelectionChangedDo: [self whenItemsSelectionChanged: self itemsSelected  ];
 		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
 		beMultipleSelection.
 	packagesList
@@ -365,7 +366,8 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 
 { #category : #api }
 DrTests >> title: aString [
-	super title: 'Dr Tests - ' translated , aString
+	super title: 'Dr Tests -' translated , aString.
+
 ]
 
 { #category : #private }
@@ -417,6 +419,15 @@ DrTests >> updateStatus: aString [
 
 ]
 
+{ #category : #private }
+DrTests >> updateSwitchButton: itemsSelected [
+	currentPlugin allowMiniDrTests
+		ifTrue: [ itemsSelected isEmpty
+				ifFalse: [ switchButton enable ]
+				ifTrue: [ switchButton disable ] ]
+		ifFalse: switchButton disable
+]
+
 { #category : #accessing }
 DrTests >> updateUI [
 	self
@@ -429,6 +440,14 @@ DrTests >> updateUI [
 	self resultButtonAction: [ self browseSelectedResult ].
 	self updatePackagesList.
 	self results: DTTreeNode empty
+]
+
+{ #category : #private }
+DrTests >> whenItemsSelectionChanged: itemsSelected [
+self updateItemsListLabel.
+self updateSwitchButton:itemsSelected 
+"allow minidrTEsts"
+
 ]
 
 { #category : #private }
