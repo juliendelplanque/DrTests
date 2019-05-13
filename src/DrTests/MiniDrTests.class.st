@@ -9,14 +9,17 @@ Class {
 
 { #category : #specs }
 MiniDrTests class >> defaultSpec [
-^ SpecBoxLayout newVertical 
-add: (SpecBoxLayout newHorizontal 
-add: #helpButton;
-
-add: #switchButton;
-yourself) expand: false fill: true padding: 1;
-add:#startButton;
-yourself.
+	^ SpecBoxLayout newVertical
+		add:
+			(SpecBoxLayout newHorizontal
+					add: #helpButton;
+					add: #switchButton;
+					yourself)
+			expand: false
+			fill: true
+			padding: 1;
+		add: #startButton;
+		yourself
 ]
 
 { #category : #accessing }
@@ -35,15 +38,11 @@ MiniDrTests >> evaluateColor [
 
 { #category : #initialization }
 MiniDrTests >> initializeButtons [
-	| info |
-	info := ImageMorph fromString: 'run'.
-	"info color: (Color named: 'black')."
 	startButton := self newButton.
 	startButton
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-	"evaluateColor (?)"
 	switchButton := self newButton.
 	switchButton
 		icon: (self iconNamed: #tools);
@@ -54,15 +53,13 @@ MiniDrTests >> initializeButtons [
 
 { #category : #accessing }
 MiniDrTests >> initializePresenter [
-
 	self startButton action: [ self runPlugin ].
-	self switchButton action:  self switchUI  .
+	self switchButton action: self switchUI
 ]
 
 { #category : #initialization }
 MiniDrTests >> initializeWidgets [
-self initializeButtons .
-
+	self initializeButtons
 ]
 
 { #category : #accessing }
@@ -72,7 +69,7 @@ MiniDrTests >> resultsList [
 
 { #category : #accessing }
 MiniDrTests >> resultsList: aResultGroup [
-resultsList := aResultGroup 
+	resultsList := aResultGroup
 ]
 
 { #category : #accessing }
@@ -84,7 +81,7 @@ MiniDrTests >> runPlugin [
 		runForConfiguration: self testsConfiguration.
 	self resultsList: results.
 	self updateStatus: 'Tests finished.'.
-	self updateUI.]
+	self updateUI ]
 		ensure: [ self unlock ]
 ]
 
@@ -107,5 +104,5 @@ MiniDrTests >> updateUI [
 	self title: self currentPlugin title.
 	"here change the color of startButton"
 	startButton color: self evaluateColor.
-	startButton label:  resultsList  testsResult asString 
+	startButton label: resultsList testsResult asString
 ]

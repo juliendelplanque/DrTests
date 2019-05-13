@@ -19,14 +19,13 @@ AbstractDrTestsUI >> currentPlugin [
 { #category : #accessing }
 AbstractDrTestsUI >> currentPlugin: anObject [
 	"If a plugin was set before, unsubscribe first."
-	currentPlugin ifNotNil: [ 
-		currentPlugin announcer
-			unsubscribe: self ].
+
+	currentPlugin ifNotNil: [ currentPlugin announcer unsubscribe: self ].
 	currentPlugin := anObject.
-	
 	currentPlugin announcer
-		when: DTStatusUpdate send: #handlePluginStatusUpdate: to: self.
-	
+		when: DTStatusUpdate
+		send: #handlePluginStatusUpdate:
+		to: self.
 	self updateUI
 ]
 
@@ -55,7 +54,7 @@ AbstractDrTestsUI >> initializeButtons [
 
 { #category : #initialization }
 AbstractDrTestsUI >> initializeWidgets [
-^self subclassResponsibility 
+	^ self subclassResponsibility
 ]
 
 { #category : #'api - locking' }

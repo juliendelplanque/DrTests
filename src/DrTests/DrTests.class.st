@@ -38,47 +38,57 @@ Class {
 
 { #category : #specs }
 DrTests class >> defaultSpec [
-^ 	SpecBoxLayout newVertical 
-		add:(SpecBoxLayout newHorizontal  
-	add: #pluginsDropList;
-	add: #switchButton;
-	yourself) expand: false fill: true padding: 1;
-		
-		add: 
-		(SpecPanedLayout newHorizontal
-	add: ( SpecPanedLayout newHorizontal
-		add: 
-			(SpecBoxLayout newVertical
-				add: #packagesListLabel
-					withConstraints: [ :constraints | constraints height: self labelHeight ];
-				add: #packagesList; 
-				yourself);
+	^ SpecBoxLayout newVertical
 		add:
-			(SpecBoxLayout newVertical
-				add: #itemsListLabel
-					withConstraints: [ :constraints | constraints height: self labelHeight ];
-				add: #itemsList;
-				yourself);
-				yourself);
+			(SpecBoxLayout newHorizontal
+					add: #pluginsDropList;
+					add: #switchButton;
+					yourself)
+			expand: false
+			fill: true
+			padding: 1;
 		add:
-			(SpecBoxLayout newVertical
-				add: #resultsListLabel
-					withConstraints: [ :constraints | constraints height: self labelHeight ];
-				add: #resultsList;
-				add: #browseButton
-				expand: false fill: true padding: 1;
+			(SpecPanedLayout newHorizontal
+				add:
+					(SpecPanedLayout newHorizontal
+						add:
+							(SpecBoxLayout newVertical
+								add: #packagesListLabel
+									withConstraints: [ :constraints | constraints height: self labelHeight ];
+								add: #packagesList;
+								yourself);
+						add:
+							(SpecBoxLayout newVertical
+								add: #itemsListLabel
+									withConstraints: [ :constraints | constraints height: self labelHeight ];
+								add: #itemsList;
+								yourself);
+						yourself);
+				add:
+					(SpecBoxLayout newVertical
+						add: #resultsListLabel
+							withConstraints: [ :constraints | constraints height: self labelHeight ];
+						add: #resultsList;
+						add: #browseButton
+							expand: false
+							fill: true
+							padding: 1;
+						yourself);
 				yourself);
-		
-			yourself);
-			
-			add: #startButton expand: false fill: true padding: 3;
-			add: #statusLabel expand: false fill: true padding: 1;
-			yourself
+		add: #startButton
+			expand: false
+			fill: true
+			padding: 3;
+		add: #statusLabel
+			expand: false
+			fill: true
+			padding: 1;
+		yourself
 ]
 
 { #category : #api }
 DrTests class >> open [
-	^ self openWithExtent: 700@500
+	^ self openWithExtent: 700 @ 500
 ]
 
 { #category : #api }
@@ -96,7 +106,7 @@ DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPlu
 		testsConfiguration: aDTPluginConfiguration;
 		updateStatus: 'Tests finished.';
 		currentPlugin: aDTPlugin;
-		results:  aDTPluginResult buildTreeForUI 
+		results: aDTPluginResult buildTreeForUI
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -122,11 +132,11 @@ DrTests >> classesSelected [
 
 { #category : #private }
 DrTests >> dateAndTimeString [
-	^ String streamContents: [ :stream |
-		|dateAndTime|
-		dateAndTime := DateAndTime now.
-		stream
-			<< dateAndTime asStringYMDHM ]
+	^ String
+		streamContents: [ :stream | 
+			| dateAndTime |
+			dateAndTime := DateAndTime now.
+			stream << dateAndTime asStringYMDHM ]
 ]
 
 { #category : #accessing }
@@ -299,7 +309,7 @@ DrTests >> resultSelected [
 
 { #category : #api }
 DrTests >> results: aResultGroup [
- self resultsList roots: aResultGroup subResults 
+	self resultsList roots: aResultGroup subResults
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -444,10 +454,10 @@ DrTests >> updateUI [
 
 { #category : #private }
 DrTests >> whenItemsSelectionChanged: itemsSelected [
-self updateItemsListLabel.
-self updateSwitchButton:itemsSelected 
-"allow minidrTEsts"
+	"enable or disable  switchButton for minidrTests"
 
+	self updateItemsListLabel.
+	self updateSwitchButton: itemsSelected
 ]
 
 { #category : #private }
