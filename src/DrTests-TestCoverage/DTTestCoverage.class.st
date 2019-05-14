@@ -63,9 +63,9 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 		ensure: [ link uninstall ] ] valueUnpreemptively.
 	notExecuted := methods reject: [ :each | each ast hasBeenExecuted ].
 	notExecuted isEmpty
-		ifTrue: [ result percent: 1.00s2 ]
+		ifTrue: [ result percent: 1s2 ]
 		ifFalse: [ result
-				percent: 1.00s2 - (notExecuted size / methods size asScaledDecimal: 2);
+				percent: 1s2 - (notExecuted size / methods size asScaledDecimal: 2);
 				methodList: notExecuted ].
 	"cleanup the annotations"
 	methods
@@ -86,10 +86,12 @@ DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 { #category : #api }
 DTTestCoverage >> runSuite: aTestSuite withResult: aResult [
 	aTestSuite
-		subscribe: TestAnnouncement
+		when: TestAnnouncement
 		do: [ :testAnnouncement | 
 			self announcer
-				announce: (DTStatusUpdate message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
+				announce:
+					(DTStatusUpdate
+						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]

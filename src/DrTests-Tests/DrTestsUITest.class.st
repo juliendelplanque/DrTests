@@ -21,7 +21,7 @@ DrTestsUITest >> setUp [
 	plugin1 := DTTestsRunner.
 	plugin2 := DTMockPlugin.
 	plugins := {plugin1. plugin2}.
-	drTestsUI := DrTestsUI on: plugins
+	drTestsUI := DrTests on: plugins
 ]
 
 { #category : #tests }
@@ -31,11 +31,8 @@ DrTestsUITest >> testBrowseButton [
 
 { #category : #tests }
 DrTestsUITest >> testClickButtonRunCallsPluginRun [
-
-	drTestsUI pluginsDropList setSelectedItem: DTMockPlugin.
-	
+	drTestsUI pluginsDropList selectedItem: DTMockPlugin.
 	drTestsUI startButton performAction.
-	
 	self assert: drTestsUI currentPlugin hasBeenRun
 ]
 
@@ -50,9 +47,8 @@ DrTestsUITest >> testCurrentPluginIsSelectedInDropDown [
 
 { #category : #tests }
 DrTestsUITest >> testInitialPackagesAreInitialPluginPackages [
-
 	self
-		assertCollection: drTestsUI packagesList listItems
+		assertCollection: drTestsUI packagesList model shownItems
 		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
@@ -91,8 +87,8 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 	| currentPluginSelected randomPackage newPackagesSelected classesList packageSelected |
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
 	newPackagesSelected := OrderedCollection new.
-	packageSelected := drTestsUI packagesList listItems anyOne.
-	randomPackage := (drTestsUI packagesList listItems
+	packageSelected := drTestsUI packagesList model shownItems anyOne.
+	randomPackage := (drTestsUI packagesList model shownItems
 		\ {packageSelected}) anyOne.
 	newPackagesSelected add: packageSelected.
 	newPackagesSelected add: randomPackage.
@@ -100,16 +96,14 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 	classesList := currentPluginSelected new
 		itemsToBeAnalysedFor: newPackagesSelected.
 	self
-		assertCollection: drTestsUI itemsList listItems
+		assertCollection: drTestsUI itemsList model shownItems
 		hasSameElements: classesList flattened
-
-
 ]
 
 { #category : #tests }
 DrTestsUITest >> testNoPackageSelected [
 	self
-		assertCollection: drTestsUI itemsList listItems
+		assertCollection: drTestsUI itemsList model shownItems
 		hasSameElements: #()
 ]
 
@@ -139,35 +133,34 @@ DrTestsUITest >> testResultButtonLabelIsCurrentPluginResultButtonLabel [
 { #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	| newPackagesSelected |
-	newPackagesSelected := {drTestsUI packagesList listItems anyOne}.
+	newPackagesSelected := {drTestsUI packagesList model shownItems
+		anyOne}.
 	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
-	
 	self
-		assertCollection: drTestsUI itemsList listItems
+		assertCollection: drTestsUI itemsList model shownItems
 		hasSameElements: (drTestsUI currentPlugin itemsToBeAnalysedFor: newPackagesSelected)
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdateCurrentPluginInstanceVariable [
-	drTestsUI pluginsDropList setSelectedItem: plugin2.
-
+	drTestsUI pluginsDropList selectedItem: plugin2.
 	self assert: drTestsUI currentPlugin class equals: plugin2
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdatePackagesList [
-	drTestsUI pluginsDropList setSelectedItem: plugin2.
-
+	drTestsUI pluginsDropList selectedItem: plugin2.
 	self
-		assertCollection: drTestsUI packagesList listItems
+		assertCollection: drTestsUI packagesList model shownItems
 		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
 { #category : #tests }
 DrTestsUITest >> testSelectingPluginWillUpdateWindowTitle [
-	drTestsUI pluginsDropList setSelectedItem: plugin2.
-	
-	self assert: drTestsUI title equals: 'Dr Tests - ' , plugin2 pluginName.
+	drTestsUI pluginsDropList selectedItem: plugin2.
+	self
+		assert: drTestsUI title
+		equals: 'Dr Tests - ' , plugin2 pluginName
 ]
 
 { #category : #tests }

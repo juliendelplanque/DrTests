@@ -28,8 +28,8 @@ DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 				select: [ :c | 
 					c methods
 						anySatisfy: [ :m | 
-							((m methodClass commentsAt: m selector)
-								anySatisfy: [ :com | com includesSubstring: '>>>' ]) ] ] ]
+							(m methodClass compiledMethodAt: m selector) comments
+								anySatisfy: [ :com | com includesSubstring: '>>>' ] ] ] ]
 ]
 
 { #category : #api }
@@ -70,10 +70,12 @@ DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
 { #category : #api }
 DTCommentToTest >> runSuite: aTestSuite withResult: aResult [
 	aTestSuite
-		subscribe: TestAnnouncement
+		when: TestAnnouncement
 		do: [ :testAnnouncement | 
 			self announcer
-				announce: (DTStatusUpdate message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
+				announce:
+					(DTStatusUpdate
+						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]

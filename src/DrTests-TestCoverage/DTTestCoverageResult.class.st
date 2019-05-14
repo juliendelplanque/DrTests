@@ -18,7 +18,7 @@ Class {
 DTTestCoverageResult >> buildTreeForUI [
 	^ DTTreeNode new
 	subResults: { (DTTreeNode new
-				name: (percent asString ), '% Code Coverage';
+				name: (percent printShowingDecimalPlaces: 2) , ' % Code Coverage';
 				subResults: {};
 				yourself).(
 	DTTreeNode new
