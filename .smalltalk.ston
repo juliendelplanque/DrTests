@@ -1,4 +1,4 @@
-malltalkCISpec {
+SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'DrTests',
