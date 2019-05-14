@@ -156,7 +156,7 @@ DrTests >> initializeButtons [
 	browseButton := self newButton.
 	switchButton := self newButton.
 	switchButton
-		icon: (self iconNamed: #tools);
+		icon: (self iconNamed: #smallRemoteOpen);
 		label: 'switch';
 		disable.
 ]
