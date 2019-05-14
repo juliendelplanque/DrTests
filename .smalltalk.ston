@@ -1,0 +1,9 @@
+malltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'DrTests',
+      #directory : 'src',
+      #platforms : [ #pharo ]
+    }
+  ]
+}
