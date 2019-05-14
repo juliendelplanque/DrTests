@@ -379,7 +379,7 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 
 { #category : #api }
 DrTests >> title: aString [
-	super title: 'Dr Tests -' translated , aString.
+	super title: 'Dr Tests - ' translated , aString.
 
 ]
 
