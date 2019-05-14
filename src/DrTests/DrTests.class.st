@@ -185,7 +185,8 @@ DrTests >> initializeItemsListAndLabel [
 	itemsList
 		sortingBlock: [ :a :b | a name < b name ];
 		whenSelectionChangedDo: [self whenItemsSelectionChanged: self itemsSelected  ];
-		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
+		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 		beMultipleSelection.
 	packagesList
 		whenSelectionChangedDo: [ self whenPackagesSelectionChanged: self packagesSelected ]
@@ -202,7 +203,8 @@ DrTests >> initializePackagesListAndLabel [
 	packagesList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
-		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
+		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 		beMultipleSelection
 ]
 
