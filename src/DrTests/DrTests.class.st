@@ -36,6 +36,12 @@ Class {
 	#category : #DrTests
 }
 
+{ #category : #'tools registry' }
+DrTests class >> beDefaultTestRunner [
+	<script>
+	self registerToolsOn: Smalltalk tools
+]
+
 { #category : #specs }
 DrTests class >> defaultSpec [
 	^ SpecBoxLayout newVertical
@@ -98,6 +104,13 @@ DrTests class >> openWithExtent: extent [
 	window := toReturn openWithSpec.
 	window extent: extent.
 	^ toReturn
+]
+
+{ #category : #'tools registry' }
+DrTests class >> registerToolsOn: registry [
+
+	"Add DrTests to registry to replace the old test runner." 
+	registry register: self as: #testRunner
 ]
 
 { #category : #specs }
