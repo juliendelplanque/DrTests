@@ -36,6 +36,12 @@ Class {
 	#category : #DrTests
 }
 
+{ #category : #'tools registry' }
+DrTests class >> beDefaultTestRunner [
+	<script>
+	self registerToolsOn: Smalltalk tools
+]
+
 { #category : #specs }
 DrTests class >> defaultSpec [
 	^ SpecBoxLayout newVertical
@@ -98,6 +104,13 @@ DrTests class >> openWithExtent: extent [
 	window := toReturn openWithSpec.
 	window extent: extent.
 	^ toReturn
+]
+
+{ #category : #'tools registry' }
+DrTests class >> registerToolsOn: registry [
+
+	"Add DrTests to registry to replace the old test runner." 
+	registry register: self as: #testRunner
 ]
 
 { #category : #specs }
@@ -171,8 +184,10 @@ DrTests >> initializeItemsListAndLabel [
 	itemsList := self newList.
 	itemsList
 		sortingBlock: [ :a :b | a name < b name ];
+		displayBlock: [ :item | item name ];
 		whenSelectionChangedDo: [self whenItemsSelectionChanged: self itemsSelected  ];
-		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
+		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 		beMultipleSelection.
 	packagesList
 		whenSelectionChangedDo: [ self whenPackagesSelectionChanged: self packagesSelected ]
@@ -189,7 +204,8 @@ DrTests >> initializePackagesListAndLabel [
 	packagesList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
-		itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];
+		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
+		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 		beMultipleSelection
 ]
 
@@ -379,7 +395,7 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 
 { #category : #api }
 DrTests >> title: aString [
-	super title: 'Dr Tests -' translated , aString.
+	super title: 'Dr Tests - ' translated , aString.
 
 ]
 
