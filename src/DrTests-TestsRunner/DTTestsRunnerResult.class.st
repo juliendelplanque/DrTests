@@ -39,6 +39,13 @@ DTTestsRunnerResult >> buildTreeForUI [
 ]
 
 { #category : #accessing }
+DTTestsRunnerResult >> summarizeInfo [
+	"Text showed in miniDrTests with info of the result "
+
+	^ self testsResult asString
+]
+
+{ #category : #accessing }
 DTTestsRunnerResult >> testsResult [
 	^ testsResult
 ]

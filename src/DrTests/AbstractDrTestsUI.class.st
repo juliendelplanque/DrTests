@@ -46,10 +46,12 @@ AbstractDrTestsUI >> helpButton: anObject [
 
 { #category : #initialization }
 AbstractDrTestsUI >> initializeButtons [
-
 	startButton := self newButton.
 	switchButton := self newButton.
-	helpButton := self newButton.
+	switchButton
+		icon: (self iconNamed: #smallRemoteOpen);
+		label: 'switch'.
+	helpButton := self newButton
 ]
 
 { #category : #initialization }

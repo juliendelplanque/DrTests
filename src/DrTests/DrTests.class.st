@@ -167,11 +167,7 @@ DrTests >> initialize [
 DrTests >> initializeButtons [
 	super initializeButtons.
 	browseButton := self newButton.
-	switchButton := self newButton.
-	switchButton
-		icon: (self iconNamed: #smallRemoteOpen);
-		label: 'switch';
-		disable.
+	switchButton disable
 ]
 
 { #category : #initialization }

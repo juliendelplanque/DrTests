@@ -2,7 +2,8 @@ Class {
 	#name : #MiniDrTests,
 	#superclass : #AbstractDrTestsUI,
 	#instVars : [
-		'resultsList'
+		'resultsList',
+		'pluginResult'
 	],
 	#category : #DrTests
 }
@@ -29,25 +30,20 @@ currentPlugin := anObject
 
 { #category : #accessing }
 MiniDrTests >> evaluateColor [
-	resultsList testsResult errors isEmpty
+"	resultsList testsResult errors isEmpty
 		ifFalse: [ ^ Color named: 'red' ].
 	resultsList testsResult failures isEmpty
-		ifFalse: [ ^ Color named: 'yellow' ].
+		ifFalse: [ ^ Color named: 'yellow' ]."
 	^ Color named: 'green'
 ]
 
 { #category : #initialization }
 MiniDrTests >> initializeButtons [
-	startButton := self newButton.
+	super initializeButtons.
 	startButton
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-	switchButton := self newButton.
-	switchButton
-		icon: (self iconNamed: #tools);
-		label: 'configuration'.
-	helpButton := self newButton.
 	helpButton icon: (self iconNamed: #help)
 ]
 
@@ -60,6 +56,16 @@ MiniDrTests >> initializePresenter [
 { #category : #initialization }
 MiniDrTests >> initializeWidgets [
 	self initializeButtons
+]
+
+{ #category : #accessing }
+MiniDrTests >> pluginResult [
+	^ pluginResult
+]
+
+{ #category : #accessing }
+MiniDrTests >> pluginResult: anObject [
+	pluginResult := anObject
 ]
 
 { #category : #accessing }
@@ -79,7 +85,7 @@ MiniDrTests >> runPlugin [
 	self updateStatus: 'Tests started.'.
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self resultsList: results.
+	self pluginResult: results.
 	self updateStatus: 'Tests finished.'.
 	self updateUI ]
 		ensure: [ self unlock ]
@@ -104,5 +110,6 @@ MiniDrTests >> updateUI [
 	self title: self currentPlugin title.
 	"here change the color of startButton"
 	startButton color: self evaluateColor.
-	startButton label: resultsList testsResult asString
+	startButton label: pluginResult summarizeInfo .
+"	startButton label: resultsList testsResult asString"
 ]
