@@ -461,7 +461,6 @@ DrTests >> updateUI [
 
 { #category : #private }
 DrTests >> whenItemsSelectionChanged: itemsSelected [
-	"enable or disable  switchButton for minidrTests"
 
 	self updateItemsListLabel.
 	self updateSwitchButton: itemsSelected

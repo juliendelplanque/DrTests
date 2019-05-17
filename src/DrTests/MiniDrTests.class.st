@@ -30,11 +30,7 @@ currentPlugin := anObject
 
 { #category : #accessing }
 MiniDrTests >> evaluateColor [
-"	resultsList testsResult errors isEmpty
-		ifFalse: [ ^ Color named: 'red' ].
-	resultsList testsResult failures isEmpty
-		ifFalse: [ ^ Color named: 'yellow' ]."
-	^ Color named: 'green'
+	^ pluginResult color
 ]
 
 { #category : #initialization }
@@ -69,16 +65,6 @@ MiniDrTests >> pluginResult: anObject [
 ]
 
 { #category : #accessing }
-MiniDrTests >> resultsList [
-	^ resultsList ifNil: [ DTTreeNode empty] 
-]
-
-{ #category : #accessing }
-MiniDrTests >> resultsList: aResultGroup [
-	resultsList := aResultGroup
-]
-
-{ #category : #accessing }
 MiniDrTests >> runPlugin [
 	[ | results |
 	self lock.
@@ -96,7 +82,7 @@ MiniDrTests >> switchUI [
 	^ [ self application close.
 	DrTests
 		reloadConfiguration: testsConfiguration
-		withResults: resultsList
+		withResults: pluginResult 
 		andPlugin: currentPlugin ]
 ]
 

@@ -39,6 +39,15 @@ DTTestsRunnerResult >> buildTreeForUI [
 ]
 
 { #category : #accessing }
+DTTestsRunnerResult >> color [
+	testsResult errors isEmpty
+		ifFalse: [ ^ Color named: 'red' ].
+	testsResult failures isEmpty
+		ifFalse: [ ^ Color named: 'yellow' ].
+	^ Color named: 'green'
+]
+
+{ #category : #accessing }
 DTTestsRunnerResult >> summarizeInfo [
 	"Text showed in miniDrTests with info of the result "
 

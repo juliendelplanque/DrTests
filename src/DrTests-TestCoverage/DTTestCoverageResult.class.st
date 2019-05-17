@@ -48,3 +48,10 @@ DTTestCoverageResult >> percent [
 DTTestCoverageResult >> percent: anObject [
 	percent := anObject
 ]
+
+{ #category : #accessing }
+DTTestCoverageResult >> summarizeInfo [
+	"Text showed in miniDrTests with info of the result "
+
+	^ (percent printShowingDecimalPlaces: 2) , ' % Code Coverage'
+]

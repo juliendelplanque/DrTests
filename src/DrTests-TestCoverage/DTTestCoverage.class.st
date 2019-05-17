@@ -24,6 +24,11 @@ DTTestCoverage class >> weight [
 ]
 
 { #category : #api }
+DTTestCoverage >> allowMiniDrTests [
+	^ true
+]
+
+{ #category : #api }
 DTTestCoverage >> defineData: aDTpluginConfiguration [
 	methods := aDTpluginConfiguration items
 		flatCollect: [ :p | 
