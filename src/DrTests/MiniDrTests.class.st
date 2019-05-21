@@ -40,7 +40,7 @@ MiniDrTests >> initializeButtons [
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-	helpButton icon: (self iconNamed: #help)
+
 ]
 
 { #category : #accessing }

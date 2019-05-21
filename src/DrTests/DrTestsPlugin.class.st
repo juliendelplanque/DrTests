@@ -18,6 +18,13 @@ DrTestsPlugin class >> availablePlugins [
 			sort: [ :a :b | a weight < b weight ]
 ]
 
+{ #category : #'api - accessing' }
+DrTestsPlugin class >> firstListLabel [
+	"The name of the label in the first column"
+
+	^ 'Packages'
+]
+
 { #category : #testing }
 DrTestsPlugin class >> isAbstract [
 	"Should return true if the plugin is abstract and should not be instantiated."

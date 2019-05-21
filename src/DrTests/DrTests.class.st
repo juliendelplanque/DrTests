@@ -49,6 +49,9 @@ DrTests class >> defaultSpec [
 			(SpecBoxLayout newHorizontal
 					add: #pluginsDropList;
 					add: #switchButton;
+					add: #helpButton expand: false
+							fill: false
+							padding: 1;
 					yourself)
 			expand: false
 			fill: true
@@ -160,7 +163,7 @@ DrTests >> helpText [
 { #category : #initialization }
 DrTests >> initialize [
 	super initialize.
-	self pluginsDropList selectedIndex: 1
+		self pluginsDropList selectedIndex: 1.
 ]
 
 { #category : #initialization }
@@ -230,7 +233,6 @@ DrTests >> initializeResultsTreeAndLabel [
 	resultsList
 		addColumn:
 			(CompositeTableColumn new
-				"title: 'title of the table';"
 				addColumn:
 					(ImageTableColumn new
 						evaluated: [ :item | item drTestsName ];
@@ -239,18 +241,18 @@ DrTests >> initializeResultsTreeAndLabel [
 		roots: {Object};
 		children: [ :node | node subResults ];
 		beResizable
-
 ]
 
 { #category : #initialization }
 DrTests >> initializeWidgets [
+	statusLabel := self newLabel.
+
 	self initializeButtons.
 	self
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
 		initializeResultsTreeAndLabel.
-	statusLabel := self newLabel.
-	self initializePluginsDropList
+			self initializePluginsDropList.
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -416,11 +418,14 @@ DrTests >> updatePackagesList [
 { #category : #private }
 DrTests >> updatePackagesListLabel [
 	self packagesListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Packages (';
-				<< self packagesSelected size asString ;
-				<< ' selected):' ])
+		label:
+			(String
+				streamContents: [ :s | 
+					s
+						"<< self currentPlugin firstListLabel;"
+						<< ' (';
+						<< self packagesSelected size asString;
+						<< ' selected):' ])
 ]
 
 { #category : #private }
