@@ -255,6 +255,12 @@ DrTests >> initializeWidgets [
 			self initializePluginsDropList.
 ]
 
+{ #category : #initialization }
+DrTests >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
+	aWindowPresenter title: 'Dr Tests - ' translated, currentPlugin pluginName.
+]
+
 { #category : #'accessing - subwidgets' }
 DrTests >> itemsList [
 	^ itemsList
@@ -391,8 +397,8 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 
 { #category : #api }
 DrTests >> title: aString [
-	self window title: 'Dr Tests - ' translated , aString.
-
+	self window
+		ifNotNil: [ :w | w title: 'Dr Tests - ' translated , aString ]
 ]
 
 { #category : #private }

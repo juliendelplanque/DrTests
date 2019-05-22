@@ -13,7 +13,10 @@ MiniDrTests class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add:
 			(SpecBoxLayout newHorizontal
-					add: #helpButton;
+					add: #helpButton
+						expand: false
+						fill: false
+						padding: 1;
 					add: #switchButton;
 					yourself)
 			expand: false
@@ -52,6 +55,12 @@ MiniDrTests >> initializePresenter [
 { #category : #initialization }
 MiniDrTests >> initializeWidgets [
 	self initializeButtons
+]
+
+{ #category : #accessing }
+MiniDrTests >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
+	aWindowPresenter title: 'mini Dr Tests - ' translated, currentPlugin pluginName .
 ]
 
 { #category : #accessing }
