@@ -60,7 +60,9 @@ MiniDrTests >> initializeWidgets [
 { #category : #accessing }
 MiniDrTests >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter title: 'mini Dr Tests - ' translated, currentPlugin pluginName .
+	aWindowPresenter
+		title: 'miniDrTests-' translated , currentPlugin pluginName;
+		initialExtent: 300 @ 200
 ]
 
 { #category : #accessing }
