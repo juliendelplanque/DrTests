@@ -80,12 +80,7 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 
 { #category : #api }
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
-	| results covConf |
-	covConf := DTTestCoverageConfiguration
-		items: aDTpluginConfiguration items
-		packages: aDTpluginConfiguration packagesSelected.
-	results := self runCoverage: covConf.
-	^ results
+	^ self runCoverage: aDTpluginConfiguration
 ]
 
 { #category : #api }
