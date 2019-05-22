@@ -58,6 +58,19 @@ DrTestsPlugin >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
+{ #category : #'configuration building' }
+DrTestsPlugin >> buildConfigurationFrom: aDrTests [
+	"Builds a configuration from the plugin by reading the information held by the UI (aDrTests)."
+	^ DTPluginConfiguration
+		items: aDrTests itemsSelected
+		packages: aDrTests packagesSelected
+]
+
+{ #category : #accesing }
+DrTestsPlugin >> firstListLabel [
+	^ 'items'
+]
+
 { #category : #api }
 DrTestsPlugin >> itemsToBeAnalysedFor: packagesSelected [
 	"This method returns the items to be analysed by the plugin.
@@ -92,6 +105,11 @@ DrTestsPlugin >> resultButtonLabel [
 { #category : #api }
 DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 	self subclassResponsibility
+]
+
+{ #category : #accesing }
+DrTestsPlugin >> secondListLabel [
+	^ 'items'
 ]
 
 { #category : #api }

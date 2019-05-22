@@ -20,6 +20,11 @@ DTCommentToTest class >> weight [
 	^ 10
 ]
 
+{ #category : #'configuration building' }
+DTCommentToTest >> buildConfigurationFrom: aDrTests [
+	^ DTCommentTestConfiguration items: aDrTests itemsSelected packages: aDrTests packagesSelected 
+]
+
 { #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
@@ -58,13 +63,9 @@ DTCommentToTest >> resultButtonLabel [
 
 { #category : #api }
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
-	| results cmdConf |
-	cmdConf := DTCommentTestConfiguration
-		items: aDTpluginConfiguration items.	
-	results := DTCommentToTestResult new
-					testsResult: (self runTestSuites: {cmdConf asTestSuite});
-					yourself.
-	^ results
+	^ DTCommentToTestResult new
+			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});
+			yourself
 ]
 
 { #category : #api }

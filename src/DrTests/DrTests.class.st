@@ -176,7 +176,7 @@ DrTests >> initializeButtons [
 { #category : #initialization }
 DrTests >> initializeItemsListAndLabel [
 	itemsListLabel := self newLabel.
-	self updateItemsListLabel.
+	"self updateItemsListLabel."
 	itemsListLabel
 		help:
 			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
@@ -195,7 +195,7 @@ DrTests >> initializeItemsListAndLabel [
 { #category : #initialization }
 DrTests >> initializePackagesListAndLabel [
 	packagesListLabel := self newLabel.
-	self updatePackagesListLabel.
+	"self updatePackagesListLabel."
 	packagesListLabel
 		help:
 			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
@@ -375,9 +375,7 @@ DrTests >> switchUI [
 
 { #category : #accessing }
 DrTests >> testsConfiguration [
-	^ DTPluginConfiguration
-		items: self itemsSelected
-		packages: self packagesSelected
+	^ self currentPlugin buildConfigurationFrom: self
 ]
 
 { #category : #accessing }
@@ -400,11 +398,14 @@ DrTests >> title: aString [
 { #category : #private }
 DrTests >> updateItemsListLabel [
 	self itemsListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Items (';
-				<< (self itemsSelected size asString );
-				<< ' selected):' ])
+		label:
+			(String
+				streamContents: [ :s | 
+					s
+						<< self currentPlugin secondListLabel;
+						<< '(';
+						<< self itemsSelected size asString;
+						<< ' selected):' ])
 ]
 
 { #category : #private }
@@ -422,7 +423,7 @@ DrTests >> updatePackagesListLabel [
 			(String
 				streamContents: [ :s | 
 					s
-						"<< self currentPlugin firstListLabel;"
+						<< self currentPlugin firstListLabel;
 						<< ' (';
 						<< self packagesSelected size asString;
 						<< ' selected):' ])
