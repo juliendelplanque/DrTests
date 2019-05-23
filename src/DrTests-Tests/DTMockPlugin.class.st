@@ -27,6 +27,11 @@ DTMockPlugin class >> weight [
 ]
 
 { #category : #accessing }
+DTMockPlugin >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
 DTMockPlugin >> hasBeenRun [
 	^ hasBeenRun
 ]
