@@ -400,6 +400,12 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 	self itemsList changed: #listElementAt:
 ]
 
+{ #category : #initialization }
+DrTests >> title [
+	
+	^ 'Dr Tests - ' , currentPlugin pluginName
+]
+
 { #category : #api }
 DrTests >> title: aString [
 	self window
