@@ -392,7 +392,12 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 				anySatisfy: [ :p | p name = package name ])
 				ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
 	self packagesList changed: #listElementAt:.
-
+	itemsList unselectAll.
+	self itemsList model shownItems
+		withIndexDo: [ :item :i | 
+			(aDTTestsConfiguration items anySatisfy: [ :it | it = item ])
+				ifTrue: [ self itemsList setSelectionStateFor: i at: true ] ].
+	self itemsList changed: #listElementAt:
 ]
 
 { #category : #api }
