@@ -187,6 +187,7 @@ DrTests >> initializeItemsListAndLabel [
 		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self itemsSelected ];
 		disableFilter;
 		flag: #TODO;
+		"comment"
 		"Filtering is not working in actual Spec state, so we disable it."
 			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 			beMultipleSelection.
