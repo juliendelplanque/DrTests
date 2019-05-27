@@ -51,7 +51,20 @@ DTTestsRunnerResult >> color [
 DTTestsRunnerResult >> summarizeInfo [
 	"Text showed in miniDrTests with info of the result "
 
-	^ self testsResult asString
+	^ String
+		streamContents: [ :s | 
+			s
+				<< self testsResult passed size asString;
+				<< ' passed';
+				<< String cr;
+				<< self testsResult failures size asString;
+				<< ' failures';
+				<< String cr;
+				<< self testsResult errors size asString;
+				<< ' errors';
+				<< String cr;
+				<< self testsResult skipped size asString;
+				<< ' skipped' ]
 ]
 
 { #category : #accessing }

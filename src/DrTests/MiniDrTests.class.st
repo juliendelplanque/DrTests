@@ -17,7 +17,10 @@ MiniDrTests class >> defaultSpec [
 						expand: false
 						fill: false
 						padding: 1;
-					add: #switchButton;
+					add: #switchButton
+						expand: false
+						fill: true
+						padding: 1;
 					yourself)
 			expand: false
 			fill: true
@@ -62,7 +65,7 @@ MiniDrTests >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
 		title: 'miniDrTests-' translated , currentPlugin pluginName;
-		initialExtent: 300 @ 200
+		initialExtent: 200 @ 200
 ]
 
 { #category : #accessing }
