@@ -25,7 +25,9 @@ DTTestsRunnerResult >> buildTreeForUI [
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
-				subResults: (self testsResult failures collect: #asResultForDrTest);
+				subResults:
+					(self testsResult failures collect: #asResultForDrTest)
+						asOrderedCollection;
 				yourself).
 			(DTTreeNode new
 				name: 'Skipped tests';
@@ -55,13 +57,13 @@ DTTestsRunnerResult >> summarizeInfo [
 				print: self testsResult passed size;
 				<< ' passed';
 				cr;
-				print: self testsResult failures size asString;
+				print: self testsResult failures size;
 				<< ' failures';
 				cr;
-				print: self testsResult errors size asString;
+				print: self testsResult errors size;
 				<< ' errors';
 				cr;
-				print: self testsResult skipped size asString;
+				print: self testsResult skipped size;
 				<< ' skipped' ]
 ]
 

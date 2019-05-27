@@ -24,13 +24,15 @@ DTCommentToTestResult >> buildTreeForUI [
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
-				subResults: (self testsResult failures collect: #asResultForDrTest);
+				subResults:
+					(self testsResult failures collect: #asResultForDrTest)
+						asOrderedCollection;
 				yourself).
 			(DTTreeNode new
 				name: 'Passed tests';
 				subResults: (self testsResult passed collect: #asResultForDrTest);
 				yourself)};
-			yourself
+		yourself
 ]
 
 { #category : #accessing }
