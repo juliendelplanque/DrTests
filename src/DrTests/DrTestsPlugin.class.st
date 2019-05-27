@@ -53,6 +53,16 @@ DrTestsPlugin >> allowMiniDrTests [
 	^ false
 ]
 
+{ #category : #api }
+DrTestsPlugin >> allowMultipleSelectionInFirstList [
+	^ true
+]
+
+{ #category : #api }
+DrTestsPlugin >> allowMultipleSelectionInSecondList [
+	^ true
+]
+
 { #category : #accessing }
 DrTestsPlugin >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
