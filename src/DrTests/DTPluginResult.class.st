@@ -23,3 +23,8 @@ DTPluginResult >> summarizeInfo [
 
 	^ self asString
 ]
+
+{ #category : #accessing }
+DTPluginResult >> theme [
+	^ Smalltalk ui theme
+]

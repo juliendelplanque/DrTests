@@ -40,11 +40,9 @@ DTTestsRunnerResult >> buildTreeForUI [
 
 { #category : #accessing }
 DTTestsRunnerResult >> color [
-	testsResult errors isEmpty
-		ifFalse: [ ^ Color named: 'red' ].
-	testsResult failures isEmpty
-		ifFalse: [ ^ Color named: 'yellow' ].
-	^ Color named: 'green'
+	testsResult errors ifNotEmpty: [ ^ self theme dangerBackgroundColor ].
+	testsResult failures ifNotEmpty: [ ^ self theme warningBackgroundColor ].
+	^ self theme successBackgroundColor
 ]
 
 { #category : #accessing }
@@ -54,16 +52,16 @@ DTTestsRunnerResult >> summarizeInfo [
 	^ String
 		streamContents: [ :s | 
 			s
-				<< self testsResult passed size asString;
+				print: self testsResult passed size;
 				<< ' passed';
-				<< String cr;
-				<< self testsResult failures size asString;
+				cr;
+				print: self testsResult failures size asString;
 				<< ' failures';
-				<< String cr;
-				<< self testsResult errors size asString;
+				cr;
+				print: self testsResult errors size asString;
 				<< ' errors';
-				<< String cr;
-				<< self testsResult skipped size asString;
+				cr;
+				print: self testsResult skipped size asString;
 				<< ' skipped' ]
 ]
 

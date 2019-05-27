@@ -17,10 +17,7 @@ MiniDrTests class >> defaultSpec [
 						expand: false
 						fill: false
 						padding: 1;
-					add: #switchButton
-						expand: false
-						fill: true
-						padding: 1;
+					add: #switchButton;
 					yourself)
 			expand: false
 			fill: true
