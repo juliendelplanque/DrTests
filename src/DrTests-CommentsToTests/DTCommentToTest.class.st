@@ -26,6 +26,11 @@ DTCommentToTest >> buildConfigurationFrom: aDrTests [
 ]
 
 { #category : #api }
+DTCommentToTest >> firstListLabel [
+	^ 'Packages'
+]
+
+{ #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
 		flatCollect: [ :p | 
@@ -90,6 +95,11 @@ DTCommentToTest >> runTestSuites: testSuites [
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
 	^ result
+]
+
+{ #category : #api }
+DTCommentToTest >> secondListLabel [
+	^ 'Classes'
 ]
 
 { #category : #api }

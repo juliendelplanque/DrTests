@@ -15,6 +15,11 @@ DTRottenTestsPlugin class >> weight [
 ]
 
 { #category : #api }
+DTRottenTestsPlugin >> firstListLabel [
+	^ 'Test Packages'
+]
+
+{ #category : #api }
 DTRottenTestsPlugin >> resultButtonHelp [
 	^ 'Browse the rotten test selected in the results list.' translated
 ]
@@ -36,6 +41,11 @@ DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
 					(DTStatusUpdate
 						message: ('Announcement: {1}.' format: {resumableException messageText})).
 			resumableException resume ]
+]
+
+{ #category : #api }
+DTRottenTestsPlugin >> secondListLabel [
+	^ 'Tests Cases'
 ]
 
 { #category : #api }

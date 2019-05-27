@@ -21,7 +21,7 @@ DTTestsRunner >> allowMiniDrTests [
 
 { #category : #api }
 DTTestsRunner >> firstListLabel [
-^ 'Packages'
+	^ 'Packages'
 ]
 
 { #category : #api }
@@ -75,7 +75,7 @@ DTTestsRunner >> runTestSuites: testSuites [
 
 { #category : #api }
 DTTestsRunner >> secondListLabel [
-^ 'Tests Cases'
+	^ 'Tests Cases'
 ]
 
 { #category : #api }

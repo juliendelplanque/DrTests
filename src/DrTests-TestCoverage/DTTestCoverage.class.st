@@ -42,6 +42,11 @@ DTTestCoverage >> defineData: aDTpluginConfiguration [
 ]
 
 { #category : #api }
+DTTestCoverage >> firstListLabel [
+	^ 'Test Packages'
+]
+
+{ #category : #api }
 DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 	^ RPackage organizer packages
 		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
@@ -104,6 +109,11 @@ DTTestCoverage >> runTestSuites: testSuites [
 		runTestsBy: [ testSuites
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
+]
+
+{ #category : #api }
+DTTestCoverage >> secondListLabel [
+	^ 'Package under coverage'
 ]
 
 { #category : #api }
