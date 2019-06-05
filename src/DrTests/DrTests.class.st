@@ -163,7 +163,7 @@ DrTests >> helpText [
 { #category : #initialization }
 DrTests >> initialize [
 	super initialize.
-		self pluginsDropList selectedIndex: 1.
+	self pluginsDropList selectedIndex: 1
 ]
 
 { #category : #initialization }
@@ -176,7 +176,6 @@ DrTests >> initializeButtons [
 { #category : #initialization }
 DrTests >> initializeItemsListAndLabel [
 	itemsListLabel := self newLabel.
-	"self updateItemsListLabel."
 	itemsListLabel
 		help:
 			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
@@ -187,7 +186,6 @@ DrTests >> initializeItemsListAndLabel [
 		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self itemsSelected ];
 		disableFilter;
 		flag: #TODO;
-		"comment"
 		"Filtering is not working in actual Spec state, so we disable it."
 			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 			beMultipleSelection.
@@ -198,7 +196,6 @@ DrTests >> initializeItemsListAndLabel [
 { #category : #initialization }
 DrTests >> initializePackagesListAndLabel [
 	packagesListLabel := self newLabel.
-	"self updatePackagesListLabel."
 	packagesListLabel
 		help:
 			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
@@ -206,9 +203,11 @@ DrTests >> initializePackagesListAndLabel [
 	packagesList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
-		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
-		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-		beMultipleSelection
+		disableFilter;
+		flag: #TODO;
+		"Filtering is not working in actual Spec state, so we disable it."
+			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
+			beMultipleSelection
 ]
 
 { #category : #initialization }
@@ -249,19 +248,19 @@ DrTests >> initializeResultsTreeAndLabel [
 { #category : #initialization }
 DrTests >> initializeWidgets [
 	statusLabel := self newLabel.
-
-	self initializeButtons.
 	self
+		initializePluginsDropList;
+		initializeButtons;
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
-		initializeResultsTreeAndLabel.
-			self initializePluginsDropList.
+		initializeResultsTreeAndLabel
 ]
 
 { #category : #initialization }
 DrTests >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter title: 'Dr Tests - ' translated, currentPlugin pluginName.
+	aWindowPresenter
+		title: 'Dr Tests - ' translated , currentPlugin pluginName
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -405,7 +404,6 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 
 { #category : #initialization }
 DrTests >> title [
-	
 	^ 'Dr Tests - ' , currentPlugin pluginName
 ]
 
@@ -487,7 +485,6 @@ DrTests >> updateUI [
 
 { #category : #private }
 DrTests >> whenItemsSelectionChanged: itemsSelected [
-
 	self updateItemsListLabel.
 	self updateSwitchButton: itemsSelected
 ]

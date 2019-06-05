@@ -105,8 +105,6 @@ MiniDrTests >> title: aString [
 { #category : #accessing }
 MiniDrTests >> updateUI [
 	self title: self currentPlugin title.
-	"here change the color of startButton"
 	startButton color: self evaluateColor.
-	startButton label: pluginResult summarizeInfo .
-"	startButton label: resultsList testsResult asString"
+	startButton label: pluginResult summarizeInfo
 ]
