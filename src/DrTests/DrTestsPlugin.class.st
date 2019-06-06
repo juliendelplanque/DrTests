@@ -18,6 +18,13 @@ DrTestsPlugin class >> availablePlugins [
 			sort: [ :a :b | a weight < b weight ]
 ]
 
+{ #category : #'api - accessing' }
+DrTestsPlugin class >> firstListLabel [
+	"The name of the label in the first column"
+
+	^ 'Packages'
+]
+
 { #category : #testing }
 DrTestsPlugin class >> isAbstract [
 	"Should return true if the plugin is abstract and should not be instantiated."
@@ -46,9 +53,32 @@ DrTestsPlugin >> allowMiniDrTests [
 	^ false
 ]
 
+{ #category : #api }
+DrTestsPlugin >> allowMultipleSelectionInFirstList [
+	^ true
+]
+
+{ #category : #api }
+DrTestsPlugin >> allowMultipleSelectionInSecondList [
+	^ true
+]
+
 { #category : #accessing }
 DrTestsPlugin >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #'configuration building' }
+DrTestsPlugin >> buildConfigurationFrom: aDrTests [
+	"Builds a configuration from the plugin by reading the information held by the UI (aDrTests)."
+	^ DTPluginConfiguration
+		items: aDrTests itemsSelected
+		packages: aDrTests packagesSelected
+]
+
+{ #category : #accesing }
+DrTestsPlugin >> firstListLabel [
+	^ 'items'
 ]
 
 { #category : #api }
@@ -85,6 +115,11 @@ DrTestsPlugin >> resultButtonLabel [
 { #category : #api }
 DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 	self subclassResponsibility
+]
+
+{ #category : #accesing }
+DrTestsPlugin >> secondListLabel [
+	^ 'items'
 ]
 
 { #category : #api }

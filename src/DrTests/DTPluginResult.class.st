@@ -11,3 +11,20 @@ Class {
 DTPluginResult >> buildTreeForUI [
 	^ self subclassResponsibility
 ]
+
+{ #category : #accessing }
+DTPluginResult >> color [
+	^ Color named: 'gray'
+]
+
+{ #category : #accessing }
+DTPluginResult >> summarizeInfo [
+	"Text showed in miniDrTests with info of the result "
+
+	^ self asString
+]
+
+{ #category : #accessing }
+DTPluginResult >> theme [
+	^ Smalltalk ui theme
+]

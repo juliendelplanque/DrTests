@@ -30,8 +30,9 @@ DTPluginConfiguration class >> items: aCollectionOfClasses packages: aCollection
 DTPluginConfiguration >> asTestSuite [
 	| suite |
 	suite := TestSuite new.
-	self items reject: #isAbstract thenDo: [ :s |
-		suite addTest: s suite ].
+	self items
+		reject: #isAbstract
+		thenDo: [ :s | suite addTest: s suite ].
 	^ suite
 ]
 

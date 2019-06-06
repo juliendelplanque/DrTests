@@ -76,10 +76,10 @@ DrTestsUITest >> testInitialStatusIsInitialStatusPluginName [
 
 { #category : #tests }
 DrTestsUITest >> testInitialWindowTitleIsInitialPluginWindowTitle [
-	
+
 	self
 		assert: drTestsUI title
-		equals: 'Dr Tests - ' , drTestsUI currentPlugin pluginName.
+		equals: 'Dr Tests - ' , drTestsUI currentPlugin pluginName
 ]
 
 { #category : #tests }
@@ -160,7 +160,7 @@ DrTestsUITest >> testSelectingPluginWillUpdateWindowTitle [
 	drTestsUI pluginsDropList selectedItem: plugin2.
 	self
 		assert: drTestsUI title
-		equals: 'Dr Tests - ' , plugin2 pluginName
+		equals: 'Dr Tests - ' , drTestsUI currentPlugin pluginName
 ]
 
 { #category : #tests }

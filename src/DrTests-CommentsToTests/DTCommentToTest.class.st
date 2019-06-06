@@ -20,6 +20,16 @@ DTCommentToTest class >> weight [
 	^ 10
 ]
 
+{ #category : #'configuration building' }
+DTCommentToTest >> buildConfigurationFrom: aDrTests [
+	^ DTCommentTestConfiguration items: aDrTests itemsSelected packages: aDrTests packagesSelected 
+]
+
+{ #category : #api }
+DTCommentToTest >> firstListLabel [
+	^ 'Packages'
+]
+
 { #category : #api }
 DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 	^ packagesSelected
@@ -34,16 +44,8 @@ DTCommentToTest >> itemsToBeAnalysedFor: packagesSelected [
 
 { #category : #api }
 DTCommentToTest >> packagesAvailableForAnalysis [
-	self flag: #TODO. "We changed this method to make it faster but now it does not find examples in other comments than the first one."
 	^ RPackage organizer packages
-		select: [ :package | 
-			package definedClasses
-				anySatisfy: [ :class | 
-					class methods
-						anySatisfy: [ :method | 
-							method comment isNotNil and: [ method comment includesSubstring: '>>>' ]
-								"and: [ ((class commentsAt: method selector)
-										select: [ :com | com includesSubstring: '>>>' ]) isNotEmpty ]" ] ] ]
+		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
 { #category : #api }
@@ -58,13 +60,9 @@ DTCommentToTest >> resultButtonLabel [
 
 { #category : #api }
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
-	| results cmdConf |
-	cmdConf := DTCommentTestConfiguration
-		items: aDTpluginConfiguration items.	
-	results := DTCommentToTestResult new
-					testsResult: (self runTestSuites: {cmdConf asTestSuite});
-					yourself.
-	^ results
+	^ DTCommentToTestResult new
+			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});
+			yourself
 ]
 
 { #category : #api }
@@ -89,6 +87,11 @@ DTCommentToTest >> runTestSuites: testSuites [
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
 	^ result
+]
+
+{ #category : #api }
+DTCommentToTest >> secondListLabel [
+	^ 'Classes'
 ]
 
 { #category : #api }

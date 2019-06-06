@@ -22,6 +22,11 @@ DTTestsProfiling class >> weight [
 ]
 
 { #category : #api }
+DTTestsProfiling >> firstListLabel [
+	^ 'Packages'
+]
+
+{ #category : #api }
 DTTestsProfiling >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
@@ -41,6 +46,11 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 		testsResult: profilerVisitor profilingData;
 		yourself.
 	^ results
+]
+
+{ #category : #api }
+DTTestsProfiling >> secondListLabel [
+	^ 'Tests Cases'
 ]
 
 { #category : #api }

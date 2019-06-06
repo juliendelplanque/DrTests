@@ -25,7 +25,9 @@ DTTestsRunnerResult >> buildTreeForUI [
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
-				subResults: (self testsResult failures collect: #asResultForDrTest);
+				subResults:
+					(self testsResult failures collect: #asResultForDrTest)
+						asOrderedCollection;
 				yourself).
 			(DTTreeNode new
 				name: 'Skipped tests';
@@ -36,6 +38,33 @@ DTTestsRunnerResult >> buildTreeForUI [
 				subResults: (self testsResult passed collect: #asResultForDrTest);
 				yourself)};
 		yourself
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> color [
+	testsResult errors ifNotEmpty: [ ^ self theme dangerBackgroundColor ].
+	testsResult failures ifNotEmpty: [ ^ self theme warningBackgroundColor ].
+	^ self theme successBackgroundColor
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> summarizeInfo [
+	"Text showed in miniDrTests with info of the result "
+
+	^ String
+		streamContents: [ :s | 
+			s
+				print: self testsResult passed size;
+				<< ' passed';
+				cr;
+				print: self testsResult failures size;
+				<< ' failures';
+				cr;
+				print: self testsResult errors size;
+				<< ' errors';
+				cr;
+				print: self testsResult skipped size;
+				<< ' skipped' ]
 ]
 
 { #category : #accessing }

@@ -2,7 +2,8 @@ Class {
 	#name : #MiniDrTests,
 	#superclass : #AbstractDrTestsUI,
 	#instVars : [
-		'resultsList'
+		'resultsList',
+		'pluginResult'
 	],
 	#category : #DrTests
 }
@@ -12,7 +13,10 @@ MiniDrTests class >> defaultSpec [
 	^ SpecBoxLayout newVertical
 		add:
 			(SpecBoxLayout newHorizontal
-					add: #helpButton;
+					add: #helpButton
+						expand: false
+						fill: false
+						padding: 1;
 					add: #switchButton;
 					yourself)
 			expand: false
@@ -29,26 +33,17 @@ currentPlugin := anObject
 
 { #category : #accessing }
 MiniDrTests >> evaluateColor [
-	resultsList testsResult errors isEmpty
-		ifFalse: [ ^ Color named: 'red' ].
-	resultsList testsResult failures isEmpty
-		ifFalse: [ ^ Color named: 'yellow' ].
-	^ Color named: 'green'
+	^ pluginResult color
 ]
 
 { #category : #initialization }
 MiniDrTests >> initializeButtons [
-	startButton := self newButton.
+	super initializeButtons.
 	startButton
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-	switchButton := self newButton.
-	switchButton
-		icon: (self iconNamed: #tools);
-		label: 'configuration'.
-	helpButton := self newButton.
-	helpButton icon: (self iconNamed: #help)
+
 ]
 
 { #category : #accessing }
@@ -63,13 +58,21 @@ MiniDrTests >> initializeWidgets [
 ]
 
 { #category : #accessing }
-MiniDrTests >> resultsList [
-	^ resultsList ifNil: [ DTTreeNode empty] 
+MiniDrTests >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
+	aWindowPresenter
+		title: 'miniDrTests-' translated , currentPlugin pluginName;
+		initialExtent: 200 @ 200
 ]
 
 { #category : #accessing }
-MiniDrTests >> resultsList: aResultGroup [
-	resultsList := aResultGroup
+MiniDrTests >> pluginResult [
+	^ pluginResult
+]
+
+{ #category : #accessing }
+MiniDrTests >> pluginResult: anObject [
+	pluginResult := anObject
 ]
 
 { #category : #accessing }
@@ -79,7 +82,7 @@ MiniDrTests >> runPlugin [
 	self updateStatus: 'Tests started.'.
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self resultsList: results.
+	self pluginResult: results.
 	self updateStatus: 'Tests finished.'.
 	self updateUI ]
 		ensure: [ self unlock ]
@@ -90,7 +93,7 @@ MiniDrTests >> switchUI [
 	^ [ self application close.
 	DrTests
 		reloadConfiguration: testsConfiguration
-		withResults: resultsList
+		withResults: pluginResult 
 		andPlugin: currentPlugin ]
 ]
 
@@ -102,7 +105,6 @@ MiniDrTests >> title: aString [
 { #category : #accessing }
 MiniDrTests >> updateUI [
 	self title: self currentPlugin title.
-	"here change the color of startButton"
 	startButton color: self evaluateColor.
-	startButton label: resultsList testsResult asString
+	startButton label: pluginResult summarizeInfo
 ]

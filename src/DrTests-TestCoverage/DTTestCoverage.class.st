@@ -24,6 +24,11 @@ DTTestCoverage class >> weight [
 ]
 
 { #category : #api }
+DTTestCoverage >> allowMiniDrTests [
+	^ true
+]
+
+{ #category : #api }
 DTTestCoverage >> defineData: aDTpluginConfiguration [
 	methods := aDTpluginConfiguration items
 		flatCollect: [ :p | 
@@ -34,6 +39,11 @@ DTTestCoverage >> defineData: aDTpluginConfiguration [
 	link := MetaLink new
 		selector: #tagExecuted;
 		metaObject: #node
+]
+
+{ #category : #api }
+DTTestCoverage >> firstListLabel [
+	^ 'Test Packages'
 ]
 
 { #category : #api }
@@ -53,7 +63,7 @@ DTTestCoverage >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTTestCoverage >> runCoverage: aDTpluginConfiguration [
+DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
 	result := DTTestCoverageResult new.
 	self defineData: aDTpluginConfiguration.
@@ -66,21 +76,10 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 		ifTrue: [ result percent: 1s2 ]
 		ifFalse: [ result
 				percent: 1s2 - (notExecuted size / methods size asScaledDecimal: 2);
-				methodList: notExecuted ].
-	"cleanup the annotations"
+				methodList: notExecuted ].	"cleanup the annotations"
 	methods
 		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ].
 	^ result
-]
-
-{ #category : #api }
-DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
-	| results covConf |
-	covConf := DTTestCoverageConfiguration
-		items: aDTpluginConfiguration items
-		packages: aDTpluginConfiguration packagesSelected.
-	results := self runCoverage: covConf.
-	^ results
 ]
 
 { #category : #api }
@@ -104,6 +103,11 @@ DTTestCoverage >> runTestSuites: testSuites [
 		runTestsBy: [ testSuites
 				do: [ :testSuite | self runSuite: testSuite withResult: result ]
 				displayingProgress: 'Running Tests' ].
+]
+
+{ #category : #api }
+DTTestCoverage >> secondListLabel [
+	^ 'Package under coverage'
 ]
 
 { #category : #api }

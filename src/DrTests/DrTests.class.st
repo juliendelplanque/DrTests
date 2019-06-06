@@ -49,6 +49,9 @@ DrTests class >> defaultSpec [
 			(SpecBoxLayout newHorizontal
 					add: #pluginsDropList;
 					add: #switchButton;
+					add: #helpButton expand: false
+							fill: false
+							padding: 1;
 					yourself)
 			expand: false
 			fill: true
@@ -133,6 +136,17 @@ DrTests >> browseSelectedResult [
 		ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
+{ #category : #private }
+DrTests >> buildLabelString: nameOfItems numberOfItemsSelected: aInt [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< nameOfItems;
+				<< '(';
+				<< aInt asString;
+				<< ' selected):' ]
+]
+
 { #category : #'accessing - subwidgets' }
 DrTests >> classesListLabel [
 	^ classesListLabel
@@ -167,17 +181,12 @@ DrTests >> initialize [
 DrTests >> initializeButtons [
 	super initializeButtons.
 	browseButton := self newButton.
-	switchButton := self newButton.
-	switchButton
-		icon: (self iconNamed: #smallRemoteOpen);
-		label: 'switch';
-		disable.
+	switchButton disable
 ]
 
 { #category : #initialization }
 DrTests >> initializeItemsListAndLabel [
 	itemsListLabel := self newLabel.
-	self updateItemsListLabel.
 	itemsListLabel
 		help:
 			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
@@ -185,10 +194,12 @@ DrTests >> initializeItemsListAndLabel [
 	itemsList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :item | item name ];
-		whenSelectionChangedDo: [self whenItemsSelectionChanged: self itemsSelected  ];
-		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
-		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-		beMultipleSelection.
+		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self itemsSelected ];
+		disableFilter;
+		flag: #TODO;
+		"Filtering is not working in actual Spec state, so we disable it."
+			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
+			beMultipleSelection.
 	packagesList
 		whenSelectionChangedDo: [ self whenPackagesSelectionChanged: self packagesSelected ]
 ]
@@ -196,7 +207,6 @@ DrTests >> initializeItemsListAndLabel [
 { #category : #initialization }
 DrTests >> initializePackagesListAndLabel [
 	packagesListLabel := self newLabel.
-	self updatePackagesListLabel.
 	packagesListLabel
 		help:
 			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
@@ -204,9 +214,11 @@ DrTests >> initializePackagesListAndLabel [
 	packagesList
 		sortingBlock: [ :a :b | a name < b name ];
 		displayBlock: [ :package | package name ];
-		disableFilter; flag: #TODO; "Filtering is not working in actual Spec state, so we disable it."
-		"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-		beMultipleSelection
+		disableFilter;
+		flag: #TODO;
+		"Filtering is not working in actual Spec state, so we disable it."
+			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
+			beMultipleSelection
 ]
 
 { #category : #initialization }
@@ -234,7 +246,6 @@ DrTests >> initializeResultsTreeAndLabel [
 	resultsList
 		addColumn:
 			(CompositeTableColumn new
-				"title: 'title of the table';"
 				addColumn:
 					(ImageTableColumn new
 						evaluated: [ :item | item drTestsName ];
@@ -243,18 +254,24 @@ DrTests >> initializeResultsTreeAndLabel [
 		roots: {Object};
 		children: [ :node | node subResults ];
 		beResizable
-
 ]
 
 { #category : #initialization }
 DrTests >> initializeWidgets [
-	self initializeButtons.
+	statusLabel := self newLabel.
 	self
+		initializePluginsDropList;
+		initializeButtons;
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
-		initializeResultsTreeAndLabel.
-	statusLabel := self newLabel.
-	self initializePluginsDropList
+		initializeResultsTreeAndLabel
+]
+
+{ #category : #initialization }
+DrTests >> initializeWindow: aWindowPresenter [
+	super initializeWindow: aWindowPresenter.
+	aWindowPresenter
+		title: 'Dr Tests - ' translated , currentPlugin pluginName
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -377,9 +394,7 @@ DrTests >> switchUI [
 
 { #category : #accessing }
 DrTests >> testsConfiguration [
-	^ DTPluginConfiguration
-		items: self itemsSelected
-		packages: self packagesSelected
+	^ self currentPlugin buildConfigurationFrom: self
 ]
 
 { #category : #accessing }
@@ -387,26 +402,35 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 	self packagesList model shownItems
 		withIndexDo: [ :package :i | 
 			(aDTTestsConfiguration packagesSelected
-				anySatisfy: [ :p | p name = package name ])
+				anySatisfy: [ :p | p = package ])
 				ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
 	self packagesList changed: #listElementAt:.
+	itemsList unselectAll.
+	self itemsList model shownItems
+		withIndexDo: [ :item :i | 
+			(aDTTestsConfiguration items anySatisfy: [ :it | it = item ])
+				ifTrue: [ self itemsList setSelectionStateFor: i at: true ] ].
+	self itemsList changed: #listElementAt:
+]
 
+{ #category : #initialization }
+DrTests >> title [
+	^ 'Dr Tests - ' , currentPlugin pluginName
 ]
 
 { #category : #api }
 DrTests >> title: aString [
-	super title: 'Dr Tests - ' translated , aString.
-
+	self window
+		ifNotNil: [ :w | w title: 'Dr Tests - ' translated , aString ]
 ]
 
 { #category : #private }
 DrTests >> updateItemsListLabel [
 	self itemsListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Items (';
-				<< (self itemsSelected size asString );
-				<< ' selected):' ])
+		label:
+			(self
+				buildLabelString: self currentPlugin secondListLabel
+				numberOfItemsSelected: self itemsSelected size)
 ]
 
 { #category : #private }
@@ -420,11 +444,10 @@ DrTests >> updatePackagesList [
 { #category : #private }
 DrTests >> updatePackagesListLabel [
 	self packagesListLabel
-		label: (String streamContents: [ :s |
-			s
-				<< 'Packages (';
-				<< self packagesSelected size asString ;
-				<< ' selected):' ])
+		label:
+			(self
+				buildLabelString: self currentPlugin firstListLabel
+				numberOfItemsSelected: self packagesSelected size)
 ]
 
 { #category : #private }
@@ -465,8 +488,6 @@ DrTests >> updateUI [
 
 { #category : #private }
 DrTests >> whenItemsSelectionChanged: itemsSelected [
-	"enable or disable  switchButton for minidrTests"
-
 	self updateItemsListLabel.
 	self updateSwitchButton: itemsSelected
 ]

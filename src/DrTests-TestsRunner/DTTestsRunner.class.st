@@ -20,6 +20,11 @@ DTTestsRunner >> allowMiniDrTests [
 ]
 
 { #category : #api }
+DTTestsRunner >> firstListLabel [
+	^ 'Packages'
+]
+
+{ #category : #api }
 DTTestsRunner >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
@@ -66,6 +71,11 @@ DTTestsRunner >> runTestSuites: testSuites [
 			displayingProgress: 'Running Tests'
 	].
 	^ result
+]
+
+{ #category : #api }
+DTTestsRunner >> secondListLabel [
+	^ 'Tests Cases'
 ]
 
 { #category : #api }
