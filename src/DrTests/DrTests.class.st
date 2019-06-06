@@ -136,6 +136,17 @@ DrTests >> browseSelectedResult [
 		ifNotNil: [ :selected | selected content drTestsBrowse ]
 ]
 
+{ #category : #private }
+DrTests >> buildLabelString: nameOfItems numberOfItemsSelected: aInt [
+	^ String
+		streamContents: [ :s | 
+			s
+				<< nameOfItems;
+				<< '(';
+				<< aInt asString;
+				<< ' selected):' ]
+]
+
 { #category : #'accessing - subwidgets' }
 DrTests >> classesListLabel [
 	^ classesListLabel
@@ -417,13 +428,9 @@ DrTests >> title: aString [
 DrTests >> updateItemsListLabel [
 	self itemsListLabel
 		label:
-			(String
-				streamContents: [ :s | 
-					s
-						<< self currentPlugin secondListLabel;
-						<< '(';
-						<< self itemsSelected size asString;
-						<< ' selected):' ])
+			(self
+				buildLabelString: self currentPlugin secondListLabel
+				numberOfItemsSelected: self itemsSelected size)
 ]
 
 { #category : #private }
@@ -438,13 +445,9 @@ DrTests >> updatePackagesList [
 DrTests >> updatePackagesListLabel [
 	self packagesListLabel
 		label:
-			(String
-				streamContents: [ :s | 
-					s
-						<< self currentPlugin firstListLabel;
-						<< ' (';
-						<< self packagesSelected size asString;
-						<< ' selected):' ])
+			(self
+				buildLabelString: self currentPlugin firstListLabel
+				numberOfItemsSelected: self packagesSelected size)
 ]
 
 { #category : #private }

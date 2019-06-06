@@ -63,7 +63,7 @@ DTTestCoverage >> resultButtonLabel [
 ]
 
 { #category : #api }
-DTTestCoverage >> runCoverage: aDTpluginConfiguration [
+DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
 	result := DTTestCoverageResult new.
 	self defineData: aDTpluginConfiguration.
@@ -76,16 +76,10 @@ DTTestCoverage >> runCoverage: aDTpluginConfiguration [
 		ifTrue: [ result percent: 1s2 ]
 		ifFalse: [ result
 				percent: 1s2 - (notExecuted size / methods size asScaledDecimal: 2);
-				methodList: notExecuted ].
-	"cleanup the annotations"
+				methodList: notExecuted ].	"cleanup the annotations"
 	methods
 		do: [ :each | each ast removeProperty: #tagExecuted ifAbsent: [  ] ].
 	^ result
-]
-
-{ #category : #api }
-DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
-	^ self runCoverage: aDTpluginConfiguration
 ]
 
 { #category : #api }

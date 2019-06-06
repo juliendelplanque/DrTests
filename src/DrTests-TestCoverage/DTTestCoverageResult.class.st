@@ -56,7 +56,7 @@ DTTestCoverageResult >> summarizeInfo [
 	^ String
 		streamContents: [ :s | 
 			s
-				<< (percent printShowingDecimalPlaces: 2);
+				<< (percent*100 printShowingDecimalPlaces: 2);
 				<< ' % Code Coverage';
 				<< String cr;
 				<< 'Uncovered methods:';
