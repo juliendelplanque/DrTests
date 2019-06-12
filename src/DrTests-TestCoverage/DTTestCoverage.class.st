@@ -29,6 +29,11 @@ DTTestCoverage >> allowMiniDrTests [
 ]
 
 { #category : #api }
+DTTestCoverage >> allowMultipleSelectionInSecondList [
+	^ false
+]
+
+{ #category : #api }
 DTTestCoverage >> defineData: aDTpluginConfiguration [
 	methods := aDTpluginConfiguration items
 		flatCollect: [ :p | 

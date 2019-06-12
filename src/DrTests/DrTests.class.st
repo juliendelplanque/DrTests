@@ -438,7 +438,13 @@ DrTests >> updatePackagesList [
 	packagesList unselectAll.
 	itemsList unselectAll.
 	itemsList newEmptyModel.
-	packagesList items: currentPlugin packagesAvailableForAnalysis
+	packagesList items: currentPlugin packagesAvailableForAnalysis.
+	currentPlugin allowMultipleSelectionInFirstList
+		ifFalse: [ packagesList beSingleSelection ]
+		ifTrue: [ packagesList beMultipleSelection ].
+	currentPlugin allowMultipleSelectionInSecondList
+		ifFalse: [ itemsList beSingleSelection ]
+		ifTrue: [ itemsList beMultipleSelection ]
 ]
 
 { #category : #private }
