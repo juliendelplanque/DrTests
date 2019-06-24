@@ -39,6 +39,7 @@ DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := DTTestsRunnerResult new
 		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
 	^ results
 ]

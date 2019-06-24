@@ -4,6 +4,9 @@ I am the abstract superclass for all classes that are results of a plugin in DrT
 Class {
 	#name : #DTPluginResult,
 	#superclass : #Object,
+	#instVars : [
+		'testSuite'
+	],
 	#category : #DrTests
 }
 
@@ -22,6 +25,16 @@ DTPluginResult >> summarizeInfo [
 	"Text showed in miniDrTests with info of the result "
 
 	^ self asString
+]
+
+{ #category : #accessing }
+DTPluginResult >> testSuite [
+	^ testSuite
+]
+
+{ #category : #accessing }
+DTPluginResult >> testSuite: anObject [
+	testSuite := anObject
 ]
 
 { #category : #accessing }
