@@ -82,8 +82,8 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 
 	^ DTReRunConfiguration
 		result: aDrTests results
-		testSuite: aDrTests testsConfiguration
-		"add the selected items of result"
+		testSuite: aDrTests testsConfiguration testSuite
+		testToRun: aDrTests resultSelected
 ]
 
 { #category : #accesing }

@@ -25,11 +25,12 @@ DTTestsRunner >> firstListLabel [
 ]
 
 { #category : #api }
-DTTestsRunner >> reRunForConfiguration: aDTpluginConfiguration [
+DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
 	| results |
 	results := DTTestsRunnerResult new
-		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
-		testSuite: aDTpluginConfiguration testSuite;
+	"hacer la magia aqui"
+		testsResult: (self runTestSuites: aDTRerunConfiguration asTestSuite tests);
+		testSuite: aDTRerunConfiguration testSuite;
 		yourself.
 	^ results
 ]

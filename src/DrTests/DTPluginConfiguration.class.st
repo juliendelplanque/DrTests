@@ -47,12 +47,6 @@ DTPluginConfiguration >> items: anObject [
 ]
 
 { #category : #accessing }
-DTPluginConfiguration >> items: anObject packages: packages [
-	items := anObject.
-	packagesSelected := packages
-]
-
-{ #category : #accessing }
 DTPluginConfiguration >> packagesSelected [
 	^ packagesSelected
 ]

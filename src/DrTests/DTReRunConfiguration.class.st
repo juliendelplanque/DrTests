@@ -9,9 +9,30 @@ Class {
 }
 
 { #category : #'configuration building' }
-DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite [
+DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite testToRun: anotherTestSuite [
 	^ self new
-		result: aPluginResult;
+		pluginResult: aPluginResult;
 		testSuite: aTestSuite;
+		testToReRun: anotherTestSuite;
 		yourself.
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> pluginResult [
+	^ pluginResult
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> pluginResult: anObject [
+	pluginResult := anObject
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> testToReRun [
+	^ testToReRun
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> testToReRun: anObject [
+	testToReRun := anObject
 ]
