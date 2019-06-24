@@ -25,6 +25,16 @@ DTTestsRunner >> firstListLabel [
 ]
 
 { #category : #api }
+DTTestsRunner >> reRunForConfiguration: aDTpluginConfiguration [
+	| results |
+	results := DTTestsRunnerResult new
+		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+		testSuite: aDTpluginConfiguration testSuite;
+		yourself.
+	^ results
+]
+
+{ #category : #api }
 DTTestsRunner >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]

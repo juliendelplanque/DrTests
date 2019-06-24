@@ -76,6 +76,16 @@ DrTestsPlugin >> buildConfigurationFrom: aDrTests [
 		packages: aDrTests packagesSelected
 ]
 
+{ #category : #'configuration building' }
+DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
+	"Builds a configuration for the plugin by reading the information held by the UI (aDrTests) and the last value of results."
+
+	^ DTReRunConfiguration
+		result: aDrTests results
+		testSuite: aDrTests testsConfiguration
+		"add the selected items of result"
+]
+
 { #category : #accesing }
 DrTestsPlugin >> firstListLabel [
 	^ 'items'
@@ -100,6 +110,10 @@ DrTestsPlugin >> packagesAvailableForAnalysis [
 { #category : #api }
 DrTestsPlugin >> pluginName [
 	^ self class pluginName
+]
+
+{ #category : #api }
+DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 ]
 
 { #category : #api }

@@ -394,7 +394,8 @@ DrTests >> switchUI [
 
 { #category : #accessing }
 DrTests >> testsConfiguration [
-	^ self currentPlugin buildConfigurationFrom: self
+	testsConfiguration := self currentPlugin buildConfigurationFrom: self.
+	^ testsConfiguration
 ]
 
 { #category : #accessing }
