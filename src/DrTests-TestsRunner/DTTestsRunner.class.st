@@ -24,15 +24,46 @@ DTTestsRunner >> firstListLabel [
 	^ 'Packages'
 ]
 
+{ #category : #'as yet unclassified' }
+DTTestsRunner >> joinTestResult: aTestRunnerResult with: partialResult [
+	"TestRunnerResult testsResult = 4 {} passed
+partialResults = testResult = 4 {} "
+
+	"1. por cada item en partial eliminar su eq en original
+2. añadir los item en partial en el original
+3. decolver el original"
+
+	| originalResult |
+	originalResult := aTestRunnerResult testsResult.
+	partialResult passed
+		do: [ :newRes | 
+			originalResult
+				reject: [ :oldRes | 
+					newRes selector = oldRes selector ] ].
+	partialResult passed do: [ :each | originalResult addPass: each ].
+		partialResult errors
+		do: [ :newRes | 
+			originalResult
+				reject: [ :oldRes | 
+					newRes selector = oldRes selector ] ].
+	partialResult errors do: [ :each | originalResult addPass: each ].
+	
+	^ originalResult
+]
+
 { #category : #api }
 DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
-	| results |
-	results := DTTestsRunnerResult new
-	"hacer la magia aqui"
-		testsResult: (self runTestSuites: aDTRerunConfiguration asTestSuite tests);
-		testSuite: aDTRerunConfiguration testSuite;
-		yourself.
-	^ results
+	| result partialResult |
+	result := DTTestsRunnerResult new.
+	partialResult := self
+		runTestSuites: aDTRerunConfiguration testToReRun.
+	result
+		testsResult:
+			(self
+				joinTestResult: aDTRerunConfiguration pluginResult
+				with: partialResult);
+		testSuite: aDTRerunConfiguration testSuite.
+	^ result
 ]
 
 { #category : #api }
