@@ -37,13 +37,13 @@ partialResults = testResult = 4 {} "
 	originalResult := aTestRunnerResult testsResult.
 	partialResult passed
 		do: [ :newRes | 
-			originalResult
+			originalResult passed
 				reject: [ :oldRes | 
 					newRes selector = oldRes selector ] ].
 	partialResult passed do: [ :each | originalResult addPass: each ].
 		partialResult errors
 		do: [ :newRes | 
-			originalResult
+			originalResult errors
 				reject: [ :oldRes | 
 					newRes selector = oldRes selector ] ].
 	partialResult errors do: [ :each | originalResult addPass: each ].
@@ -55,8 +55,7 @@ partialResults = testResult = 4 {} "
 DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
 	| result partialResult |
 	result := DTTestsRunnerResult new.
-	partialResult := self
-		runTestSuites: aDTRerunConfiguration testToReRun.
+	partialResult := aDTRerunConfiguration testToReRun run.
 	result
 		testsResult:
 			(self

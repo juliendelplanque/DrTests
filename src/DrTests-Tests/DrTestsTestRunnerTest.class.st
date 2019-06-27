@@ -7,7 +7,9 @@ Class {
 	#instVars : [
 		'plugin',
 		'package',
-		'dTconf'
+		'dTconf',
+		'testToReRun',
+		'dTReRunconf'
 	],
 	#category : #'DrTests-Tests'
 }
@@ -17,12 +19,14 @@ DrTestsTestRunnerTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
+		testToReRun:=DrTestsTestRunnerTest selector:#testSuposseToFail.
 	dTconf := DTPluginConfiguration
 		items:
 			({package}
 				flatCollect:
 					[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ])
 		packages: {package}.
+		dTReRunconf := DTReRunConfiguration new.
 	plugin := DTTestsRunner new
 ]
 
@@ -32,6 +36,19 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 	| package |
 	package := plugin packagesAvailableForAnalysis anyOne.
 	self assert: ((plugin itemsToBeAnalysedFor: {package}) flattened allSatisfy: [ :each | each isTestCase ])
+]
+
+{ #category : #tests }
+DrTestsTestRunnerTest >> testReRunResultIsDTTestRunnerResult [
+	| pluginResult |
+	pluginResult := plugin runForConfiguration: dTconf.
+	dTReRunconf := DTReRunConfiguration
+		result: pluginResult
+		testSuite: dTconf testSuite
+		testToRun: testToReRun.
+	self
+		assert: (plugin reRunForConfiguration: dTReRunconf) class
+		equals: DTTestsRunnerResult
 ]
 
 { #category : #tests }
