@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'plugin',
 		'package',
-		'dTconf',
 		'testToReRun',
-		'dTReRunconf'
+		'conf',
+		'reRunconf'
 	],
 	#category : #'DrTests-Tests'
 }
@@ -19,14 +19,14 @@ DrTestsTestRunnerTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
-		testToReRun:=DrTestsTestRunnerTest selector:#testSuposseToFail.
-	dTconf := DTPluginConfiguration
+	testToReRun := DrTestsTestRunnerTest selector: #testSuposseToFail.
+	conf := DTPluginConfiguration
 		items:
 			({package}
 				flatCollect:
 					[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ])
 		packages: {package}.
-		dTReRunconf := DTReRunConfiguration new.
+	reRunconf := DTReRunConfiguration new.
 	plugin := DTTestsRunner new
 ]
 
@@ -41,27 +41,27 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 { #category : #tests }
 DrTestsTestRunnerTest >> testReRunResultIsDTTestRunnerResult [
 	| pluginResult |
-	pluginResult := plugin runForConfiguration: dTconf.
-	dTReRunconf := DTReRunConfiguration
+	pluginResult := plugin runForConfiguration: conf.
+	reRunconf := DTReRunConfiguration
 		result: pluginResult
-		testSuite: dTconf testSuite
+		testSuite: conf testSuite
 		testToRun: testToReRun.
 	self
-		assert: (plugin reRunForConfiguration: dTReRunconf) class
+		assert: (plugin reRunForConfiguration: reRunconf) class
 		equals: DTTestsRunnerResult
 ]
 
 { #category : #tests }
 DrTestsTestRunnerTest >> testRunResultBuildTreeForUI [
 	self
-		assert: (plugin runForConfiguration: dTconf) buildTreeForUI class
+		assert: (plugin runForConfiguration: conf) buildTreeForUI class
 		equals: DTTreeNode 
 ]
 
 { #category : #tests }
 DrTestsTestRunnerTest >> testRunResultIsDTTestRunnerResult [
 	self
-		assert: (plugin runForConfiguration: dTconf) class
+		assert: (plugin runForConfiguration: conf) class
 		equals: DTTestsRunnerResult 
 ]
 
@@ -76,5 +76,5 @@ DrTestsTestRunnerTest >> testSelectedPackagesContainTestCases [
 { #category : #tests }
 DrTestsTestRunnerTest >> testTestResultIsNotEmpty [
 	self
-		deny: (plugin runForConfiguration: dTconf) testsResult passed isEmpty
+		deny: (plugin runForConfiguration: conf) testsResult passed isEmpty
 ]

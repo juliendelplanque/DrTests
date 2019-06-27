@@ -54,15 +54,16 @@ partialResults = testResult = 4 {} "
 { #category : #api }
 DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
 	| result partialResult |
-	result := DTTestsRunnerResult new.
-	partialResult := aDTRerunConfiguration testToReRun run.
-	result
+	"result := DTTestsRunnerResult new.
+	partialResult := aDTRerunConfiguration testToReRun run."
+	partialResult := self runForConfiguration: aDTRerunConfiguration.
+	^ DTTestsRunnerResult new
 		testsResult:
 			(self
 				joinTestResult: aDTRerunConfiguration pluginResult
 				with: partialResult);
-		testSuite: aDTRerunConfiguration testSuite.
-	^ result
+		testSuite: aDTRerunConfiguration testSuite;
+		yourself
 ]
 
 { #category : #api }

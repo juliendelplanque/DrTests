@@ -17,6 +17,8 @@ Class {
 
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUI [
+	<resultTreeNamed: 'Grouped by type of result'>
+	self flag: #TODO. "The previous pragma does not work yet, this is just an illusration of what we want."
 	^ DTTreeNode new
 		subResults:
 			{(DTTreeNode new
