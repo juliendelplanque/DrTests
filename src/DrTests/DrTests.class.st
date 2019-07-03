@@ -31,7 +31,8 @@ Class {
 		'statusLabel',
 		'plugins',
 		'itemsList',
-		'itemsListLabel'
+		'itemsListLabel',
+		'resultViewsDropList'
 	],
 	#category : #DrTests
 }
@@ -71,9 +72,10 @@ DrTests class >> defaultSpec [
 			(SpBoxLayout newHorizontal
 					add: #pluginsDropList;
 					add: #switchButton;
-					add: #helpButton expand: false
-							fill: false
-							padding: 1;
+					add: #helpButton
+						expand: false
+						fill: false
+						padding: 1;
 					yourself)
 			expand: false
 			fill: true
@@ -97,6 +99,10 @@ DrTests class >> defaultSpec [
 						yourself);
 				add:
 					(SpBoxLayout newVertical
+						add: #resultViewsDropList
+							expand: false
+							fill: true
+							padding: 1;
 						add: #resultsListLabel
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
@@ -196,7 +202,8 @@ DrTests >> helpText [
 { #category : #initialization }
 DrTests >> initialize [
 	super initialize.
-	self pluginsDropList selectedIndex: 1
+	self pluginsDropList selectedIndex: 1.
+	self resultViewsDropList selectedIndex:1.
 ]
 
 { #category : #initialization }
@@ -261,6 +268,16 @@ DrTests >> initializePresenter [
 ]
 
 { #category : #initialization }
+DrTests >> initializeResultViewsDropList [
+	resultViewsDropList := self newDropList.
+	self resultViewsDropList
+		help: 'Select the different views for results';
+	"	items: collect the pragmas;"
+		displayBlock: [ ":pluginClass | pluginClass pluginName" ];
+		whenSelectedItemChangedDo: [ ":pluginClass | self currentPlugin: pluginClass new "]
+]
+
+{ #category : #initialization }
 DrTests >> initializeResultsTreeAndLabel [
 	resultsListLabel := self newLabel.
 	self updateResultsListLabel.
@@ -288,7 +305,8 @@ DrTests >> initializeWidgets [
 		initializeButtons;
 		initializePackagesListAndLabel;
 		initializeItemsListAndLabel;
-		initializeResultsTreeAndLabel
+		initializeResultsTreeAndLabel;
+		initializeResultViewsDropList
 ]
 
 { #category : #initialization }
@@ -369,6 +387,16 @@ DrTests >> resultSelected [
 	^ self resultsList selectedItem
 ]
 
+{ #category : #'accessing - subwidgets' }
+DrTests >> resultViewsDropList [
+	^ resultViewsDropList
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTests >> resultViewsDropList: anObject [
+	resultViewsDropList:= anObject 
+]
+
 { #category : #api }
 DrTests >> results: aResultGroup [
 aResultGroup ifNotNil: [  
@@ -393,6 +421,7 @@ DrTests >> runPlugin [
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
 	self results: results buildTreeForUI.
+	self updateResultViewsDropList: results pragmaKey.
 	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
 	self updateStatus: 'Tests finished.' ]
@@ -491,6 +520,18 @@ DrTests >> updatePackagesListLabel [
 			(self
 				buildLabelString: self currentPlugin firstListLabel
 				numberOfItemsSelected: self packagesSelected size)
+]
+
+{ #category : #initialization }
+DrTests >> updateResultViewsDropList: aPragmaKey [
+	| pragmas |
+	pragmas := (PragmaCollector
+		filter: [ :prg | prg keyword = aPragmaKey ]) reset .
+	self resultViewsDropList
+		help: 'Select the different views for results';
+		items: pragmas collected;
+		displayBlock: [ :prag | prag arguments ];
+		whenSelectedItemChangedDo: [  ]
 ]
 
 { #category : #private }

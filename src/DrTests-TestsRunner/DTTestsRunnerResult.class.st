@@ -17,8 +17,39 @@ Class {
 
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUI [
-	<resultTreeNamed: 'Grouped by type of result'>
-	self flag: #TODO. "The previous pragma does not work yet, this is just an illusration of what we want."
+	<dTTestRunnerResultTreeNamed: 'Grouped by type of result'>
+	^ DTTreeNode new
+		subResults:
+			{(DTTreeNode new
+				name: 'Errors';
+				subResults: (self testsResult errors collect: #asResultForDrTest);
+				yourself).
+			(DTTreeNode new
+				name: 'Failures';
+				subResults:
+					(self testsResult failures collect: #asResultForDrTest)
+						asOrderedCollection;
+				yourself).
+			(DTTreeNode new
+				name: 'Skipped tests';
+				subResults: (self testsResult skipped collect: #asResultForDrTest);
+				yourself).
+			(DTTreeNode new
+				name: 'Passed tests';
+				subResults: (self testsResult passed collect: #asResultForDrTest);
+				yourself)};
+		yourself
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> buildTreeForUIByClasses [
+	<dTTestRunnerResultTreeNamed: 'Grouped by classes and type of Result'>
+	| errors failures skipped passed |
+	errors := self testsResult errors collect: #asResultForDrTest.
+	failures := (self testsResult failures collect: #asResultForDrTest)
+		asOrderedCollection.
+	skipped := self testsResult skipped collect: #asResultForDrTest.
+	passed := self testsResult passed collect: #asResultForDrTest.
 	^ DTTreeNode new
 		subResults:
 			{(DTTreeNode new
@@ -47,6 +78,11 @@ DTTestsRunnerResult >> color [
 	testsResult errors ifNotEmpty: [ ^ self theme dangerBackgroundColor ].
 	testsResult failures ifNotEmpty: [ ^ self theme warningBackgroundColor ].
 	^ self theme successBackgroundColor
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> pragmaKey [
+	^ #'dTTestRunnerResultTreeNamed:'
 ]
 
 { #category : #accessing }
