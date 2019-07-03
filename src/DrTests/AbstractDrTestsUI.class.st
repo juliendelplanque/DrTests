@@ -1,6 +1,6 @@
 Class {
 	#name : #AbstractDrTestsUI,
-	#superclass : #ComposablePresenter,
+	#superclass : #SpPresenter,
 	#instVars : [
 		'testsConfiguration',
 		'startButton',

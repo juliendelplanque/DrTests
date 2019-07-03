@@ -10,9 +10,9 @@ Class {
 
 { #category : #specs }
 MiniDrTests class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 					add: #helpButton
 						expand: false
 						fill: false

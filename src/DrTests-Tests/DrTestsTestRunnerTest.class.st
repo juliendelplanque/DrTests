@@ -9,7 +9,8 @@ Class {
 		'package',
 		'testToReRun',
 		'conf',
-		'reRunconf'
+		'reRunconf',
+		'testCase'
 	],
 	#category : #'DrTests-Tests'
 }
@@ -19,7 +20,8 @@ DrTestsTestRunnerTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
-	testToReRun := DrTestsTestRunnerTest selector: #testSuposseToFail.
+	testToReRun := {DTTestCoverageTestForCoverage selector: #testSuposseToFail}.
+	testCase := DTTestCoverageTestForCoverage .
 	conf := DTPluginConfiguration
 		items:
 			({package}

@@ -43,10 +43,32 @@ DrTests class >> beDefaultTestRunner [
 ]
 
 { #category : #specs }
+DrTests class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
+	rootCommandGroup
+		register: (self buildContextualMenuGroupWith: presenterIntance)
+]
+
+{ #category : #specs }
+DrTests class >> buildContextualMenuGroupWith: presenterIntance [
+	^ (CmCommandGroup named: 'Context Menu') asSpecGroup
+		register: (self buildRerunGroupWith: presenterIntance);
+		yourself
+]
+
+{ #category : #specs }
+DrTests class >> buildRerunGroupWith: presenterIntance [
+	^ (CmCommandGroup named: 'Re-run tools') asSpecGroup
+		basicDescription: 'Commands related to re-run a result.';
+		register: (CmResultRerunCommand forSpec context: presenterIntance);
+		beDisplayedAsGroup;
+		yourself
+]
+
+{ #category : #specs }
 DrTests class >> defaultSpec [
-	^ SpecBoxLayout newVertical
+	^ SpBoxLayout newVertical
 		add:
-			(SpecBoxLayout newHorizontal
+			(SpBoxLayout newHorizontal
 					add: #pluginsDropList;
 					add: #switchButton;
 					add: #helpButton expand: false
@@ -57,24 +79,24 @@ DrTests class >> defaultSpec [
 			fill: true
 			padding: 1;
 		add:
-			(SpecPanedLayout newHorizontal
+			(SpPanedLayout newHorizontal
 				add:
-					(SpecPanedLayout newHorizontal
+					(SpPanedLayout newHorizontal
 						add:
-							(SpecBoxLayout newVertical
+							(SpBoxLayout newVertical
 								add: #packagesListLabel
 									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								add: #packagesList;
 								yourself);
 						add:
-							(SpecBoxLayout newVertical
+							(SpBoxLayout newVertical
 								add: #itemsListLabel
 									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								add: #itemsList;
 								yourself);
 						yourself);
 				add:
-					(SpecBoxLayout newVertical
+					(SpBoxLayout newVertical
 						add: #resultsListLabel
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
@@ -245,15 +267,17 @@ DrTests >> initializeResultsTreeAndLabel [
 	resultsList := self newTreeTable.
 	resultsList
 		addColumn:
-			(CompositeTableColumn new
+			(SpCompositeTableColumn new
 				addColumn:
-					(ImageTableColumn new
+					(SpImageTableColumn new
 						evaluated: [ :item | item drTestsName ];
 						yourself);
 				yourself);
 		roots: {Object};
 		children: [ :node | node subResults ];
-		beResizable
+		beResizable.
+	resultsList
+		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ]
 ]
 
 { #category : #initialization }
@@ -335,6 +359,11 @@ DrTests >> resultButtonLabel: aString [
 	self browseButton label: aString
 ]
 
+{ #category : #initialization }
+DrTests >> resultItemSelected [
+	^ self resultsList ifNil: [ #() ] ifNotNil: #selectedItem
+]
+
 { #category : #accessing }
 DrTests >> resultSelected [
 	^ self resultsList selectedItem
@@ -364,8 +393,15 @@ DrTests >> runPlugin [
 	results := self currentPlugin
 		runForConfiguration: self testsConfiguration.
 	self results: results buildTreeForUI.
+	resultsList
+		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
+]
+
+{ #category : #initialization }
+DrTests >> runResult [
+self flag:#TODO
 ]
 
 { #category : #initialization }

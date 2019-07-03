@@ -33,34 +33,30 @@ partialResults = testResult = 4 {} "
 2. añadir los item en partial en el original
 3. decolver el original"
 
-	| originalResult |
-	originalResult := aTestRunnerResult testsResult.
-	partialResult passed
-		do: [ :newRes | 
-			originalResult passed
-				reject: [ :oldRes | 
-					newRes selector = oldRes selector ] ].
-	partialResult passed do: [ :each | originalResult addPass: each ].
-		partialResult errors
-		do: [ :newRes | 
-			originalResult errors
-				reject: [ :oldRes | 
-					newRes selector = oldRes selector ] ].
-	partialResult errors do: [ :each | originalResult addPass: each ].
-	
-	^ originalResult
+	| newResult |
+	newResult := aTestRunnerResult .
+	partialResult testsResult passed
+		do: [ :each | newResult addPass: each ].
+	partialResult testsResult errors
+		do: [ :each | newResult addError: each ].
+	partialResult testsResult failures
+		do: [ :each | newResult addFailure: each ].
+	partialResult testsResult skipped
+		do: [ :each | newResult addSkip: each ].
+	^ newResult
 ]
 
 { #category : #api }
 DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
-	| result partialResult |
-	"result := DTTestsRunnerResult new.
-	partialResult := aDTRerunConfiguration testToReRun run."
+	| partialResult oldResult|
 	partialResult := self runForConfiguration: aDTRerunConfiguration.
+	oldResult:=aDTRerunConfiguration
+	"	removeTestsInTestResult: partialResult testsResult."
+		removeTestsInTestResult.
 	^ DTTestsRunnerResult new
 		testsResult:
 			(self
-				joinTestResult: aDTRerunConfiguration pluginResult
+				joinTestResult: oldResult 
 				with: partialResult);
 		testSuite: aDTRerunConfiguration testSuite;
 		yourself
