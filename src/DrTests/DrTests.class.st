@@ -32,7 +32,8 @@ Class {
 		'plugins',
 		'itemsList',
 		'itemsListLabel',
-		'resultViewsDropList'
+		'resultViewsDropList',
+		'pluginResult'
 	],
 	#category : #DrTests
 }
@@ -271,10 +272,8 @@ DrTests >> initializePresenter [
 DrTests >> initializeResultViewsDropList [
 	resultViewsDropList := self newDropList.
 	self resultViewsDropList
-		help: 'Select the different views for results';
-	"	items: collect the pragmas;"
-		displayBlock: [ ":pluginClass | pluginClass pluginName" ];
-		whenSelectedItemChangedDo: [ ":pluginClass | self currentPlugin: pluginClass new "]
+		help: 'Select the different views for results'
+
 ]
 
 { #category : #initialization }
@@ -352,6 +351,16 @@ DrTests >> packagesSelected [
 	^ self packagesList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
+{ #category : #'accessing - subwidgets' }
+DrTests >> pluginResult [
+	^ pluginResult
+]
+
+{ #category : #'api - subwidgets configuration' }
+DrTests >> pluginResult: anObject [
+	pluginResult := anObject
+]
+
 { #category : #initialization }
 DrTests >> plugins [
 	^ plugins ifNil: [ DrTestsPlugin availablePlugins ]
@@ -415,13 +424,13 @@ DrTests >> resultsListLabel [
 
 { #category : #initialization }
 DrTests >> runPlugin [
-	[ | results |
+	[ 
 	self lock.
 	self updateStatus: 'Tests started.'.
-	results := self currentPlugin
+	pluginResult := self currentPlugin
 		runForConfiguration: self testsConfiguration.
-	self results: results buildTreeForUI.
-	self updateResultViewsDropList: results pragmaKey.
+	self results: pluginResult buildTreeForUI.
+	self updateResultViewsDropList: pluginResult pragmaKey.
 	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
 	self updateStatus: 'Tests finished.' ]
@@ -526,12 +535,13 @@ DrTests >> updatePackagesListLabel [
 DrTests >> updateResultViewsDropList: aPragmaKey [
 	| pragmas |
 	pragmas := (PragmaCollector
-		filter: [ :prg | prg keyword = aPragmaKey ]) reset .
+		filter: [ :prg | prg keyword = aPragmaKey ]) reset.
 	self resultViewsDropList
 		help: 'Select the different views for results';
 		items: pragmas collected;
 		displayBlock: [ :prag | prag arguments ];
-		whenSelectedItemChangedDo: [  ]
+		whenSelectedItemChangedDo:
+				[ :pragma | self results: (pluginResult perform: pragma methodSelector) ]
 ]
 
 { #category : #private }

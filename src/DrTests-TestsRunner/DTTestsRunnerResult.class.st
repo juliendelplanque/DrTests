@@ -16,6 +16,19 @@ Class {
 }
 
 { #category : #accessing }
+DTTestsRunnerResult >> buildDictionaryWitClassAsKeys: anOrderedColletion [
+	| dictionary keys aux |
+	keys := Set new.
+	dictionary := Dictionary new.
+	keys := anOrderedColletion collect: [ :each | each class ].
+	keys
+		do: [ :k | 
+			aux := anOrderedColletion select: [ :t | t class = k ].
+			dictionary add: k -> aux ].
+	^ dictionary
+]
+
+{ #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUI [
 	<dTTestRunnerResultTreeNamed: 'Grouped by type of result'>
 	^ DTTreeNode new
@@ -44,31 +57,30 @@ DTTestsRunnerResult >> buildTreeForUI [
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUIByClasses [
 	<dTTestRunnerResultTreeNamed: 'Grouped by classes and type of Result'>
+
 	| errors failures skipped passed |
-	errors := self testsResult errors collect: #asResultForDrTest.
-	failures := (self testsResult failures collect: #asResultForDrTest)
-		asOrderedCollection.
-	skipped := self testsResult skipped collect: #asResultForDrTest.
-	passed := self testsResult passed collect: #asResultForDrTest.
+	errors := self buildDictionaryWitClassAsKeys: self testsResult errors.
+	failures := self
+		buildDictionaryWitClassAsKeys: self testsResult failures asOrderedCollection.
+	skipped := self buildDictionaryWitClassAsKeys: self testsResult skipped.
+	passed := self buildDictionaryWitClassAsKeys: self testsResult passed.
 	^ DTTreeNode new
 		subResults:
 			{(DTTreeNode new
 				name: 'Errors';
-				subResults: (self testsResult errors collect: #asResultForDrTest);
+				subResults: (self createLeafs: errors);
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
-				subResults:
-					(self testsResult failures collect: #asResultForDrTest)
-						asOrderedCollection;
+				subResults: (self createLeafs: failures);
 				yourself).
 			(DTTreeNode new
 				name: 'Skipped tests';
-				subResults: (self testsResult skipped collect: #asResultForDrTest);
+				subResults: (self createLeafs: skipped);
 				yourself).
 			(DTTreeNode new
 				name: 'Passed tests';
-				subResults: (self testsResult passed collect: #asResultForDrTest);
+				subResults: (self createLeafs: passed);
 				yourself)};
 		yourself
 ]
@@ -78,6 +90,26 @@ DTTestsRunnerResult >> color [
 	testsResult errors ifNotEmpty: [ ^ self theme dangerBackgroundColor ].
 	testsResult failures ifNotEmpty: [ ^ self theme warningBackgroundColor ].
 	^ self theme successBackgroundColor
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> createLeafs: aDictionary [
+	"receive a dictionary and creates a Node with the name of the class and leafs with the selectors "
+	| tree |
+	tree := OrderedCollection new.
+	aDictionary
+		keysDo: [ :c | 
+			tree
+				add:
+					(DTTreeNode new
+						name: c asString;
+						subResults:
+							((aDictionary at: c)
+								collect: [ :e | 
+									DTTreeLeaf new
+										content: e;
+										yourself ])) ].
+	^ tree
 ]
 
 { #category : #accessing }
