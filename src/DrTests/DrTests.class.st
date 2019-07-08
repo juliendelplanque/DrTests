@@ -25,7 +25,6 @@ Class {
 		'packagesListLabel',
 		'classesListLabel',
 		'resultsList',
-		'resultsListLabel',
 		'browseButton',
 		'toolbar',
 		'statusLabel',
@@ -101,7 +100,7 @@ DrTests class >> defaultSpec [
 					(SpBoxLayout newVertical
 						add: #resultViewsDropList
 							withConstraints: [ :constraints | constraints expand: false ];
-						add: #resultsListLabel
+						add: 'Results:'
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
 						add: #browseButton
@@ -190,7 +189,9 @@ DrTests >> helpText [
 DrTests >> initializeButtons [
 	super initializeButtons.
 	browseButton := self newButton.
-	switchButton disable
+
+	switchButton disable.
+	browseButton action: [ self browseSelectedResult ]
 ]
 
 { #category : #initialization }
@@ -243,11 +244,13 @@ DrTests >> initializePluginsDropList [
 
 { #category : #initialization }
 DrTests >> initializePresenter [
-	self startButton action: [ self runPlugin ].
-	self switchButton action: self switchUI.
+	super initializePresenter.
+	
 	self resultViewsDropList
-		whenSelectedItemChangedDo:
-			[ :pragma | self results: (pluginResult perform: pragma methodSelector) ].
+		transmitTo: resultsList
+		transform:
+			[ :pragma | (pluginResult perform: pragma methodSelector) subResults ].
+		
 	self pluginsDropList selectedIndex: 1
 ]
 
@@ -261,21 +264,11 @@ DrTests >> initializeResultViewsDropList [
 
 { #category : #initialization }
 DrTests >> initializeResultsTreeAndLabel [
-	resultsListLabel := self newLabel.
-	self updateResultsListLabel.
 	resultsList := self newTreeTable.
+	
 	resultsList
-		addColumn:
-			(SpCompositeTableColumn new
-				addColumn:
-					(SpImageTableColumn new
-						evaluated: [ :item | item drTestsName ];
-						yourself);
-				yourself);
-		roots: {Object};
+		addColumn: (SpStringTableColumn evaluated: #drTestsName);
 		children: [ :node | node subResults ];
-		beResizable.
-	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ]
 ]
 
@@ -294,7 +287,7 @@ DrTests >> initializeWidgets [
 { #category : #initialization }
 DrTests >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
-		title: 'Dr Tests - ' translated , currentPlugin pluginName;
+		title:  self title;
 		initialExtent: 700 @ 500;
 		statusBar: statusLabel
 ]
@@ -351,11 +344,6 @@ DrTests >> pluginsDropList [
 ]
 
 { #category : #'api - subwidgets configuration' }
-DrTests >> resultButtonAction: aBlock [
-	self browseButton action: aBlock
-]
-
-{ #category : #'api - subwidgets configuration' }
 DrTests >> resultButtonHelp: aString [
 	self browseButton help: aString
 ]
@@ -387,33 +375,13 @@ DrTests >> resultViewsDropList: anObject [
 
 { #category : #api }
 DrTests >> results: aResultGroup [
-aResultGroup ifNotNil: [  
-	self resultsList roots: aResultGroup subResults]
+	aResultGroup
+		ifNotNil: [ self resultsList roots: aResultGroup subResults ]
 ]
 
 { #category : #'accessing - subwidgets' }
 DrTests >> resultsList [
 	^ resultsList
-]
-
-{ #category : #'accessing - subwidgets' }
-DrTests >> resultsListLabel [
-	^ resultsListLabel
-]
-
-{ #category : #initialization }
-DrTests >> runPlugin [
-	[ 
-	self lock.
-	self updateStatus: 'Tests started.'.
-	pluginResult := self currentPlugin
-		runForConfiguration: self testsConfiguration.
-	self results: pluginResult buildTreeForUI.
-	self updateResultViewsDropList: pluginResult pragmaKey.
-	resultsList
-		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
-	self updateStatus: 'Tests finished.' ]
-		ensure: [ self unlock ]
 ]
 
 { #category : #initialization }
@@ -458,11 +426,11 @@ DrTests >> subwidgetsToLock [
 
 { #category : #'accessing - subwidgets' }
 DrTests >> switchUI [
-	^ [ self application close.
+	super switchUI.
 	(MiniDrTests new
 		testsConfiguration: self testsConfiguration;
 		currentPlugin: self currentPlugin;
-		yourself) openWithSpec ]
+		yourself) openWithSpec
 ]
 
 { #category : #accessing }
@@ -482,12 +450,6 @@ DrTests >> title [
 	^ 'Dr Tests - ' , currentPlugin pluginName
 ]
 
-{ #category : #api }
-DrTests >> title: aString [
-	self window
-		ifNotNil: [ :w | w title: 'Dr Tests - ' translated , aString ]
-]
-
 { #category : #private }
 DrTests >> updateItemsListLabel [
 	self itemsListLabel
@@ -500,7 +462,6 @@ DrTests >> updateItemsListLabel [
 { #category : #private }
 DrTests >> updatePackagesList [
 	packagesList unselectAll.
-	itemsList unselectAll.
 	itemsList newEmptyModel.
 	packagesList items: currentPlugin packagesAvailableForAnalysis.
 	currentPlugin setSelectionModeOfPackageList: packagesList.
@@ -518,16 +479,10 @@ DrTests >> updatePackagesListLabel [
 
 { #category : #initialization }
 DrTests >> updateResultViewsDropList: aPragmaKey [
-	| pragmas |
-	pragmas := (PragmaCollector
-		filter: [ :prg | prg keyword = aPragmaKey ]) reset.
-	self resultViewsDropList items: pragmas collected
-]
-
-{ #category : #private }
-DrTests >> updateResultsListLabel [
-	self resultsListLabel
-		label: 'Results:'
+	self resultViewsDropList
+		items:
+			(PragmaCollector filter: [ :prg | prg keyword = aPragmaKey ]) reset
+				collected
 ]
 
 { #category : #api }
@@ -540,9 +495,7 @@ DrTests >> updateStatus: aString [
 { #category : #private }
 DrTests >> updateSwitchButton: itemsSelected [
 	currentPlugin allowMiniDrTests
-		ifTrue: [ itemsSelected isEmpty
-				ifFalse: [ switchButton enable ]
-				ifTrue: [ switchButton disable ] ]
+		ifTrue: [ switchButton enabled: itemsSelected isNotEmpty ]
 		ifFalse: switchButton disable
 ]
 
@@ -553,11 +506,21 @@ DrTests >> updateUI [
 		startButtonHelp: self currentPlugin startButtonHelp;
 		resultButtonLabel: self currentPlugin resultButtonLabel;
 		resultButtonHelp: self currentPlugin resultButtonHelp;
-		title: self currentPlugin title;
 		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
-	self resultButtonAction: [ self browseSelectedResult ].
+	
+	self withWindowDo: [ :window | window title: self title ].
+	
 	self updatePackagesList.
 	self results: DTTreeNode empty
+]
+
+{ #category : #initialization }
+DrTests >> updateWithResults: results [
+	pluginResult := results.
+	self results: pluginResult buildTreeForUI.
+	self updateResultViewsDropList: pluginResult pragmaKey.
+	resultsList
+		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ]
 ]
 
 { #category : #private }

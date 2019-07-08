@@ -13,6 +13,6 @@ self context runResult
 CmResultRerunCommand >> initialize [
 	super initialize.
 	self
-		basicName: 'Re-run'; 
+		basicName: 'Re-run2'; 
 		basicDescription: 'run this test again.' 
 ]

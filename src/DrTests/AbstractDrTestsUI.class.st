@@ -11,6 +11,11 @@ Class {
 	#category : #DrTests
 }
 
+{ #category : #testing }
+AbstractDrTestsUI class >> isAbstract [
+	^ AbstractDrTestsUI = self
+]
+
 { #category : #accessing }
 AbstractDrTestsUI >> currentPlugin [
 	^ currentPlugin
@@ -55,9 +60,10 @@ AbstractDrTestsUI >> initializeButtons [
 	helpButton icon: (self iconNamed: #help)
 ]
 
-{ #category : #initialization }
-AbstractDrTestsUI >> initializeWidgets [
-	^ self subclassResponsibility
+{ #category : #accessing }
+AbstractDrTestsUI >> initializePresenter [
+	self startButton action: [ self runPlugin ].
+	self switchButton action: [ self switchUI ]
 ]
 
 { #category : #'api - locking' }
@@ -71,6 +77,18 @@ AbstractDrTestsUI >> locked: aBoolean [
 	"Lock or unlock widgets returned by #subwidgetsToLock depending on aBoolean."
 	self subwidgetsToLock
 		do: [ :subwidget | subwidget enabled: aBoolean ]
+]
+
+{ #category : #initialization }
+AbstractDrTestsUI >> runPlugin [
+	[ | results |
+	self lock.
+	self updateStatus: 'Tests started.'.
+	results := self currentPlugin
+		runForConfiguration: self testsConfiguration.
+	self updateWithResults: results.
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -113,6 +131,11 @@ AbstractDrTestsUI >> switchButtonAction: aBlock [
 	self switchButton action: aBlock
 ]
 
+{ #category : #'accessing - subwidgets' }
+AbstractDrTestsUI >> switchUI [
+	self withWindowDo: [ :window | window close ]
+]
+
 { #category : #accessing }
 AbstractDrTestsUI >> testsConfiguration [
 	^ testsConfiguration
@@ -138,4 +161,9 @@ AbstractDrTestsUI >> updateStatus: aString [
 AbstractDrTestsUI >> updateUI [
 	^ self subclassResponsibility
 
+]
+
+{ #category : #initialization }
+AbstractDrTestsUI >> updateWithResults: results [
+	self subclassResponsibility
 ]

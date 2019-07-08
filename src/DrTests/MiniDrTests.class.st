@@ -46,12 +46,6 @@ MiniDrTests >> initializeButtons [
 
 ]
 
-{ #category : #accessing }
-MiniDrTests >> initializePresenter [
-	self startButton action: [ self runPlugin ].
-	self switchButton action: self switchUI
-]
-
 { #category : #initialization }
 MiniDrTests >> initializeWidgets [
 	self initializeButtons
@@ -76,25 +70,12 @@ MiniDrTests >> pluginResult: anObject [
 ]
 
 { #category : #accessing }
-MiniDrTests >> runPlugin [
-	[ | results |
-	self lock.
-	self updateStatus: 'Tests started.'.
-	results := self currentPlugin
-		runForConfiguration: self testsConfiguration.
-	self pluginResult: results.
-	self updateStatus: 'Tests finished.'.
-	self updateUI ]
-		ensure: [ self unlock ]
-]
-
-{ #category : #accessing }
 MiniDrTests >> switchUI [
-	^ [ self withWindowDo: [ :window | window close ].
+	super switchUI.
 	DrTests
 		reloadConfiguration: testsConfiguration
 		withResults: pluginResult
-		andPlugin: currentPlugin ]
+		andPlugin: currentPlugin
 ]
 
 { #category : #accessing }
@@ -107,4 +88,10 @@ MiniDrTests >> updateUI [
 	self withWindowDo: [ :window | window title: self title ].
 	startButton color: self evaluateColor.
 	startButton label: pluginResult summarizeInfo
+]
+
+{ #category : #initialization }
+MiniDrTests >> updateWithResults: results [
+	self pluginResult: results.
+	self updateUI
 ]
