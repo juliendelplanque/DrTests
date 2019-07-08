@@ -53,16 +53,6 @@ DrTestsPlugin >> allowMiniDrTests [
 	^ false
 ]
 
-{ #category : #api }
-DrTestsPlugin >> allowMultipleSelectionInFirstList [
-	^ true
-]
-
-{ #category : #api }
-DrTestsPlugin >> allowMultipleSelectionInSecondList [
-	^ true
-]
-
 { #category : #accessing }
 DrTestsPlugin >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
@@ -72,7 +62,7 @@ DrTestsPlugin >> announcer [
 DrTestsPlugin >> buildConfigurationFrom: aDrTests [
 	"Builds a configuration from the plugin by reading the information held by the UI (aDrTests)."
 	^ DTPluginConfiguration
-		items: aDrTests itemsSelected
+		items: aDrTests selectedItems
 		packages: aDrTests packagesSelected
 ]
 
@@ -134,6 +124,16 @@ DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 { #category : #accesing }
 DrTestsPlugin >> secondListLabel [
 	^ 'items'
+]
+
+{ #category : #api }
+DrTestsPlugin >> setSelectionModeOfItemsList: aListPresenter [
+	aListPresenter beMultipleSelection
+]
+
+{ #category : #api }
+DrTestsPlugin >> setSelectionModeOfPackageList: aListPresenter [
+	aListPresenter beMultipleSelection
 ]
 
 { #category : #api }

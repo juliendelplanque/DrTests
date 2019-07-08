@@ -29,11 +29,6 @@ DTTestCoverage >> allowMiniDrTests [
 ]
 
 { #category : #api }
-DTTestCoverage >> allowMultipleSelectionInSecondList [
-	^ false
-]
-
-{ #category : #api }
 DTTestCoverage >> defineData: aDTpluginConfiguration [
 	methods := aDTpluginConfiguration items
 		flatCollect: [ :p | 
@@ -114,6 +109,11 @@ DTTestCoverage >> runTestSuites: testSuites [
 { #category : #api }
 DTTestCoverage >> secondListLabel [
 	^ 'Package under coverage'
+]
+
+{ #category : #api }
+DTTestCoverage >> setSelectionModeOfItemsList: aListPresenter [
+	aListPresenter beSingleSelection
 ]
 
 { #category : #api }

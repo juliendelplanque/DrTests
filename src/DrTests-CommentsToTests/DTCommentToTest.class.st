@@ -22,7 +22,7 @@ DTCommentToTest class >> weight [
 
 { #category : #'configuration building' }
 DTCommentToTest >> buildConfigurationFrom: aDrTests [
-	^ DTCommentTestConfiguration items: aDrTests itemsSelected packages: aDrTests packagesSelected 
+	^ DTCommentTestConfiguration items: aDrTests selectedItems packages: aDrTests packagesSelected 
 ]
 
 { #category : #api }

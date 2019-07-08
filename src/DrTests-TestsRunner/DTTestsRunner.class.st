@@ -82,7 +82,7 @@ DTTestsRunner >> runErrors: aDTTestsRunnerResult [
 	failuresResult := self
 		runTestSuites:
 			(self testSuiteOf: oldResult testsResult errors withName: 'errors').
-	oldResult testsResult instVarNamed: 'errors' put: Set new.
+	oldResult testsResult instVarNamed: 'errors' put: OrderedCollection new.
 	oldResult
 		testsResult: (self joinTestResult: oldResult testsResult with: failuresResult).
 	^ oldResult

@@ -71,16 +71,15 @@ DrTests class >> defaultSpec [
 	^ SpBoxLayout newVertical
 		add:
 			(SpBoxLayout newHorizontal
-					add: #pluginsDropList;
-					add: #switchButton;
-					add: #helpButton
-						expand: false
-						fill: false
-						padding: 1;
-					yourself)
-			expand: false
-			fill: true
-			padding: 1;
+				add: #pluginsDropList;
+				add: #switchButton;
+				add: #helpButton
+					withConstraints: [ :constraints | constraints expand: false ];
+				yourself)
+			withConstraints: [ :constraints | 
+				constraints
+					expand: false;
+					height: self toolbarHeight ];
 		add:
 			(SpPanedLayout newHorizontal
 				add:
@@ -101,41 +100,37 @@ DrTests class >> defaultSpec [
 				add:
 					(SpBoxLayout newVertical
 						add: #resultViewsDropList
-							expand: false
-							fill: true
-							padding: 1;
+							withConstraints: [ :constraints | constraints expand: false ];
 						add: #resultsListLabel
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
 						add: #browseButton
-							expand: false
-							fill: true
-							padding: 1;
+							withConstraints: [ :constraints | constraints expand: false ];
 						yourself);
 				yourself);
 		add: #startButton
-			expand: false
-			fill: true
-			padding: 3;
-		add: #statusLabel
-			expand: false
-			fill: true
-			padding: 1;
+			withConstraints: [ :constraints | constraints expand: false ];
 		yourself
+]
+
+{ #category : #'world menu' }
+DrTests class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #'Dr Test')
+		parent: #Tools;
+		action: [ self open ];
+		order: 20;
+		keyText: 'o, u';
+		help: 'Let you run and debug SUnit tests.';
+		icon: self taskbarIcon.
+	aBuilder withSeparatorAfter	
 ]
 
 { #category : #api }
 DrTests class >> open [
-	^ self openWithExtent: 700 @ 500
-]
-
-{ #category : #api }
-DrTests class >> openWithExtent: extent [
-	| toReturn window |
-	toReturn := self new.
-	window := toReturn openWithSpec.
-	window extent: extent.
-	^ toReturn
+	^ self new
+		openWithSpec;
+		yourself
 ]
 
 { #category : #'tools registry' }
@@ -171,7 +166,7 @@ DrTests >> buildLabelString: nameOfItems numberOfItemsSelected: aInt [
 		streamContents: [ :s | 
 			s
 				<< nameOfItems;
-				<< '(';
+				nextPut: $(;
 				<< aInt asString;
 				<< ' selected):' ]
 ]
@@ -182,29 +177,13 @@ DrTests >> classesListLabel [
 ]
 
 { #category : #private }
-DrTests >> classesSelected [
-	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
-]
-
-{ #category : #private }
 DrTests >> dateAndTimeString [
-	^ String
-		streamContents: [ :stream | 
-			| dateAndTime |
-			dateAndTime := DateAndTime now.
-			stream << dateAndTime asStringYMDHM ]
+	^ DateAndTime now asStringYMDHM
 ]
 
 { #category : #accessing }
 DrTests >> helpText [
 	^ 'TODO'
-]
-
-{ #category : #initialization }
-DrTests >> initialize [
-	super initialize.
-	self pluginsDropList selectedIndex: 1.
-	self resultViewsDropList selectedIndex:1.
 ]
 
 { #category : #initialization }
@@ -222,9 +201,9 @@ DrTests >> initializeItemsListAndLabel [
 			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
 	itemsList := self newList.
 	itemsList
-		sortingBlock: [ :a :b | a name < b name ];
+		sortingBlock: #name ascending;
 		displayBlock: [ :item | item name ];
-		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self itemsSelected ];
+		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self selectedItems ];
 		disableFilter;
 		flag: #TODO;
 		"Filtering is not working in actual Spec state, so we disable it."
@@ -242,7 +221,7 @@ DrTests >> initializePackagesListAndLabel [
 			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
 	packagesList := self newList.
 	packagesList
-		sortingBlock: [ :a :b | a name < b name ];
+		sortingBlock: #name ascending;
 		displayBlock: [ :package | package name ];
 		disableFilter;
 		flag: #TODO;
@@ -265,15 +244,19 @@ DrTests >> initializePluginsDropList [
 { #category : #initialization }
 DrTests >> initializePresenter [
 	self startButton action: [ self runPlugin ].
-	self switchButton action: self switchUI
+	self switchButton action: self switchUI.
+	self resultViewsDropList
+		whenSelectedItemChangedDo:
+			[ :pragma | self results: (pluginResult perform: pragma methodSelector) ].
+	self pluginsDropList selectedIndex: 1
 ]
 
 { #category : #initialization }
 DrTests >> initializeResultViewsDropList [
 	resultViewsDropList := self newDropList.
 	self resultViewsDropList
-		help: 'Select the different views for results'
-
+		help: 'Select the different views for results';
+		displayBlock: [ :prag | prag argumentAt: 1 ]
 ]
 
 { #category : #initialization }
@@ -310,9 +293,10 @@ DrTests >> initializeWidgets [
 
 { #category : #initialization }
 DrTests >> initializeWindow: aWindowPresenter [
-	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
-		title: 'Dr Tests - ' translated , currentPlugin pluginName
+		title: 'Dr Tests - ' translated , currentPlugin pluginName;
+		initialExtent: 700 @ 500;
+		statusBar: statusLabel
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -323,11 +307,6 @@ DrTests >> itemsList [
 { #category : #'accessing - subwidgets' }
 DrTests >> itemsListLabel [
 	^ itemsListLabel
-]
-
-{ #category : #private }
-DrTests >> itemsSelected [
-	^ self itemsList ifNil: [ #() ] ifNotNil: #selectedItems
 ]
 
 { #category : #private }
@@ -457,6 +436,11 @@ DrTests >> runResult [
 self flag:#TODO
 ]
 
+{ #category : #private }
+DrTests >> selectedItems [
+	^ self itemsList selectedItems
+]
+
 { #category : #initialization }
 DrTests >> setModelBeforeInitialization: aDomainObject [
 	plugins := aDomainObject
@@ -489,18 +473,8 @@ DrTests >> testsConfiguration [
 
 { #category : #accessing }
 DrTests >> testsConfiguration: aDTTestsConfiguration [
-	self packagesList model items
-		withIndexDo: [ :package :i | 
-			(aDTTestsConfiguration packagesSelected
-				anySatisfy: [ :p | p = package ])
-				ifTrue: [ self packagesList setSelectionStateFor: i at: true ] ].
-	self packagesList changed: #listElementAt:.
-	itemsList unselectAll.
-	self itemsList model items
-		withIndexDo: [ :item :i | 
-			(aDTTestsConfiguration items anySatisfy: [ :it | it = item ])
-				ifTrue: [ self itemsList setSelectionStateFor: i at: true ] ].
-	self itemsList changed: #listElementAt:
+	self packagesList selectItems: aDTTestsConfiguration packagesSelected.
+	self itemsList selectItems: aDTTestsConfiguration items
 ]
 
 { #category : #initialization }
@@ -520,7 +494,7 @@ DrTests >> updateItemsListLabel [
 		label:
 			(self
 				buildLabelString: self currentPlugin secondListLabel
-				numberOfItemsSelected: self itemsSelected size)
+				numberOfItemsSelected: self selectedItems size)
 ]
 
 { #category : #private }
@@ -529,12 +503,8 @@ DrTests >> updatePackagesList [
 	itemsList unselectAll.
 	itemsList newEmptyModel.
 	packagesList items: currentPlugin packagesAvailableForAnalysis.
-	currentPlugin allowMultipleSelectionInFirstList
-		ifFalse: [ packagesList beSingleSelection ]
-		ifTrue: [ packagesList beMultipleSelection ].
-	currentPlugin allowMultipleSelectionInSecondList
-		ifFalse: [ itemsList beSingleSelection ]
-		ifTrue: [ itemsList beMultipleSelection ]
+	currentPlugin setSelectionModeOfPackageList: packagesList.
+	currentPlugin setSelectionModeOfItemsList: itemsList
 ]
 
 { #category : #private }
@@ -551,12 +521,7 @@ DrTests >> updateResultViewsDropList: aPragmaKey [
 	| pragmas |
 	pragmas := (PragmaCollector
 		filter: [ :prg | prg keyword = aPragmaKey ]) reset.
-	self resultViewsDropList
-		help: 'Select the different views for results';
-		items: pragmas collected;
-		displayBlock: [ :prag | prag arguments ];
-		whenSelectedItemChangedDo:
-				[ :pragma | self results: (pluginResult perform: pragma methodSelector) ]
+	self resultViewsDropList items: pragmas collected
 ]
 
 { #category : #private }
@@ -603,7 +568,6 @@ DrTests >> whenItemsSelectionChanged: itemsSelected [
 
 { #category : #private }
 DrTests >> whenPackagesSelectionChanged: packagesSelected [
-	itemsList unselectAll.
 	itemsList
 		items: (currentPlugin itemsToBeAnalysedFor: packagesSelected);
 		selectAll.

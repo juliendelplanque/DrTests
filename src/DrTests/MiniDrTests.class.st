@@ -28,7 +28,7 @@ MiniDrTests class >> defaultSpec [
 
 { #category : #accessing }
 MiniDrTests >> currentPlugin: anObject [
-currentPlugin := anObject 
+	currentPlugin := anObject
 ]
 
 { #category : #accessing }
@@ -61,7 +61,7 @@ MiniDrTests >> initializeWidgets [
 MiniDrTests >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
-		title: 'miniDrTests-' translated , currentPlugin pluginName;
+		title: self title;
 		initialExtent: 200 @ 200
 ]
 
@@ -90,21 +90,21 @@ MiniDrTests >> runPlugin [
 
 { #category : #accessing }
 MiniDrTests >> switchUI [
-	^ [ self application close.
+	^ [ self withWindowDo: [ :window | window close ].
 	DrTests
 		reloadConfiguration: testsConfiguration
-		withResults: pluginResult 
+		withResults: pluginResult
 		andPlugin: currentPlugin ]
 ]
 
 { #category : #accessing }
-MiniDrTests >> title: aString [
-	super title: 'Dr Tests - ' translated , aString
+MiniDrTests >> title [
+	^ 'MiniDrTests - ' , currentPlugin pluginName
 ]
 
 { #category : #accessing }
 MiniDrTests >> updateUI [
-	self title: self currentPlugin title.
+	self withWindowDo: [ :window | window title: self title ].
 	startButton color: self evaluateColor.
 	startButton label: pluginResult summarizeInfo
 ]
