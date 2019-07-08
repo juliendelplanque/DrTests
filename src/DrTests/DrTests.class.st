@@ -438,6 +438,21 @@ DrTests >> runPlugin [
 ]
 
 { #category : #initialization }
+DrTests >> runPluginWithFailures [
+	[ 
+	self lock.
+	self updateStatus: 'Tests started.'.
+	pluginResult := self currentPlugin
+		runFailures: self pluginResult.
+	self results: pluginResult buildTreeForUI.
+	self updateResultViewsDropList: pluginResult pragmaKey.
+	resultsList
+		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
+]
+
+{ #category : #initialization }
 DrTests >> runResult [
 self flag:#TODO
 ]
