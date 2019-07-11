@@ -19,6 +19,7 @@ Class {
 
 { #category : #accessing }
 DTTestsProfilingResult >> buildTreeForUI [
+	<dTTestsProfilingResultTreeNamed: 'Grouped by type of result'>
 	^ DTTreeNode new
 		subResults:
 			{(self buildTreeNode
@@ -78,6 +79,11 @@ DTTestsProfilingResult >> buildTreeNode [
 				inject: 0 milliSecond
 				into: [ :totalDuration :dtTreeLeaf | totalDuration + dtTreeLeaf content duration ] ];
 		yourself
+]
+
+{ #category : #accessing }
+DTTestsProfilingResult >> pragmaKey [
+	^ #'dTTestsProfilingResultTreeNamed:'
 ]
 
 { #category : #accessing }

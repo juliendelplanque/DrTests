@@ -113,7 +113,9 @@ DTTestCoverage >> secondListLabel [
 
 { #category : #api }
 DTTestCoverage >> setSelectionModeOfItemsList: aListPresenter [
-	aListPresenter beSingleSelection
+	aListPresenter
+		beSingleSelection;
+		unselectAll
 ]
 
 { #category : #api }

@@ -16,6 +16,7 @@ Class {
 
 { #category : #accessing }
 DTCommentToTestResult >> buildTreeForUI [
+	<dTCommentToTestResultTreeNamed: 'Grouped by type of result'>
 	^ DTTreeNode new
 		subResults:
 			{(DTTreeNode new
@@ -33,6 +34,11 @@ DTCommentToTestResult >> buildTreeForUI [
 				subResults: (self testsResult passed collect: #asResultForDrTest);
 				yourself)};
 		yourself
+]
+
+{ #category : #accessing }
+DTCommentToTestResult >> pragmaKey [
+	^ #'dTCommentToTestResultTreeNamed:'
 ]
 
 { #category : #accessing }
