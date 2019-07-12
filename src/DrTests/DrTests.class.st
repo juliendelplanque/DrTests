@@ -520,10 +520,15 @@ DrTests >> updatePackagesListLabel [
 
 { #category : #initialization }
 DrTests >> updateResultViewsDropList: aPragmaKey [
+	| newPragmas |
+	newPragmas := (PragmaCollector
+		filter: [ :prg | prg keyword = aPragmaKey ]) reset collected.
+		
+	self resultViewsDropList listItems = newPragmas ifTrue: [ ^ self ].
+	
 	self resultViewsDropList
-		items:
-			(PragmaCollector filter: [ :prg | prg keyword = aPragmaKey ]) reset
-				collected
+		items: newPragmas;
+		selectIndex: 1
 ]
 
 { #category : #api }
