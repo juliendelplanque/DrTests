@@ -46,13 +46,31 @@ DrTests class >> beDefaultTestRunner [
 { #category : #specs }
 DrTests class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
 	rootCommandGroup
-		register: (self buildContextualMenuGroupWith: presenterIntance)
+		register: (self buildContextualMenuGroupWith: presenterIntance);
+		register: (self buildContextualPackageGroupWith: presenterIntance)
 ]
 
 { #category : #specs }
 DrTests class >> buildContextualMenuGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Context Menu') asSpecGroup
 		register: (self buildRerunGroupWith: presenterIntance);
+		yourself
+]
+
+{ #category : #specs }
+DrTests class >> buildContextualPackageGroupWith: presenterIntance [
+	^ (CmCommandGroup named: 'Package Menu') asSpecGroup
+		register: (self buildPackageGroupWith: presenterIntance);
+		yourself
+]
+
+{ #category : #specs }
+DrTests class >> buildPackageGroupWith: presenterIntance [
+	^ (CmCommandGroup named: 'Package tools') asSpecGroup
+		basicDescription: 'Commands related to packages list.';
+		register: (CmPackagesFilterCommand forSpec context: presenterIntance);
+		register: (CmPackagesSelectAllCommand forSpec context: presenterIntance);
+		beDisplayedAsGroup;
 		yourself
 ]
 
@@ -180,6 +198,21 @@ DrTests >> dateAndTimeString [
 	^ DateAndTime now asStringYMDHM
 ]
 
+{ #category : #initialization }
+DrTests >> filterPackageList [
+	| pattern |
+	pattern := UIManager default
+		request: 'Name of package'
+		initialAnswer: '*'.
+	pattern isNil
+		ifTrue: [ ^ self ].
+	packagesList
+		unselectAll;
+		items:
+			(currentPlugin packagesAvailableForAnalysis
+				select: [ :each | '*' , pattern , '*' match: each name ])
+]
+
 { #category : #accessing }
 DrTests >> helpText [
 	^ 'TODO'
@@ -228,7 +261,8 @@ DrTests >> initializePackagesListAndLabel [
 		flag: #TODO;
 		"Filtering is not working in actual Spec state, so we disable it."
 			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-			beMultipleSelection
+			beMultipleSelection;
+		contextMenu: [ (self rootCommandsGroup / 'Package Menu') beRoot asMenuPresenter ]
 ]
 
 { #category : #initialization }
@@ -265,11 +299,13 @@ DrTests >> initializeResultViewsDropList [
 { #category : #initialization }
 DrTests >> initializeResultsTreeAndLabel [
 	resultsList := self newTreeTable.
-	
 	resultsList
 		addColumn: (SpStringTableColumn evaluated: #drTestsName);
 		children: [ :node | node subResults ];
-		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ]
+		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ];
+		doubleClickAction: [ Transcript
+				show: 'click2';
+				cr ]
 ]
 
 { #category : #initialization }
@@ -402,6 +438,11 @@ DrTests >> runPluginWithFailures [
 { #category : #initialization }
 DrTests >> runResult [
 self flag:#TODO
+]
+
+{ #category : #initialization }
+DrTests >> selectAllPackageList [
+	packagesList selectAll
 ]
 
 { #category : #private }
