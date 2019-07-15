@@ -20,8 +20,23 @@ DTTestsRunner >> allowMiniDrTests [
 ]
 
 { #category : #api }
+DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
+	^ (CmCommandGroup named: 'TestRunnerResult context menu') asSpecGroup
+		basicDescription: 'Commands related to re-run a result.';
+		register: (CmRerunFailuresCommand forSpec context: presenterIntance);
+		register: (CmRerunErrorsCommand forSpec context: presenterIntance);
+		beDisplayedAsGroup;
+		yourself
+]
+
+{ #category : #api }
 DTTestsRunner >> firstListLabel [
 	^ 'Packages'
+]
+
+{ #category : #tests }
+DTTestsRunner >> hasExtraResultCommands [
+	^ true
 ]
 
 { #category : #'as yet unclassified' }

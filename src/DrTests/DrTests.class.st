@@ -46,20 +46,13 @@ DrTests class >> beDefaultTestRunner [
 { #category : #specs }
 DrTests class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
 	rootCommandGroup
-		register: (self buildContextualMenuGroupWith: presenterIntance);
-		register: (self buildContextualPackageGroupWith: presenterIntance)
-]
-
-{ #category : #specs }
-DrTests class >> buildContextualMenuGroupWith: presenterIntance [
-	^ (CmCommandGroup named: 'Context Menu') asSpecGroup
-		register: (self buildRerunGroupWith: presenterIntance);
-		yourself
+		register: (self buildContextualPackageGroupWith: presenterIntance);
+		register: (self buildResultGroupWith: presenterIntance)
 ]
 
 { #category : #specs }
 DrTests class >> buildContextualPackageGroupWith: presenterIntance [
-	^ (CmCommandGroup named: 'Package Menu') asSpecGroup
+	^ (CmCommandGroup named: 'Package menu') asSpecGroup
 		register: (self buildPackageGroupWith: presenterIntance);
 		yourself
 ]
@@ -75,12 +68,20 @@ DrTests class >> buildPackageGroupWith: presenterIntance [
 ]
 
 { #category : #specs }
-DrTests class >> buildRerunGroupWith: presenterIntance [
-	^ (CmCommandGroup named: 'Re-run tools') asSpecGroup
-		basicDescription: 'Commands related to re-run a result.';
-		register: (CmResultRerunCommand forSpec context: presenterIntance);
-		beDisplayedAsGroup;
-		yourself
+DrTests class >> buildResultGroupWith: presenterIntance [
+	presenterIntance currentPlugin hasExtraResultCommands
+		ifTrue: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
+				basicDescription: 'Commands related to result.';
+				register: (CmResultBrowseCommand forSpec context: presenterIntance);
+				register:
+					(presenterIntance currentPlugin
+						buildContextualMenuGroupWith: presenterIntance)
+						beDisplayedAsGroup;
+				yourself ]
+		ifFalse: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
+				basicDescription: 'Commands related to result.';
+				register: (CmResultBrowseCommand forSpec context: presenterIntance);
+				yourself ]
 ]
 
 { #category : #specs }
@@ -262,7 +263,7 @@ DrTests >> initializePackagesListAndLabel [
 		"Filtering is not working in actual Spec state, so we disable it."
 			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 			beMultipleSelection;
-		contextMenu: [ (self rootCommandsGroup / 'Package Menu') beRoot asMenuPresenter ]
+		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ]
 ]
 
 { #category : #initialization }
@@ -302,10 +303,7 @@ DrTests >> initializeResultsTreeAndLabel [
 	resultsList
 		addColumn: (SpStringTableColumn evaluated: #drTestsName);
 		children: [ :node | node subResults ];
-		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ];
-		doubleClickAction: [ Transcript
-				show: 'click2';
-				cr ]
+		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ]
 ]
 
 { #category : #initialization }
@@ -421,23 +419,16 @@ DrTests >> resultsList [
 ]
 
 { #category : #initialization }
-DrTests >> runPluginWithFailures [
-	[ 
-	self lock.
+DrTests >> runPluginMethod: aSymbol [
+	[ self lock.
 	self updateStatus: 'Tests started.'.
-	pluginResult := self currentPlugin
-		runFailures: self pluginResult.
+	pluginResult := self currentPlugin runFailures: self pluginResult.
 	self results: pluginResult buildTreeForUI.
 	self updateResultViewsDropList: pluginResult pragmaKey.
 	resultsList
-		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ].
+		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ].
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
-]
-
-{ #category : #initialization }
-DrTests >> runResult [
-self flag:#TODO
 ]
 
 { #category : #initialization }
@@ -528,7 +519,7 @@ DrTests >> updateResultViewsDropList: aPragmaKey [
 	
 	self resultViewsDropList
 		items: newPragmas;
-		selectIndex: 1
+		selectedIndex: 1
 ]
 
 { #category : #api }
@@ -566,7 +557,7 @@ DrTests >> updateWithResults: results [
 	self results: pluginResult buildTreeForUI.
 	self updateResultViewsDropList: pluginResult pragmaKey.
 	resultsList
-		contextMenu: [ (self rootCommandsGroup / 'Context Menu') beRoot asMenuPresenter ]
+		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ]
 ]
 
 { #category : #private }

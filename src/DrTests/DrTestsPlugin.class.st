@@ -66,6 +66,10 @@ DrTestsPlugin >> buildConfigurationFrom: aDrTests [
 		packages: aDrTests packagesSelected
 ]
 
+{ #category : #api }
+DrTestsPlugin >> buildContextualMenuGroupWith: presenterIntance [
+]
+
 { #category : #'configuration building' }
 DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 	"Builds a configuration for the plugin by reading the information held by the UI (aDrTests) and the last value of results."
@@ -79,6 +83,11 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 { #category : #accesing }
 DrTestsPlugin >> firstListLabel [
 	^ 'items'
+]
+
+{ #category : #'configuration building' }
+DrTestsPlugin >> hasExtraResultCommands [
+	^ false
 ]
 
 { #category : #api }
