@@ -32,7 +32,8 @@ Class {
 		'itemsList',
 		'itemsListLabel',
 		'resultViewsDropList',
-		'pluginResult'
+		'pluginResult',
+		'resultLabel'
 	],
 	#category : #DrTests
 }
@@ -90,9 +91,10 @@ DrTests class >> defaultSpec [
 		add:
 			(SpBoxLayout newHorizontal
 				add: #pluginsDropList;
-				add: #switchButton;
+				add: #switchButton
+					withConstraints: [ :constraints | constraints width: self buttonWidth ];
 				add: #helpButton
-					withConstraints: [ :constraints | constraints expand: false ];
+					withConstraints: [ :constraints | constraints width: self buttonWidth ];
 				yourself)
 			withConstraints: [ :constraints | 
 				constraints
@@ -119,7 +121,7 @@ DrTests class >> defaultSpec [
 					(SpBoxLayout newVertical
 						add: #resultViewsDropList
 							withConstraints: [ :constraints | constraints expand: false ];
-						add: 'Results:'
+						add: #resultLabel
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
 						add: #browseButton
@@ -299,6 +301,7 @@ DrTests >> initializeResultViewsDropList [
 
 { #category : #initialization }
 DrTests >> initializeResultsTreeAndLabel [
+	resultLabel := self newLabel label: 'Results:'.
 	resultsList := self newTreeTable.
 	resultsList
 		addColumn: (SpStringTableColumn evaluated: #drTestsName);
@@ -510,6 +513,13 @@ DrTests >> updatePackagesListLabel [
 ]
 
 { #category : #initialization }
+DrTests >> updateResultLabel [
+	resultLabel
+		label: 'Results: ■';
+		color: pluginResult color
+]
+
+{ #category : #initialization }
 DrTests >> updateResultViewsDropList: aPragmaKey [
 	| newPragmas |
 	newPragmas := (PragmaCollector
@@ -556,6 +566,7 @@ DrTests >> updateWithResults: results [
 	pluginResult := results.
 	self results: pluginResult buildTreeForUI.
 	self updateResultViewsDropList: pluginResult pragmaKey.
+	self updateResultLabel.
 	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ]
 ]
