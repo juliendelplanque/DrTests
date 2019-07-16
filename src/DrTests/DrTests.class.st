@@ -380,6 +380,16 @@ DrTests >> pluginsDropList [
 	^ pluginsDropList
 ]
 
+{ #category : #initialization }
+DrTests >> reRunPlugin: aSymbol [
+	[ self lock.
+	self updateStatus: 'Tests started.'.
+	self
+		updateWithResults: (self currentPlugin reRunForConfiguration: self testsConfiguration).
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
+]
+
 { #category : #'api - subwidgets configuration' }
 DrTests >> resultButtonHelp: aString [
 	self browseButton help: aString
@@ -425,11 +435,8 @@ DrTests >> resultsList [
 DrTests >> runPluginMethod: aSymbol [
 	[ self lock.
 	self updateStatus: 'Tests started.'.
-	pluginResult := self currentPlugin runFailures: self pluginResult.
-	self results: pluginResult buildTreeForUI.
-	self updateResultViewsDropList: pluginResult pragmaKey.
-	resultsList
-		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ].
+	self
+		updateWithResults: (self currentPlugin perform: aSymbol with: self pluginResult).
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
 ]

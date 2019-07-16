@@ -81,12 +81,10 @@ AbstractDrTestsUI >> locked: aBoolean [
 
 { #category : #initialization }
 AbstractDrTestsUI >> runPlugin [
-	[ | results |
-	self lock.
+	[ self lock.
 	self updateStatus: 'Tests started.'.
-	results := self currentPlugin
-		runForConfiguration: self testsConfiguration.
-	self updateWithResults: results.
+	self
+		updateWithResults: (self currentPlugin runForConfiguration: self testsConfiguration).
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
 ]
