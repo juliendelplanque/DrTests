@@ -9,7 +9,13 @@ Class {
 
 { #category : #accessing }
 DTMockPluginResult >> buildTreeForUI [
+<pragmaForTest: 'for tests'>
 	^ DTTreeNode new
 		subResults: {};
 		yourself
+]
+
+{ #category : #accessing }
+DTMockPluginResult >> pragmaKey [
+^#'pragmaForTest:'
 ]

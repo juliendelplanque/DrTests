@@ -20,7 +20,7 @@ DrTestsTestRunnerTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
-	testToReRun := {DTTestCoverageTestForCoverage selector: #testSuposseToFail}.
+	testToReRun := DTTestCoverageTestForCoverage selector: #testSuposseToFail.
 	testCase := DTTestCoverageTestForCoverage .
 	conf := DTPluginConfiguration
 		items:
