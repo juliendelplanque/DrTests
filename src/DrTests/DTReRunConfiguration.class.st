@@ -19,10 +19,11 @@ DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite testTo
 
 { #category : #accessing }
 DTReRunConfiguration >> asTestSuite [
+	| methodsToReRun suite |
 	testSuite := TestSuite new.
-	self testToReRun
-		reject: #isAbstract
-		thenDo: [ :s | testSuite addTest: s suite ].
+	methodsToReRun := {(self testToReRun selector)}.
+	suite := self testToReRun class buildSuiteFromMethods: methodsToReRun.
+	testSuite addTest: suite.
 	^ testSuite
 ]
 

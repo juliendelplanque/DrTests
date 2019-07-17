@@ -75,9 +75,9 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 	"Builds a configuration for the plugin by reading the information held by the UI (aDrTests) and the last value of results."
 
 	^ DTReRunConfiguration
-		result: aDrTests results
+		result: aDrTests pluginResult
 		testSuite: aDrTests testsConfiguration testSuite
-		testToRun: aDrTests resultSelected
+		testToRun: aDrTests resultSelected content
 ]
 
 { #category : #accesing }

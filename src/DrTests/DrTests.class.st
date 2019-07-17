@@ -129,7 +129,7 @@ DrTests class >> defaultSpec [
 						yourself);
 				yourself);
 		add: #startButton
-			withConstraints: [ :constraints | constraints expand: false ];
+			withConstraints: [ :constraints | constraints width: self buttonWidth ];
 		yourself
 ]
 
@@ -385,7 +385,9 @@ DrTests >> reRunPlugin: aSymbol [
 	[ self lock.
 	self updateStatus: 'Tests started.'.
 	self
-		updateWithResults: (self currentPlugin reRunForConfiguration: self testsConfiguration).
+		updateWithResults:
+			(self currentPlugin
+				reRunForConfiguration: (self currentPlugin buildReRunConfigurationFrom: self)).
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
 ]

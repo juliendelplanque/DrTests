@@ -25,6 +25,7 @@ DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 		basicDescription: 'Commands related to re-run a result.';
 		register: (CmRerunFailuresCommand forSpec context: presenterIntance);
 		register: (CmRerunErrorsCommand forSpec context: presenterIntance);
+		register: (CmRerunATestCommand forSpec context: presenterIntance);
 		beDisplayedAsGroup;
 		yourself
 ]
@@ -41,13 +42,6 @@ DTTestsRunner >> hasExtraResultCommands [
 
 { #category : #'as yet unclassified' }
 DTTestsRunner >> joinTestResult: aTestResult with: partialResult [
-	"TestRunnerResult testsResult = 4 {} passed
-partialResults = testResult = 4 {} "
-
-	"1. por cada item en partial eliminar su eq en original
-2. añadir los item en partial en el original
-3. decolver el original"
-
 	| newResult |
 	newResult := aTestResult.
 	partialResult passed do: [ :each | newResult addPass: each ].
@@ -66,18 +60,30 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 
 { #category : #api }
 DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
-	| partialResult oldResult|
-	partialResult := self runForConfiguration: aDTRerunConfiguration.
-	oldResult:=aDTRerunConfiguration
-	"	removeTestsInTestResult: partialResult testsResult."
-		removeTestsInTestResult.
+	| partialResult oldResult |
+	partialResult := (self runForConfiguration: aDTRerunConfiguration)
+		testsResult.
+	oldResult := self
+		removeTest: aDTRerunConfiguration testToReRun
+		from: aDTRerunConfiguration pluginResult testsResult.
 	^ DTTestsRunnerResult new
-		testsResult:
-			(self
-				joinTestResult: oldResult 
-				with: partialResult);
+		testsResult: (self joinTestResult: oldResult with: partialResult);
 		testSuite: aDTRerunConfiguration testSuite;
 		yourself
+]
+
+{ #category : #private }
+DTTestsRunner >> removeTest: aTest from: aTestResult [
+	aTestResult
+		instVarNamed: 'passed'
+		put: (aTestResult passed copyWithout: aTest).
+	aTestResult
+		instVarNamed: 'failures'
+		put: (aTestResult failures copyWithout: aTest).
+	aTestResult
+		instVarNamed: 'errors'
+		put: (aTestResult errors copyWithout: aTest).
+	^ aTestResult
 ]
 
 { #category : #api }
@@ -123,6 +129,7 @@ DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
 		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
+	"results testsResult updateResultsInHistory."
 	^ results
 ]
 
