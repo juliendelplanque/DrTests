@@ -116,6 +116,10 @@ DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 ]
 
 { #category : #api }
+DrTestsPlugin >> reRunPlugin: aSymbol with: aDTpluginConfiguration [
+]
+
+{ #category : #api }
 DrTestsPlugin >> resultButtonHelp [
 	^ self subclassResponsibility
 ]

@@ -382,12 +382,13 @@ DrTests >> pluginsDropList [
 
 { #category : #initialization }
 DrTests >> reRunPlugin: aSymbol [
+	| newResult |
 	[ self lock.
 	self updateStatus: 'Tests started.'.
-	self
-		updateWithResults:
-			(self currentPlugin
-				reRunForConfiguration: (self currentPlugin buildReRunConfigurationFrom: self)).
+	newResult := self currentPlugin
+		reRunPlugin: aSymbol
+		with: (self currentPlugin buildReRunConfigurationFrom: self).
+	self updateWithResults: newResult.
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
 ]

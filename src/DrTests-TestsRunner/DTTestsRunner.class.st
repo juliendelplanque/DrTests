@@ -26,7 +26,24 @@ DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 		register: (CmRerunFailuresCommand forSpec context: presenterIntance);
 		register: (CmRerunErrorsCommand forSpec context: presenterIntance);
 		register: (CmRerunATestCommand forSpec context: presenterIntance);
+		register: (CmResultDebugCommand forSpec context: presenterIntance);
 		beDisplayedAsGroup;
+		yourself
+]
+
+{ #category : #api }
+DTTestsRunner >> debugTest: aDTRerunConfiguration [
+	| selector partialResult oldResult|
+	selector := aDTRerunConfiguration testToReRun selector.
+	(aDTRerunConfiguration testToReRun class selector: selector) debug.
+		partialResult := (self runForConfiguration: aDTRerunConfiguration)
+		testsResult.
+	oldResult := self
+		removeTest: aDTRerunConfiguration testToReRun
+		from: aDTRerunConfiguration pluginResult testsResult.
+	^ DTTestsRunnerResult new
+		testsResult: (self joinTestResult: oldResult with: partialResult);
+		testSuite: aDTRerunConfiguration testSuite;
 		yourself
 ]
 
@@ -59,17 +76,8 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 ]
 
 { #category : #api }
-DTTestsRunner >> reRunForConfiguration: aDTRerunConfiguration [
-	| partialResult oldResult |
-	partialResult := (self runForConfiguration: aDTRerunConfiguration)
-		testsResult.
-	oldResult := self
-		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration pluginResult testsResult.
-	^ DTTestsRunnerResult new
-		testsResult: (self joinTestResult: oldResult with: partialResult);
-		testSuite: aDTRerunConfiguration testSuite;
-		yourself
+DTTestsRunner >> reRunPlugin: aSymbol with: aDTRerunConfiguration [
+	^ self perform: aSymbol with: aDTRerunConfiguration
 ]
 
 { #category : #private }
@@ -149,6 +157,20 @@ DTTestsRunner >> runSuite: aTestSuite withResult: aResult [
 						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
+]
+
+{ #category : #api }
+DTTestsRunner >> runTest: aDTRerunConfiguration [
+	| partialResult oldResult |
+	partialResult := (self runForConfiguration: aDTRerunConfiguration)
+		testsResult.
+	oldResult := self
+		removeTest: aDTRerunConfiguration testToReRun
+		from: aDTRerunConfiguration pluginResult testsResult.
+	^ DTTestsRunnerResult new
+		testsResult: (self joinTestResult: oldResult with: partialResult);
+		testSuite: aDTRerunConfiguration testSuite;
+		yourself
 ]
 
 { #category : #private }

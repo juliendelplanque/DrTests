@@ -95,6 +95,7 @@ DTTestsRunnerResult >> color [
 { #category : #accessing }
 DTTestsRunnerResult >> createLeafs: aDictionary [
 	"receive a dictionary and creates a Node with the name of the class and leafs with the selectors "
+
 	| tree |
 	tree := OrderedCollection new.
 	aDictionary
