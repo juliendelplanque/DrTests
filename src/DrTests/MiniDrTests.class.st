@@ -91,6 +91,11 @@ MiniDrTests >> updateUI [
 ]
 
 { #category : #initialization }
+MiniDrTests >> updateWithPluginResult: aPluginResult [
+	aPluginResult ifNotNil: [ self updateWithResults: aPluginResult ]
+]
+
+{ #category : #initialization }
 MiniDrTests >> updateWithResults: results [
 	self pluginResult: results.
 	self updateUI

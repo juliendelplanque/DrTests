@@ -165,8 +165,8 @@ DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPlu
 	self open
 		updateStatus: 'Tests finished.';
 		currentPlugin: aDTPlugin;
-		results: (aDTPluginResult ifNotNil: [ aDTPluginResult buildTreeForUI ]);
-		testsConfiguration: aDTPluginConfiguration
+		testsConfiguration: aDTPluginConfiguration;
+		updateWithPluginResult: aDTPluginResult
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -383,14 +383,16 @@ DrTests >> pluginsDropList [
 { #category : #initialization }
 DrTests >> reRunPlugin: aSymbol [
 	| newResult |
-	[ self lock.
-	self updateStatus: 'Tests started.'.
-	newResult := self currentPlugin
-		reRunPlugin: aSymbol
-		with: (self currentPlugin buildReRunConfigurationFrom: self).
-	self updateWithResults: newResult.
-	self updateStatus: 'Tests finished.' ]
-		ensure: [ self unlock ]
+	self resultSelected class = DTTreeNode
+		ifTrue: [  ]
+		ifFalse: [ [ self lock.
+			self updateStatus: 'Tests started.'.
+			newResult := self currentPlugin
+				reRunPlugin: aSymbol
+				with: (self currentPlugin buildReRunConfigurationFrom: self).
+			self updateWithResults: newResult.
+			self updateStatus: 'Tests finished.' ]
+				ensure: [ self unlock ] ]
 ]
 
 { #category : #'api - subwidgets configuration' }
@@ -413,6 +415,12 @@ DrTests >> resultSelected [
 	^ self resultsList selectedItem
 ]
 
+{ #category : #api }
+DrTests >> resultTree: aResultGroup [
+	aResultGroup
+		ifNotNil: [ self resultsList roots: aResultGroup subResults ]
+]
+
 { #category : #'accessing - subwidgets' }
 DrTests >> resultViewsDropList [
 	^ resultViewsDropList
@@ -421,12 +429,6 @@ DrTests >> resultViewsDropList [
 { #category : #'api - subwidgets configuration' }
 DrTests >> resultViewsDropList: anObject [
 	resultViewsDropList:= anObject 
-]
-
-{ #category : #api }
-DrTests >> results: aResultGroup [
-	aResultGroup
-		ifNotNil: [ self resultsList roots: aResultGroup subResults ]
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -475,6 +477,7 @@ DrTests >> switchUI [
 	(MiniDrTests new
 		testsConfiguration: self testsConfiguration;
 		currentPlugin: self currentPlugin;
+		updateWithPluginResult:self pluginResult ;
 		yourself) openWithSpec
 ]
 
@@ -568,13 +571,18 @@ DrTests >> updateUI [
 	self withWindowDo: [ :window | window title: self title ].
 	
 	self updatePackagesList.
-	self results: DTTreeNode empty
+	self resultTree: DTTreeNode empty
+]
+
+{ #category : #initialization }
+DrTests >> updateWithPluginResult: aPluginResult [
+	aPluginResult ifNotNil: [ self updateWithResults: aPluginResult ]
 ]
 
 { #category : #initialization }
 DrTests >> updateWithResults: results [
 	pluginResult := results.
-	self results: pluginResult buildTreeForUI.
+	self resultTree: pluginResult buildTreeForUI.
 	self updateResultViewsDropList: pluginResult pragmaKey.
 	self updateResultLabel.
 	resultsList

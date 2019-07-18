@@ -33,10 +33,10 @@ DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 
 { #category : #api }
 DTTestsRunner >> debugTest: aDTRerunConfiguration [
-	| selector partialResult oldResult|
+	| selector partialResult oldResult |
 	selector := aDTRerunConfiguration testToReRun selector.
 	(aDTRerunConfiguration testToReRun class selector: selector) debug.
-		partialResult := (self runForConfiguration: aDTRerunConfiguration)
+	partialResult := (self runForConfiguration: aDTRerunConfiguration)
 		testsResult.
 	oldResult := self
 		removeTest: aDTRerunConfiguration testToReRun
