@@ -26,8 +26,3 @@ DTTestCoverageTestForCoverage >> testMethod2forMock [
 		assert: 5
 		equals: 5
 ]
-
-{ #category : #running }
-DTTestCoverageTestForCoverage >> testSuposseToFail [
-	self fail
-]

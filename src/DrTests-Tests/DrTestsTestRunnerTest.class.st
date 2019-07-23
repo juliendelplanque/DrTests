@@ -20,8 +20,9 @@ DrTestsTestRunnerTest >> setUp [
 	super setUp.
 	package := RPackage organizer
 		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
-	testToReRun := DTTestCoverageTestForCoverage selector: #testSuposseToFail.
-	testCase := DTTestCoverageTestForCoverage .
+	testToReRun := DTTestCoverageTestForCoverage
+		selector: #testMethod1forMock.
+	testCase := DTTestCoverageTestForCoverage.
 	conf := DTPluginConfiguration
 		items:
 			({package}
@@ -49,7 +50,7 @@ DrTestsTestRunnerTest >> testReRunResultIsDTTestRunnerResult [
 		testSuite: conf testSuite
 		testToRun: testToReRun.
 	self
-		assert: (plugin reRunForConfiguration: reRunconf) class
+		assert: (plugin reRunPlugin: #runTest: with: reRunconf) class
 		equals: DTTestsRunnerResult
 ]
 
