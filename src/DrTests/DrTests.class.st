@@ -73,7 +73,7 @@ DrTests class >> buildResultGroupWith: presenterIntance [
 	presenterIntance currentPlugin hasExtraResultCommands
 		ifTrue: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
 				basicDescription: 'Commands related to result.';
-				register: (CmResultBrowseCommand forSpec context: presenterIntance);
+				register: (CmResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 				register:
 					(presenterIntance currentPlugin
 						buildContextualMenuGroupWith: presenterIntance)
@@ -176,8 +176,7 @@ DrTests >> browseButton [
 
 { #category : #actions }
 DrTests >> browseSelectedResult [
-	self resultSelected class = DTTreeLeaf
-		ifTrue: [ self resultSelected content drTestsBrowse ]
+	self resultSelected content drTestsBrowse
 ]
 
 { #category : #private }

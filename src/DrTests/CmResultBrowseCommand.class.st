@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #hooks }
+CmResultBrowseCommand >> canBeRun [
+	^ self drTest resultSelected class = DTTreeLeaf
+]
+
+{ #category : #hooks }
 CmResultBrowseCommand >> execute [
 	self context browseSelectedResult
 ]
