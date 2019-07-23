@@ -137,13 +137,7 @@ DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
 		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
-	"results testsResult updateResultsInHistory."
 	^ results
-]
-
-{ #category : #private }
-DTTestsRunner >> runSuite: aTestSuite [
-	self executeSuite: aTestSuite as: [ :aSuite :aResult | aSuite run: aResult ].
 ]
 
 { #category : #private }

@@ -176,8 +176,8 @@ DrTests >> browseButton [
 
 { #category : #actions }
 DrTests >> browseSelectedResult [
-	self resultSelected
-		ifNotNil: [ :selected | selected content drTestsBrowse ]
+	self resultSelected class = DTTreeLeaf
+		ifTrue: [ self resultSelected content drTestsBrowse ]
 ]
 
 { #category : #private }
@@ -282,12 +282,9 @@ DrTests >> initializePluginsDropList [
 { #category : #initialization }
 DrTests >> initializePresenter [
 	super initializePresenter.
-	
 	self resultViewsDropList
 		transmitTo: resultsList
-		transform:
-			[ :pragma | (pluginResult perform: pragma methodSelector) subResults ].
-		
+		transform: [ :pragma | (pluginResult perform: pragma methodSelector) subResults ].
 	self pluginsDropList selectedIndex: 1
 ]
 
@@ -383,9 +380,8 @@ DrTests >> pluginsDropList [
 { #category : #initialization }
 DrTests >> reRunPlugin: aSymbol [
 	| newResult |
-	self resultSelected class = DTTreeNode
-		ifTrue: [  ]
-		ifFalse: [ [ self lock.
+	self resultSelected class = DTTreeLeaf
+		ifTrue: [ [ self lock.
 			self updateStatus: 'Tests started.'.
 			newResult := self currentPlugin
 				reRunPlugin: aSymbol
