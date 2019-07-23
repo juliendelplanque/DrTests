@@ -6,7 +6,7 @@ Class {
 
 { #category : #hooks }
 CmRerunATestCommand >> execute [
-	self drTest reRunPlugin: #runTest:
+	self drTest runPluginFor: (self plugin buildReRunConfigurationFrom: self drTest)
 ]
 
 { #category : #hooks }

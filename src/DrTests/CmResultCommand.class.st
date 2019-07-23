@@ -9,6 +9,11 @@ CmResultCommand >> drTest [
 	^ self context
 ]
 
+{ #category : #accessing }
+CmResultCommand >> plugin [
+	^ self drTest currentPlugin
+]
+
 { #category : #hooks }
 CmResultCommand >> resultSelected [
 	^ self drTest resultSelected

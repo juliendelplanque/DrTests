@@ -52,6 +52,18 @@ DTTestsRunner >> firstListLabel [
 	^ 'Packages'
 ]
 
+{ #category : #api }
+DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunConfiguration [
+	| oldResult |
+	oldResult := self
+		removeTest: aDTRerunConfiguration testToReRun
+		from: aDTRerunConfiguration pluginResult testsResult.
+	^ DTTestsRunnerResult new
+		testsResult: (self joinTestResult: oldResult with: rerunnedResult testsResult);
+		testSuite: aDTRerunConfiguration testSuite;
+		yourself
+]
+
 { #category : #tests }
 DTTestsRunner >> hasExtraResultCommands [
 	^ true
@@ -134,10 +146,10 @@ DTTestsRunner >> runFailures: aDTTestsRunnerResult [
 DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := DTTestsRunnerResult new
-		testsResult: (self runTestSuites: aDTpluginConfiguration asTestSuite tests);
+		testsResult: (self runTestSuites: { aDTpluginConfiguration asTestSuite });
 		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
-	^ results
+	^ aDTpluginConfiguration handleResults: results for: self
 ]
 
 { #category : #private }

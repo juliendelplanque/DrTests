@@ -81,10 +81,15 @@ AbstractDrTestsUI >> locked: aBoolean [
 
 { #category : #initialization }
 AbstractDrTestsUI >> runPlugin [
+	self runPluginFor: self testsConfiguration
+]
+
+{ #category : #initialization }
+AbstractDrTestsUI >> runPluginFor: aTestsConfiguration [
 	[ self lock.
 	self updateStatus: 'Tests started.'.
 	self
-		updateWithResults: (self currentPlugin runForConfiguration: self testsConfiguration).
+		updateWithResults: (self currentPlugin runForConfiguration: aTestsConfiguration).
 	self updateStatus: 'Tests finished.' ]
 		ensure: [ self unlock ]
 ]

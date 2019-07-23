@@ -36,6 +36,16 @@ DTPluginConfiguration >> asTestSuite [
 	^ testSuite
 ]
 
+{ #category : #'as yet unclassified' }
+DTPluginConfiguration >> handleResults: aPluginResult [
+	^ aPluginResult
+]
+
+{ #category : #'as yet unclassified' }
+DTPluginConfiguration >> handleResults: aPluginResult for: aPlugin [
+	^ aPluginResult 
+]
+
 { #category : #accessing }
 DTPluginConfiguration >> items [
 	^ items

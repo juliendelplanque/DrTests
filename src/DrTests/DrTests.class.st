@@ -379,15 +379,14 @@ DrTests >> pluginsDropList [
 { #category : #initialization }
 DrTests >> reRunPlugin: aSymbol [
 	| newResult |
-	self resultSelected class = DTTreeLeaf
-		ifTrue: [ [ self lock.
-			self updateStatus: 'Tests started.'.
-			newResult := self currentPlugin
-				reRunPlugin: aSymbol
-				with: (self currentPlugin buildReRunConfigurationFrom: self).
-			self updateWithResults: newResult.
-			self updateStatus: 'Tests finished.' ]
-				ensure: [ self unlock ] ]
+	[ self lock.
+	self updateStatus: 'Tests started.'.
+	newResult := self currentPlugin
+		reRunPlugin: aSymbol
+		with: (self currentPlugin buildReRunConfigurationFrom: self).
+	self updateWithResults: newResult.
+	self updateStatus: 'Tests finished.' ]
+		ensure: [ self unlock ]
 ]
 
 { #category : #'api - subwidgets configuration' }

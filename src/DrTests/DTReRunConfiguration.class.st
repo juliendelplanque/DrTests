@@ -17,14 +17,24 @@ DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite testTo
 		yourself.
 ]
 
-{ #category : #accessing }
+{ #category : #converting }
 DTReRunConfiguration >> asTestSuite [
-	| methodsToReRun suite |
-	testSuite := TestSuite new.
-	methodsToReRun := {(self testToReRun selector)}.
-	suite := self testToReRun class buildSuiteFromMethods: methodsToReRun.
-	testSuite addTest: suite.
-	^ testSuite
+	^ self testToReRun class buildSuiteFromMethods: {self testToReRun selector}.
+]
+
+{ #category : #'as yet unclassified' }
+DTReRunConfiguration >> handleResults: aPluginResult for: aPlugin [
+	^ aPlugin handleReRunResult: aPluginResult forConfiguration: self
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> items [
+	^ { self testToReRun }
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> packagesSelected [
+	^ self originalConfiguration packagesSelected
 ]
 
 { #category : #accessing }
