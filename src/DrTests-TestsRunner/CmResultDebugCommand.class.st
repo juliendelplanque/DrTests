@@ -1,12 +1,12 @@
 Class {
 	#name : #CmResultDebugCommand,
-	#superclass : #CmResultCommand,
+	#superclass : #CmLeafResultCommand,
 	#category : #'DrTests-TestsRunner'
 }
 
 { #category : #initialization }
 CmResultDebugCommand >> execute [
-	self context reRunPlugin: #debugTest:
+	self drTest reRunPlugin: #debugTest:
 ]
 
 { #category : #initialization }

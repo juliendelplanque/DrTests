@@ -8,3 +8,8 @@ Class {
 CmResultCommand >> drTest [
 	^ self context
 ]
+
+{ #category : #hooks }
+CmResultCommand >> resultSelected [
+	^ self drTest resultSelected
+]

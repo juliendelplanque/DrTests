@@ -1,12 +1,12 @@
 Class {
 	#name : #CmRerunATestCommand,
-	#superclass : #CmResultCommand,
+	#superclass : #CmLeafResultCommand,
 	#category : #'DrTests-TestsRunner'
 }
 
 { #category : #hooks }
 CmRerunATestCommand >> execute [
-	self context reRunPlugin: #runTest:
+	self drTest reRunPlugin: #runTest:
 ]
 
 { #category : #hooks }

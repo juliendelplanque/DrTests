@@ -25,8 +25,8 @@ DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 		basicDescription: 'Commands related to re-run a result.';
 		register: (CmRerunFailuresCommand forSpec context: presenterIntance);
 		register: (CmRerunErrorsCommand forSpec context: presenterIntance);
-		register: (CmRerunATestCommand forSpec context: presenterIntance);
-		register: (CmResultDebugCommand forSpec context: presenterIntance);
+		register: (CmRerunATestCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+		register: (CmResultDebugCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 		beDisplayedAsGroup;
 		yourself
 ]

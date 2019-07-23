@@ -1,13 +1,8 @@
 Class {
 	#name : #CmResultBrowseCommand,
-	#superclass : #CmResultCommand,
+	#superclass : #CmLeafResultCommand,
 	#category : #DrTests
 }
-
-{ #category : #hooks }
-CmResultBrowseCommand >> canBeRun [
-	^ self drTest resultSelected class = DTTreeLeaf
-]
 
 { #category : #hooks }
 CmResultBrowseCommand >> execute [
