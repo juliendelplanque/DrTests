@@ -6,8 +6,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'items',
-		'packagesSelected',
-		'testSuite'
+		'packagesSelected'
 	],
 	#category : #'DrTests-Model'
 }
@@ -29,6 +28,7 @@ DTPluginConfiguration class >> items: aCollectionOfClasses packages: aCollection
 
 { #category : #converting }
 DTPluginConfiguration >> asTestSuite [
+	|testSuite|
 	testSuite := TestSuite new.
 	self items
 		reject: #isAbstract
@@ -64,14 +64,4 @@ DTPluginConfiguration >> packagesSelected [
 { #category : #accessing }
 DTPluginConfiguration >> packagesSelected: packages [
 	packagesSelected := packages
-]
-
-{ #category : #accessing }
-DTPluginConfiguration >> testSuite [
-	^ testSuite
-]
-
-{ #category : #accessing }
-DTPluginConfiguration >> testSuite: anObject [
-	testSuite := anObject
 ]

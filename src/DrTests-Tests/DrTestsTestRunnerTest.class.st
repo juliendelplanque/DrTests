@@ -45,10 +45,10 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 DrTestsTestRunnerTest >> testReRunResultIsDTTestRunnerResult [
 	| pluginResult |
 	pluginResult := plugin runForConfiguration: conf.
-	reRunconf := DTReRunConfiguration
-		result: pluginResult
-		testSuite: conf testSuite
-		testToRun: testToReRun.
+	reRunconf := DTReRunConfiguration new
+		previousResult: pluginResult;
+		testToReRun: testToReRun;
+		yourself.
 	self
 		assert: (plugin reRunPlugin: #runTest: with: reRunconf) class
 		equals: DTTestsRunnerResult

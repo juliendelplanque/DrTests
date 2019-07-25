@@ -62,7 +62,6 @@ DTCommentToTest >> resultButtonLabel [
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
 	^ DTCommentToTestResult new
 			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});
-			testSuite: aDTpluginConfiguration testSuite;
 			yourself
 ]
 

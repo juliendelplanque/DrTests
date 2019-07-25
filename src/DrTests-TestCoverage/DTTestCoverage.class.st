@@ -66,7 +66,6 @@ DTTestCoverage >> resultButtonLabel [
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
 	result := DTTestCoverageResult new.
-	result testSuite: aDTpluginConfiguration testSuite.
 	self defineData: aDTpluginConfiguration.
 	suite := self suiteFor: testClasses.
 	[ methods do: [ :meth | meth ast link: link ].

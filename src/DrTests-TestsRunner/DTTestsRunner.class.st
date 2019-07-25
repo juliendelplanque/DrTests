@@ -51,7 +51,6 @@ DTTestsRunner >> debugTest: aDTRerunConfiguration [
 		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: partialResult);
-		testSuite: aDTRerunConfiguration testSuite;
 		yourself
 ]
 
@@ -68,7 +67,6 @@ DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunCon
 		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: rerunnedResult testsResult);
-		testSuite: aDTRerunConfiguration testSuite;
 		yourself
 ]
 
@@ -155,7 +153,6 @@ DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
 	results := DTTestsRunnerResult new
 		testsResult: (self runTestSuites: { aDTpluginConfiguration asTestSuite });
-		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
 	^ aDTpluginConfiguration handleResults: results for: self
 ]
@@ -183,7 +180,6 @@ DTTestsRunner >> runTest: aDTRerunConfiguration [
 		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: partialResult);
-		testSuite: aDTRerunConfiguration testSuite;
 		yourself
 ]
 

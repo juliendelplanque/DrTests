@@ -44,7 +44,6 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 		acceptSUnitVisitor: profilerVisitor.
 	results := DTTestsProfilingResult new
 		testsResult: profilerVisitor profilingData;
-		testSuite: aDTpluginConfiguration testSuite;
 		yourself.
 	^ results
 ]
