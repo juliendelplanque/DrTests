@@ -37,11 +37,6 @@ DTPluginConfiguration >> asTestSuite [
 ]
 
 { #category : #'as yet unclassified' }
-DTPluginConfiguration >> handleResults: aPluginResult [
-	^ aPluginResult
-]
-
-{ #category : #'as yet unclassified' }
 DTPluginConfiguration >> handleResults: aPluginResult for: aPlugin [
 	^ aPluginResult 
 ]
