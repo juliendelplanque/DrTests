@@ -1,16 +1,16 @@
 Class {
-	#name : #CmResultBrowseCommand,
-	#superclass : #CmLeafResultCommand,
+	#name : #DTResultBrowseCommand,
+	#superclass : #DTLeafResultCommand,
 	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }
-CmResultBrowseCommand >> execute [
+DTResultBrowseCommand >> execute [
 	self context browseSelectedResult
 ]
 
 { #category : #hooks }
-CmResultBrowseCommand >> initialize [
+DTResultBrowseCommand >> initialize [
 	super initialize.
 	self basicName: 'Browse'
 ]

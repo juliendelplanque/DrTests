@@ -1,10 +1,10 @@
 Class {
-	#name : #CmLeafResultCommand,
-	#superclass : #CmResultCommand,
+	#name : #DTLeafResultCommand,
+	#superclass : #DTResultCommand,
 	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }
-CmLeafResultCommand >> canBeRun [
+DTLeafResultCommand >> canBeRun [
 	^ self resultSelected class = DTTreeLeaf
 ]

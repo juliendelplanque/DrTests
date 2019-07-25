@@ -1,16 +1,16 @@
 Class {
-	#name : #CmResultDebugCommand,
-	#superclass : #CmLeafResultCommand,
+	#name : #DTResultDebugCommand,
+	#superclass : #DTLeafResultCommand,
 	#category : #'DrTests-TestsRunner'
 }
 
 { #category : #initialization }
-CmResultDebugCommand >> execute [
+DTResultDebugCommand >> execute [
 	self drTest reRunPlugin: #debugTest:
 ]
 
 { #category : #initialization }
-CmResultDebugCommand >> initialize [
+DTResultDebugCommand >> initialize [
 	super initialize.
 	self basicName: 'Debug test'
 ]

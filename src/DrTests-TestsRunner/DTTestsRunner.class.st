@@ -23,10 +23,10 @@ DTTestsRunner >> allowMiniDrTests [
 DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'TestRunnerResult context menu') asSpecGroup
 		basicDescription: 'Commands related to re-run a result.';
-		register: (CmRerunFailuresCommand forSpec context: presenterIntance);
-		register: (CmRerunErrorsCommand forSpec context: presenterIntance);
-		register: (CmRerunATestCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
-		register: (CmResultDebugCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+		register: (DTRerunFailuresCommand forSpec context: presenterIntance);
+		register: (DTRerunErrorsCommand forSpec context: presenterIntance);
+		register: (DTRerunATestCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+		register: (DTResultDebugCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 		beDisplayedAsGroup;
 		yourself
 ]

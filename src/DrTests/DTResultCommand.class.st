@@ -1,20 +1,20 @@
 Class {
-	#name : #CmResultCommand,
+	#name : #DTResultCommand,
 	#superclass : #CmCommand,
 	#category : #'DrTests-Commands'
 }
 
 { #category : #accessing }
-CmResultCommand >> drTest [
+DTResultCommand >> drTest [
 	^ self context
 ]
 
 { #category : #accessing }
-CmResultCommand >> plugin [
+DTResultCommand >> plugin [
 	^ self drTest currentPlugin
 ]
 
 { #category : #hooks }
-CmResultCommand >> resultSelected [
+DTResultCommand >> resultSelected [
 	^ self drTest resultSelected
 ]

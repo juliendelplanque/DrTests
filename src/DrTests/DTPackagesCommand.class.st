@@ -1,5 +1,5 @@
 Class {
-	#name : #CmPackagesCommand,
+	#name : #DTPackagesCommand,
 	#superclass : #CmCommand,
 	#category : #'DrTests-Commands'
 }

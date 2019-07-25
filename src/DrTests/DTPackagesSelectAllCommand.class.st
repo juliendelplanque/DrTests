@@ -1,16 +1,16 @@
 Class {
-	#name : #CmPackagesSelectAllCommand,
-	#superclass : #CmPackagesCommand,
+	#name : #DTPackagesSelectAllCommand,
+	#superclass : #DTPackagesCommand,
 	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }
-CmPackagesSelectAllCommand >> execute [
+DTPackagesSelectAllCommand >> execute [
 self context selectAllPackageList
 ]
 
 { #category : #hooks }
-CmPackagesSelectAllCommand >> initialize [
+DTPackagesSelectAllCommand >> initialize [
 	super initialize.
 	self
 		basicName: 'Select all'.

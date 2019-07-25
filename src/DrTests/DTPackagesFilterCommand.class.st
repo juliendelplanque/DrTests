@@ -1,16 +1,16 @@
 Class {
-	#name : #CmPackagesFilterCommand,
-	#superclass : #CmPackagesCommand,
+	#name : #DTPackagesFilterCommand,
+	#superclass : #DTPackagesCommand,
 	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }
-CmPackagesFilterCommand >> execute [
+DTPackagesFilterCommand >> execute [
 self context filterPackageList
 ]
 
 { #category : #hooks }
-CmPackagesFilterCommand >> initialize [
+DTPackagesFilterCommand >> initialize [
 	super initialize.
 	self
 		basicName: 'Filter'; 

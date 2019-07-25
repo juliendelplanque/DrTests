@@ -62,8 +62,8 @@ DrTests class >> buildContextualPackageGroupWith: presenterIntance [
 DrTests class >> buildPackageGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Package tools') asSpecGroup
 		basicDescription: 'Commands related to packages list.';
-		register: (CmPackagesFilterCommand forSpec context: presenterIntance);
-		register: (CmPackagesSelectAllCommand forSpec context: presenterIntance);
+		register: (DTPackagesFilterCommand forSpec context: presenterIntance);
+		register: (DTPackagesSelectAllCommand forSpec context: presenterIntance);
 		beDisplayedAsGroup;
 		yourself
 ]
@@ -73,7 +73,7 @@ DrTests class >> buildResultGroupWith: presenterIntance [
 	presenterIntance currentPlugin hasExtraResultCommands
 		ifTrue: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
 				basicDescription: 'Commands related to result.';
-				register: (CmResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+				register: (DTResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 				register:
 					(presenterIntance currentPlugin
 						buildContextualMenuGroupWith: presenterIntance)
@@ -81,7 +81,7 @@ DrTests class >> buildResultGroupWith: presenterIntance [
 				yourself ]
 		ifFalse: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
 				basicDescription: 'Commands related to result.';
-				register: (CmResultBrowseCommand forSpec context: presenterIntance);
+				register: (DTResultBrowseCommand forSpec context: presenterIntance);
 				yourself ]
 ]
 
