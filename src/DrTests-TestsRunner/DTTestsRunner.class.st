@@ -19,6 +19,14 @@ DTTestsRunner >> allowMiniDrTests [
 	^ true
 ]
 
+{ #category : #'configuration building' }
+DTTestsRunner >> buildConfigurationFrom: aDrTests [
+	"Builds a configuration from the plugin by reading the information held by the UI (aDrTests)."
+	^ DTTestsRunnerConfiguration
+		items: aDrTests selectedItems
+		packages: aDrTests packagesSelected
+]
+
 { #category : #api }
 DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'TestRunnerResult context menu') asSpecGroup
