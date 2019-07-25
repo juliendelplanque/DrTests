@@ -11,7 +11,7 @@ Class {
 		'contextMenuBlock',
 		'subResultsAggregator'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'instance creation' }

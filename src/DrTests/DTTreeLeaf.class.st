@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'content'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'instance creation' }

@@ -35,7 +35,7 @@ Class {
 		'pluginResult',
 		'resultLabel'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Spec'
 }
 
 { #category : #'tools registry' }

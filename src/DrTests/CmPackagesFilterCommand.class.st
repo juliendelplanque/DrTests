@@ -1,7 +1,7 @@
 Class {
 	#name : #CmPackagesFilterCommand,
 	#superclass : #CmPackagesCommand,
-	#category : #DrTests
+	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }

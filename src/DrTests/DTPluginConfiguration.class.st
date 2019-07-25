@@ -9,7 +9,7 @@ Class {
 		'packagesSelected',
 		'testSuite'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #tests }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'testSuite'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #accessing }

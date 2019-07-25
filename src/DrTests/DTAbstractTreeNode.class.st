@@ -4,7 +4,7 @@ I am the abstract superclass for all classes that are nodes or leafs used to sho
 Class {
 	#name : #DTAbstractTreeNode,
 	#superclass : #Object,
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #actions }

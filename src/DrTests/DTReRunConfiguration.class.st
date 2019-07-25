@@ -5,7 +5,7 @@ Class {
 		'testToReRun',
 		'pluginResult'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'configuration building' }

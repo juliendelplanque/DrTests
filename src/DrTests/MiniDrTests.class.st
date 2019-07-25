@@ -5,7 +5,7 @@ Class {
 		'resultsList',
 		'pluginResult'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Spec'
 }
 
 { #category : #specs }

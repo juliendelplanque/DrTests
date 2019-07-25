@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'api - plugins' }

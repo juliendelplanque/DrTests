@@ -1,7 +1,7 @@
 Class {
 	#name : #CmResultCommand,
 	#superclass : #CmCommand,
-	#category : #DrTests
+	#category : #'DrTests-Commands'
 }
 
 { #category : #accessing }

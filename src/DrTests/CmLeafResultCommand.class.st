@@ -1,7 +1,7 @@
 Class {
 	#name : #CmLeafResultCommand,
 	#superclass : #CmResultCommand,
-	#category : #DrTests
+	#category : #'DrTests-Commands'
 }
 
 { #category : #hooks }

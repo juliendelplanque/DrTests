@@ -8,7 +8,7 @@ Class {
 		'switchButton',
 		'helpButton'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Spec'
 }
 
 { #category : #testing }
