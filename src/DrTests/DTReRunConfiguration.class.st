@@ -8,15 +8,6 @@ Class {
 	#category : #'DrTests-Model'
 }
 
-{ #category : #'configuration building' }
-DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite testToRun: anotherTestSuite [
-	^ self new
-		previousResult: aPluginResult;
-		testSuite: aTestSuite;
-		testToReRun: anotherTestSuite;
-		yourself.
-]
-
 { #category : #converting }
 DTReRunConfiguration >> asTestSuite [
 	^ self testToReRun class buildSuiteFromMethods: {self testToReRun selector}.
@@ -30,11 +21,6 @@ DTReRunConfiguration >> handleResults: aPluginResult for: aPlugin [
 { #category : #accessing }
 DTReRunConfiguration >> items [
 	^ { self testToReRun }
-]
-
-{ #category : #accessing }
-DTReRunConfiguration >> packagesSelected [
-	^ self originalConfiguration packagesSelected
 ]
 
 { #category : #accessing }
