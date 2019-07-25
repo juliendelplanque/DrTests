@@ -3,7 +3,7 @@ Class {
 	#superclass : #DTPluginConfiguration,
 	#instVars : [
 		'testToReRun',
-		'pluginResult'
+		'previousResult'
 	],
 	#category : #'DrTests-Model'
 }
@@ -11,7 +11,7 @@ Class {
 { #category : #'configuration building' }
 DTReRunConfiguration class >> result: aPluginResult testSuite: aTestSuite testToRun: anotherTestSuite [
 	^ self new
-		pluginResult: aPluginResult;
+		previousResult: aPluginResult;
 		testSuite: aTestSuite;
 		testToReRun: anotherTestSuite;
 		yourself.
@@ -38,13 +38,13 @@ DTReRunConfiguration >> packagesSelected [
 ]
 
 { #category : #accessing }
-DTReRunConfiguration >> pluginResult [
-	^ pluginResult
+DTReRunConfiguration >> previousResult [
+	^ previousResult
 ]
 
 { #category : #accessing }
-DTReRunConfiguration >> pluginResult: anObject [
-	pluginResult := anObject
+DTReRunConfiguration >> previousResult: anObject [
+	previousResult := anObject
 ]
 
 { #category : #accessing }

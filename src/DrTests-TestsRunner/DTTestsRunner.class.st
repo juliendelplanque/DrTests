@@ -48,7 +48,7 @@ DTTestsRunner >> debugTest: aDTRerunConfiguration [
 		testsResult.
 	oldResult := self
 		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration pluginResult testsResult.
+		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: partialResult);
 		testSuite: aDTRerunConfiguration testSuite;
@@ -65,7 +65,7 @@ DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunCon
 	| oldResult |
 	oldResult := self
 		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration pluginResult testsResult.
+		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: rerunnedResult testsResult);
 		testSuite: aDTRerunConfiguration testSuite;
@@ -77,7 +77,7 @@ DTTestsRunner >> hasExtraResultCommands [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 DTTestsRunner >> joinTestResult: aTestResult with: partialResult [
 	| newResult |
 	newResult := aTestResult.
@@ -180,7 +180,7 @@ DTTestsRunner >> runTest: aDTRerunConfiguration [
 		testsResult.
 	oldResult := self
 		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration pluginResult testsResult.
+		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: partialResult);
 		testSuite: aDTRerunConfiguration testSuite;
