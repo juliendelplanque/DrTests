@@ -6,7 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'items',
-		'packagesSelected'
+		'packagesSelected',
+		'testSuite'
 	],
 	#category : #'DrTests-Model'
 }
@@ -52,6 +53,12 @@ DTPluginConfiguration >> items: anObject [
 ]
 
 { #category : #accessing }
+DTPluginConfiguration >> items: anObject packages: packages [
+	items := anObject.
+	packagesSelected := packages
+]
+
+{ #category : #accessing }
 DTPluginConfiguration >> packagesSelected [
 	^ packagesSelected
 ]
@@ -59,4 +66,14 @@ DTPluginConfiguration >> packagesSelected [
 { #category : #accessing }
 DTPluginConfiguration >> packagesSelected: packages [
 	packagesSelected := packages
+]
+
+{ #category : #accessing }
+DTPluginConfiguration >> testSuite [
+	^ testSuite
+]
+
+{ #category : #accessing }
+DTPluginConfiguration >> testSuite: anObject [
+	testSuite := anObject
 ]
