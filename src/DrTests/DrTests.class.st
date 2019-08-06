@@ -25,7 +25,6 @@ Class {
 		'packagesListLabel',
 		'classesListLabel',
 		'resultsList',
-		'browseButton',
 		'toolbar',
 		'statusLabel',
 		'plugins',
@@ -124,8 +123,6 @@ DrTests class >> defaultSpec [
 						add: #resultLabel
 							withConstraints: [ :constraints | constraints height: self labelHeight ];
 						add: #resultsList;
-						add: #browseButton
-							withConstraints: [ :constraints | constraints expand: false ];
 						yourself);
 				yourself);
 		add: #startButton
@@ -167,11 +164,6 @@ DrTests class >> reloadConfiguration: aDTPluginConfiguration withResults: aDTPlu
 		currentPlugin: aDTPlugin;
 		testsConfiguration: aDTPluginConfiguration;
 		updateWithPluginResult: aDTPluginResult
-]
-
-{ #category : #'accessing - subwidgets' }
-DrTests >> browseButton [
-	^ browseButton
 ]
 
 { #category : #actions }
@@ -223,10 +215,7 @@ DrTests >> helpText [
 { #category : #initialization }
 DrTests >> initializeButtons [
 	super initializeButtons.
-	browseButton := self newButton.
-
 	switchButton disable.
-	browseButton action: [ self browseSelectedResult ]
 ]
 
 { #category : #initialization }
@@ -389,16 +378,6 @@ DrTests >> reRunPlugin: aSymbol [
 		ensure: [ self unlock ]
 ]
 
-{ #category : #'api - subwidgets configuration' }
-DrTests >> resultButtonHelp: aString [
-	self browseButton help: aString
-]
-
-{ #category : #'api - subwidgets configuration' }
-DrTests >> resultButtonLabel: aString [
-	self browseButton label: aString
-]
-
 { #category : #initialization }
 DrTests >> resultItemSelected [
 	^ self resultsList ifNil: [ #() ] ifNotNil: #selectedItem
@@ -462,7 +441,7 @@ DrTests >> statusLabel [
 
 { #category : #'api - locking' }
 DrTests >> subwidgetsToLock [
-	^ { self packagesList. self itemsList. self resultsList. self startButton. self browseButton }
+	^ { self packagesList. self itemsList. self resultsList. self startButton }
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -558,8 +537,6 @@ DrTests >> updateUI [
 	self
 		startButtonLabel: self currentPlugin startButtonLabel;
 		startButtonHelp: self currentPlugin startButtonHelp;
-		resultButtonLabel: self currentPlugin resultButtonLabel;
-		resultButtonHelp: self currentPlugin resultButtonHelp;
 		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
 	
 	self withWindowDo: [ :window | window title: self title ].

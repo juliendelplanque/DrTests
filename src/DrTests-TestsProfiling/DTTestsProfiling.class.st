@@ -32,11 +32,6 @@ DTTestsProfiling >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTTestsProfiling >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 	| results profilerVisitor |
 	profilerVisitor := DTTestsProfilerVisitor new.

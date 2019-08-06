@@ -25,11 +25,6 @@ DTRottenTestsPlugin >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
 	[ ^ DTRottenTestsResult new
 		rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);

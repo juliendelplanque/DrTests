@@ -115,22 +115,6 @@ DrTestsUITest >> testPluginsAreConfiguredPluginsOnly [
 ]
 
 { #category : #tests }
-DrTestsUITest >> testResultButtonHelpIsCurrentPluginResultButtonHelp [
-	
-	self
-		assert: drTestsUI browseButton help
-		equals: drTestsUI currentPlugin resultButtonHelp
-]
-
-{ #category : #tests }
-DrTestsUITest >> testResultButtonLabelIsCurrentPluginResultButtonLabel [
-	
-	self
-		assert: drTestsUI browseButton label
-		equals: drTestsUI currentPlugin resultButtonLabel
-]
-
-{ #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	| newPackagesSelected |
 	newPackagesSelected := {drTestsUI packagesList model items

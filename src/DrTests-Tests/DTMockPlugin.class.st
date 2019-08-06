@@ -57,12 +57,6 @@ DTMockPlugin >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTMockPlugin >> resultButtonLabel [
-	
-	^ 'Result?'
-]
-
-{ #category : #api }
 DTMockPlugin >> runForConfiguration: aDTpluginConfiguration [
 	hasBeenRun := true.
 	^ DTMockPluginResult new

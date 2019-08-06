@@ -54,11 +54,6 @@ DTCommentToTest >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTCommentToTest >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
 	^ DTCommentToTestResult new
 			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});

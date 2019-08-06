@@ -118,11 +118,6 @@ DTTestsRunner >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTTestsRunner >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTTestsRunner >> runErrors: aDTTestsRunnerResult [
 	| oldResult failuresResult |
 	oldResult := aDTTestsRunnerResult.

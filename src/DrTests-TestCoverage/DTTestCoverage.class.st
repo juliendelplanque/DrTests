@@ -63,11 +63,6 @@ DTTestCoverage >> resultButtonHelp [
 ]
 
 { #category : #api }
-DTTestCoverage >> resultButtonLabel [
-	^ 'Browse method' translated
-]
-
-{ #category : #api }
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
 	result := DTTestCoverageResult new.
