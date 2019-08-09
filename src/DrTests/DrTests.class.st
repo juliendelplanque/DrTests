@@ -32,7 +32,8 @@ Class {
 		'itemsListLabel',
 		'resultViewsDropList',
 		'pluginResult',
-		'resultLabel'
+		'resultLabel',
+		'packagesFilterTextInput'
 	],
 	#category : #'DrTests-Spec'
 }
@@ -108,6 +109,8 @@ DrTests class >> defaultSpec [
 								add: #packagesListLabel
 									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								add: #packagesList;
+								add: #packagesFilterTextInput
+									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								yourself);
 						add:
 							(SpBoxLayout newVertical
@@ -207,6 +210,15 @@ DrTests >> filterPackageList [
 				select: [ :each | '*' , pattern , '*' match: each name ])
 ]
 
+{ #category : #initialization }
+DrTests >> filterPackageListWithName: aString [
+	packagesList
+		unselectAll;
+		items:
+			(currentPlugin packagesAvailableForAnalysis
+				select: [ :each | '*' , aString , '*' match: each name ])
+]
+
 { #category : #accessing }
 DrTests >> helpText [
 	^ 'TODO'
@@ -253,7 +265,10 @@ DrTests >> initializePackagesListAndLabel [
 		"Filtering is not working in actual Spec state, so we disable it."
 			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
 			beMultipleSelection;
-		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ]
+		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ].
+	packagesFilterTextInput := self newTextInput
+		placeholder: 'Filter...';
+		whenTextChangedDo: [ self filterPackageListWithName: packagesFilterTextInput text ]
 ]
 
 { #category : #initialization }
@@ -328,6 +343,16 @@ DrTests >> itemsListLabel [
 DrTests >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
 	self resultSelected content drTestsBuildContextMenu: menu
+]
+
+{ #category : #accessing }
+DrTests >> packagesFilterTextInput [
+	^ packagesFilterTextInput
+]
+
+{ #category : #accessing }
+DrTests >> packagesFilterTextInput: anObject [
+	packagesFilterTextInput := anObject
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -538,9 +563,8 @@ DrTests >> updateUI [
 		startButtonLabel: self currentPlugin startButtonLabel;
 		startButtonHelp: self currentPlugin startButtonHelp;
 		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
-	
 	self withWindowDo: [ :window | window title: self title ].
-	
+	self packagesFilterTextInput text: ''.
 	self updatePackagesList.
 	self resultTree: DTTreeNode empty
 ]
