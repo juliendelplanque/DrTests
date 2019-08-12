@@ -16,7 +16,7 @@ DTRottenTestsResult >> buildTreeForUI [
 	<dTRottenTestsResultTreeNamed: 'List of rotten tests'>
 	^ DTTreeNode new
 		name: 'Rotten tests';
-		subResults: (self rottenTestsSet rottenTests collect: #asResultForDrTest);
+		subResults: (self rottenTestsSet rottenTests collect: #asResultForDrTest as: Array);
 		yourself
 ]
 
