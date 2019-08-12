@@ -160,7 +160,7 @@ DTTestsRunner >> runSuite: aTestSuite withResult: aResult [
 			self announcer
 				announce:
 					(DTStatusUpdate
-						message: ('Running test {1}.' format: {testAnnouncement test asString})) ].
+						message: ('Running test {1}.' format: {testAnnouncement test name})) ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
 ]
