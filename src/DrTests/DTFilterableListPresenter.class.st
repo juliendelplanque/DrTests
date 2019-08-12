@@ -15,6 +15,15 @@ Class {
 	#category : #'DrTests-Spec'
 }
 
+{ #category : #specs }
+DTFilterableListPresenter class >> defaultSpec [
+	^ SpBoxLayout newVertical
+		add: #labelPresenter withConstraints: [ :constraints | constraints height: self labelHeight ];
+		add: #listPresenter;
+		add: #filterTextInput withConstraints: [ :constraints | constraints height: self inputTextHeight ];
+		yourself
+]
+
 { #category : #accessing }
 DTFilterableListPresenter >> allItems [
 	^ initialItems
@@ -53,10 +62,35 @@ DTFilterableListPresenter >> filterTextInput [
 	^ filterTextInput
 ]
 
+{ #category : #initialization }
+DTFilterableListPresenter >> initializeWidgets [
+	labelPresenter := self newLabel.
+	listPresenter := self newList.
+	filterTextInput := self newTextInput
+								placeholder: 'Filter...';
+								whenTextChangedDo: [ self filterList ];
+								yourself
+]
+
 { #category : #api }
 DTFilterableListPresenter >> items: items [
 	initialItems := items.
 	self listPresenter items: items
+]
+
+{ #category : #accessing }
+DTFilterableListPresenter >> label [
+	^ labelPresenter label
+]
+
+{ #category : #accessing }
+DTFilterableListPresenter >> label: aString [
+	labelPresenter label: aString
+]
+
+{ #category : #accessing }
+DTFilterableListPresenter >> labelPresenter [
+	^ labelPresenter
 ]
 
 { #category : #accessing }

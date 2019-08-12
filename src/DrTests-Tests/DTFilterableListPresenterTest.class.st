@@ -29,3 +29,12 @@ DTFilterableListPresenterTest >> testFilterWorks [
 	self assertCollection: filterableList allItems equals: (1 to: 20).
 	self assertCollection: filterableList visibleItems equals: #(2 12 20).
 ]
+
+{ #category : #running }
+DTFilterableListPresenterTest >> testLabel [
+	self assert: filterableList label equals: ''.
+	
+	filterableList label: 'title'.
+	
+	self assert: filterableList label equals: 'title'.
+]
