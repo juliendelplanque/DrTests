@@ -19,3 +19,8 @@ TestCase >> drTestsBuildContextMenu: aMenuModel [
 TestCase >> drTestsName [
 	^ self asString
 ]
+
+{ #category : #'*DrTests-TestsRunner' }
+TestCase class >> drTestsSuite [
+	^ self suite
+]
