@@ -196,6 +196,15 @@ DrTests >> dateAndTimeString [
 ]
 
 { #category : #initialization }
+DrTests >> filterList: aListPresenter withName: aString [
+	aListPresenter
+		unselectAll;
+		items:
+			(currentPlugin packagesAvailableForAnalysis
+				select: [ :each | '*' , aString , '*' match: each name ])
+]
+
+{ #category : #initialization }
 DrTests >> filterPackageList [
 	| pattern |
 	pattern := UIManager default
@@ -208,15 +217,6 @@ DrTests >> filterPackageList [
 		items:
 			(currentPlugin packagesAvailableForAnalysis
 				select: [ :each | '*' , pattern , '*' match: each name ])
-]
-
-{ #category : #initialization }
-DrTests >> filterPackageListWithName: aString [
-	packagesList
-		unselectAll;
-		items:
-			(currentPlugin packagesAvailableForAnalysis
-				select: [ :each | '*' , aString , '*' match: each name ])
 ]
 
 { #category : #accessing }
@@ -264,7 +264,7 @@ DrTests >> initializePackagesListAndLabel [
 		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ].
 	packagesFilterTextInput := self newTextInput
 		placeholder: 'Filter...';
-		whenTextChangedDo: [ self filterPackageListWithName: packagesFilterTextInput text ]
+		whenTextChangedDo: [ self filterList: packagesList withName:  packagesFilterTextInput text ]
 ]
 
 { #category : #initialization }
