@@ -204,21 +204,6 @@ DrTests >> filterList: aListPresenter withName: aString [
 				select: [ :each | '*' , aString , '*' match: each name ])
 ]
 
-{ #category : #initialization }
-DrTests >> filterPackageList [
-	| pattern |
-	pattern := UIManager default
-		request: 'Name of package'
-		initialAnswer: '*'.
-	pattern isNil
-		ifTrue: [ ^ self ].
-	packagesList
-		unselectAll;
-		items:
-			(currentPlugin packagesAvailableForAnalysis
-				select: [ :each | '*' , pattern , '*' match: each name ])
-]
-
 { #category : #accessing }
 DrTests >> helpText [
 	^ 'TODO'
