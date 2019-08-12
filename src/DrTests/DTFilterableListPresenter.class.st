@@ -31,7 +31,7 @@ DTFilterableListPresenter >> allItems [
 
 { #category : #api }
 DTFilterableListPresenter >> beEmpty [
-	
+	self items: #()
 ]
 
 { #category : #api }
