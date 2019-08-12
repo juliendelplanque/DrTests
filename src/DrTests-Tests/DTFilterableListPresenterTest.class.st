@@ -19,6 +19,13 @@ DTFilterableListPresenterTest >> setUp [
 							yourself.	
 ]
 
+{ #category : #test }
+DTFilterableListPresenterTest >> testFilterString [
+	filterableList filterTextInput text: 'foo'.
+	
+	self assert: filterableList filterString equals: '*foo*'
+]
+
 { #category : #tests }
 DTFilterableListPresenterTest >> testFilterWorks [
 	self assertCollection: filterableList allItems equals: (1 to: 20).
