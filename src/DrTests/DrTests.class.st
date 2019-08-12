@@ -28,7 +28,6 @@ Class {
 		'statusLabel',
 		'plugins',
 		'itemsList',
-		'itemsListLabel',
 		'resultViewsDropList',
 		'pluginResult',
 		'resultLabel'
@@ -108,8 +107,6 @@ DrTests class >> defaultSpec [
 								yourself);
 						add:
 							(SpBoxLayout newVertical
-								add: #itemsListLabel
-									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								add: #itemsList;
 								yourself);
 						yourself);
@@ -202,27 +199,20 @@ DrTests >> initializeButtons [
 
 { #category : #initialization }
 DrTests >> initializeItemsListAndLabel [
-	itemsListLabel := self newLabel.
-	itemsListLabel
-		help:
-			'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.'.
-	itemsList := self newList.
+	itemsList := self newFilterableListPresenter..
 	itemsList
+		help: 'Select the classes to analyze. Cmd+A or Ctrl+A to select all classes.';
 		sortingBlock: #name ascending;
 		displayBlock: [ :item | item name ];
 		whenSelectionChangedDo: [ self whenItemsSelectionChanged: self selectedItems ];
-		disableFilter;
-		flag: #TODO;
-		"Filtering is not working in actual Spec state, so we disable it."
-			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-			beMultipleSelection.
+		beMultipleSelection.
 	packagesList
 		whenSelectionChangedDo: [ self whenPackagesSelectionChanged: self packagesSelected ]
 ]
 
 { #category : #initialization }
 DrTests >> initializePackagesListAndLabel [
-	packagesList := self instantiate: DTFilterableListPresenter.
+	packagesList := self newFilterableListPresenter.
 	packagesList
 		help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.';
 		sortingBlock: #name ascending;
@@ -294,15 +284,15 @@ DrTests >> itemsList [
 	^ itemsList
 ]
 
-{ #category : #'accessing - subwidgets' }
-DrTests >> itemsListLabel [
-	^ itemsListLabel
-]
-
 { #category : #private }
 DrTests >> menuForSelectedResult: menu [
 	self resultSelected ifNil: [ ^ self ].
 	self resultSelected content drTestsBuildContextMenu: menu
+]
+
+{ #category : #widgets }
+DrTests >> newFilterableListPresenter [
+	^ self instantiate: DTFilterableListPresenter
 ]
 
 { #category : #'accessing - subwidgets' }
@@ -443,7 +433,7 @@ DrTests >> title [
 
 { #category : #private }
 DrTests >> updateItemsListLabel [
-	self itemsListLabel
+	self itemsList
 		label:
 			(self
 				buildLabelString: self currentPlugin secondListLabel
@@ -453,7 +443,7 @@ DrTests >> updateItemsListLabel [
 { #category : #private }
 DrTests >> updatePackagesList [
 	packagesList unselectAll.
-	itemsList newEmptyModel.
+	itemsList beEmpty.
 	packagesList items: currentPlugin packagesAvailableForAnalysis.
 	currentPlugin setSelectionModeOfPackageList: packagesList.
 	currentPlugin setSelectionModeOfItemsList: itemsList

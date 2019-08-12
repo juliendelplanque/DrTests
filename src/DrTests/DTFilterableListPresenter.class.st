@@ -30,6 +30,11 @@ DTFilterableListPresenter >> allItems [
 ]
 
 { #category : #api }
+DTFilterableListPresenter >> beEmpty [
+	
+]
+
+{ #category : #api }
 DTFilterableListPresenter >> beMultipleSelection [
 	^ self listPresenter beMultipleSelection
 ]
@@ -44,7 +49,7 @@ DTFilterableListPresenter >> displayBlock: aBlock [
 	^ self listPresenter displayBlock: aBlock
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 DTFilterableListPresenter >> filterList [
 	"Filters the list according to the filterTextInput."
 	self unselectAll.
