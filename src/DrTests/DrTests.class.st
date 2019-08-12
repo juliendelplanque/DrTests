@@ -22,7 +22,6 @@ Class {
 	#instVars : [
 		'pluginsDropList',
 		'packagesList',
-		'packagesListLabel',
 		'classesListLabel',
 		'resultsList',
 		'toolbar',
@@ -32,8 +31,7 @@ Class {
 		'itemsListLabel',
 		'resultViewsDropList',
 		'pluginResult',
-		'resultLabel',
-		'packagesFilterTextInput'
+		'resultLabel'
 	],
 	#category : #'DrTests-Spec'
 }
@@ -106,11 +104,7 @@ DrTests class >> defaultSpec [
 					(SpPanedLayout newHorizontal
 						add:
 							(SpBoxLayout newVertical
-								add: #packagesListLabel
-									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								add: #packagesList;
-								add: #packagesFilterTextInput
-									withConstraints: [ :constraints | constraints height: self labelHeight ];
 								yourself);
 						add:
 							(SpBoxLayout newVertical
@@ -195,15 +189,6 @@ DrTests >> dateAndTimeString [
 	^ DateAndTime now asStringYMDHM
 ]
 
-{ #category : #private }
-DrTests >> filterList: aListPresenter withName: aString [
-	aListPresenter
-		unselectAll;
-		items:
-			(currentPlugin packagesAvailableForAnalysis
-				select: [ :each | '*' , aString , '*' match: each name ])
-]
-
 { #category : #accessing }
 DrTests >> helpText [
 	^ 'TODO'
@@ -237,19 +222,13 @@ DrTests >> initializeItemsListAndLabel [
 
 { #category : #initialization }
 DrTests >> initializePackagesListAndLabel [
-	packagesListLabel := self newLabel.
-	packagesListLabel
-		help:
-			'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.'.
-	packagesList := self newList.
+	packagesList := self instantiate: DTFilterableListPresenter.
 	packagesList
+		help: 'Select the packages to analyze. Cmd+A or Ctrl+A to select all packages.';
 		sortingBlock: #name ascending;
 		displayBlock: [ :package | package name ];
 		beMultipleSelection;
-		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ].
-	packagesFilterTextInput := self newTextInput
-		placeholder: 'Filter...';
-		whenTextChangedDo: [ self filterList: packagesList withName:  packagesFilterTextInput text ]
+		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ]
 ]
 
 { #category : #initialization }
@@ -326,24 +305,9 @@ DrTests >> menuForSelectedResult: menu [
 	self resultSelected content drTestsBuildContextMenu: menu
 ]
 
-{ #category : #accessing }
-DrTests >> packagesFilterTextInput [
-	^ packagesFilterTextInput
-]
-
-{ #category : #accessing }
-DrTests >> packagesFilterTextInput: anObject [
-	packagesFilterTextInput := anObject
-]
-
 { #category : #'accessing - subwidgets' }
 DrTests >> packagesList [
 	^ packagesList
-]
-
-{ #category : #'accessing - subwidgets' }
-DrTests >> packagesListLabel [
-	^ packagesListLabel
 ]
 
 { #category : #private }
@@ -497,7 +461,7 @@ DrTests >> updatePackagesList [
 
 { #category : #private }
 DrTests >> updatePackagesListLabel [
-	self packagesListLabel
+	self packagesList
 		label:
 			(self
 				buildLabelString: self currentPlugin firstListLabel
@@ -545,7 +509,7 @@ DrTests >> updateUI [
 		startButtonHelp: self currentPlugin startButtonHelp;
 		updateStatus: self currentPlugin pluginName , ' plugin is ready to work!' translated.
 	self withWindowDo: [ :window | window title: self title ].
-	self packagesFilterTextInput text: ''.
+	self packagesList resetFilter.
 	self updatePackagesList.
 	self resultTree: DTTreeNode empty
 ]

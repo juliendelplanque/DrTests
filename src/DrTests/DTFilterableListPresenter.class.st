@@ -35,6 +35,11 @@ DTFilterableListPresenter >> beMultipleSelection [
 ]
 
 { #category : #api }
+DTFilterableListPresenter >> contextMenu: aBlock [
+	^ self listPresenter contextMenu: aBlock
+]
+
+{ #category : #api }
 DTFilterableListPresenter >> displayBlock: aBlock [
 	^ self listPresenter displayBlock: aBlock
 ]
@@ -62,6 +67,22 @@ DTFilterableListPresenter >> filterTextInput [
 	^ filterTextInput
 ]
 
+{ #category : #accessing }
+DTFilterableListPresenter >> help [
+	^ labelPresenter help
+]
+
+{ #category : #accessing }
+DTFilterableListPresenter >> help: aString [
+	labelPresenter help: aString
+]
+
+{ #category : #initialization }
+DTFilterableListPresenter >> initialize [
+	initialItems := #().
+	super initialize.
+]
+
 { #category : #initialization }
 DTFilterableListPresenter >> initializeWidgets [
 	labelPresenter := self newLabel.
@@ -70,6 +91,11 @@ DTFilterableListPresenter >> initializeWidgets [
 								placeholder: 'Filter...';
 								whenTextChangedDo: [ self filterList ];
 								yourself
+]
+
+{ #category : #accessing }
+DTFilterableListPresenter >> items [
+	^ self visibleItems
 ]
 
 { #category : #api }
@@ -110,6 +136,11 @@ DTFilterableListPresenter >> selectAll [
 ]
 
 { #category : #api }
+DTFilterableListPresenter >> selectedItems [
+	^ self listPresenter selectedItems
+]
+
+{ #category : #api }
 DTFilterableListPresenter >> sortingBlock: aBlock [
 	^ self listPresenter sortingBlock: aBlock
 ]
@@ -122,4 +153,9 @@ DTFilterableListPresenter >> unselectAll [
 { #category : #accessing }
 DTFilterableListPresenter >> visibleItems [
 	^ self listPresenter items
+]
+
+{ #category : #api }
+DTFilterableListPresenter >> whenSelectionChangedDo: aBlock [
+	^ self listPresenter whenSelectionChangedDo: aBlock
 ]

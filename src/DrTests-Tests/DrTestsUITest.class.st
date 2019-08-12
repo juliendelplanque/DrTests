@@ -48,7 +48,7 @@ DrTestsUITest >> testCurrentPluginIsSelectedInDropDown [
 { #category : #tests }
 DrTestsUITest >> testInitialPackagesAreInitialPluginPackages [
 	self
-		assertCollection: drTestsUI packagesList model items
+		assertCollection: drTestsUI packagesList items
 		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
@@ -87,8 +87,8 @@ DrTestsUITest >> testMultipleSelectingPackagesWillUpdateTheClassesList [
 	| currentPluginSelected randomPackage newPackagesSelected classesList packageSelected |
 	currentPluginSelected := drTestsUI pluginsDropList selectedItem.
 	newPackagesSelected := OrderedCollection new.
-	packageSelected := drTestsUI packagesList model items anyOne.
-	randomPackage := (drTestsUI packagesList model items
+	packageSelected := drTestsUI packagesList items anyOne.
+	randomPackage := (drTestsUI packagesList items
 		\ {packageSelected}) anyOne.
 	newPackagesSelected add: packageSelected.
 	newPackagesSelected add: randomPackage.
@@ -117,7 +117,7 @@ DrTestsUITest >> testPluginsAreConfiguredPluginsOnly [
 { #category : #tests }
 DrTestsUITest >> testSelectingPackageWillUpdateTheClassesList [
 	| newPackagesSelected |
-	newPackagesSelected := {drTestsUI packagesList model items
+	newPackagesSelected := {drTestsUI packagesList items
 		anyOne}.
 	drTestsUI whenPackagesSelectionChanged: newPackagesSelected.
 	self
@@ -135,7 +135,7 @@ DrTestsUITest >> testSelectingPluginWillUpdateCurrentPluginInstanceVariable [
 DrTestsUITest >> testSelectingPluginWillUpdatePackagesList [
 	drTestsUI pluginsDropList selectedItem: plugin2.
 	self
-		assertCollection: drTestsUI packagesList model items
+		assertCollection: drTestsUI packagesList items
 		hasSameElements: drTestsUI currentPlugin packagesAvailableForAnalysis
 ]
 
