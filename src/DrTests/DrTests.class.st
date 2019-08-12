@@ -59,7 +59,6 @@ DrTests class >> buildContextualPackageGroupWith: presenterIntance [
 DrTests class >> buildPackageGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Package tools') asSpecGroup
 		basicDescription: 'Commands related to packages list.';
-		register: (DTPackagesFilterCommand forSpec context: presenterIntance);
 		register: (DTPackagesSelectAllCommand forSpec context: presenterIntance);
 		beDisplayedAsGroup;
 		yourself
