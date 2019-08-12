@@ -188,6 +188,7 @@ DrTests >> dateAndTimeString [
 
 { #category : #accessing }
 DrTests >> helpText [
+	self flag: #TODO.
 	^ 'TODO'
 ]
 
