@@ -195,7 +195,7 @@ DrTests >> dateAndTimeString [
 	^ DateAndTime now asStringYMDHM
 ]
 
-{ #category : #initialization }
+{ #category : #private }
 DrTests >> filterList: aListPresenter withName: aString [
 	aListPresenter
 		unselectAll;
@@ -361,7 +361,7 @@ DrTests >> pluginResult: anObject [
 	pluginResult := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 DrTests >> plugins [
 	^ plugins ifNil: [ DrTestsPlugin availablePlugins ]
 ]
@@ -371,7 +371,7 @@ DrTests >> pluginsDropList [
 	^ pluginsDropList
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> reRunPlugin: aSymbol [
 	| newResult |
 	[ self lock.
@@ -384,7 +384,7 @@ DrTests >> reRunPlugin: aSymbol [
 		ensure: [ self unlock ]
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 DrTests >> resultItemSelected [
 	^ self resultsList ifNil: [ #() ] ifNotNil: #selectedItem
 ]
@@ -415,7 +415,7 @@ DrTests >> resultsList [
 	^ resultsList
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> runPluginMethod: aSymbol [
 	[ self lock.
 	self updateStatus: 'Tests started.'.
@@ -425,7 +425,7 @@ DrTests >> runPluginMethod: aSymbol [
 		ensure: [ self unlock ]
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> selectAllPackageList [
 	packagesList selectAll
 ]
@@ -435,7 +435,7 @@ DrTests >> selectedItems [
 	^ self itemsList selectedItems
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing model' }
 DrTests >> setModelBeforeInitialization: aDomainObject [
 	plugins := aDomainObject
 ]
@@ -472,7 +472,7 @@ DrTests >> testsConfiguration: aDTTestsConfiguration [
 	self itemsList selectItems: aDTTestsConfiguration items
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 DrTests >> title [
 	^ 'Dr Tests - ' , currentPlugin pluginName
 ]
@@ -504,14 +504,14 @@ DrTests >> updatePackagesListLabel [
 				numberOfItemsSelected: self packagesSelected size)
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> updateResultLabel [
 	resultLabel
 		label: 'Results: ■';
 		color: pluginResult color
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> updateResultViewsDropList: aPragmaKey [
 	| newPragmas |
 	newPragmas := (PragmaCollector
@@ -550,12 +550,12 @@ DrTests >> updateUI [
 	self resultTree: DTTreeNode empty
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> updateWithPluginResult: aPluginResult [
 	aPluginResult ifNotNil: [ self updateWithResults: aPluginResult ]
 ]
 
-{ #category : #initialization }
+{ #category : #api }
 DrTests >> updateWithResults: results [
 	pluginResult := results.
 	self resultTree: pluginResult buildTreeForUI.
