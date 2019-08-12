@@ -260,11 +260,7 @@ DrTests >> initializePackagesListAndLabel [
 	packagesList
 		sortingBlock: #name ascending;
 		displayBlock: [ :package | package name ];
-		disableFilter;
-		flag: #TODO;
-		"Filtering is not working in actual Spec state, so we disable it."
-			"itemFilterBlock: [ :item :string | '*' , string , '*' match: item contents ];"
-			beMultipleSelection;
+		beMultipleSelection;
 		contextMenu: [ (self rootCommandsGroup / 'Package menu') beRoot asMenuPresenter ].
 	packagesFilterTextInput := self newTextInput
 		placeholder: 'Filter...';
