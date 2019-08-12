@@ -1,16 +1,16 @@
 Class {
-	#name : #DTRerunFailuresCommand,
+	#name : #DTDynamicRerunFailuresCommand,
 	#superclass : #DTResultCommand,
 	#category : #'DrTests-TestsRunner'
 }
 
 { #category : #hooks }
-DTRerunFailuresCommand >> execute [
+DTDynamicRerunFailuresCommand >> execute [
 	self context runPluginMethod: #runFailures:
 ]
 
 { #category : #hooks }
-DTRerunFailuresCommand >> initialize [
+DTDynamicRerunFailuresCommand >> initialize [
 	super initialize.
 	self basicName: 'Re-run Failures'
 ]
