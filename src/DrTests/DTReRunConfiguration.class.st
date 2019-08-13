@@ -2,15 +2,26 @@ Class {
 	#name : #DTReRunConfiguration,
 	#superclass : #DTPluginConfiguration,
 	#instVars : [
-		'testToReRun',
-		'previousResult'
+		'previousResult',
+		'configurationToRun',
+		'originalConfiguration'
 	],
 	#category : #'DrTests-Model'
 }
 
 { #category : #converting }
 DTReRunConfiguration >> asTestSuite [
-	^ self testToReRun class buildSuiteFromMethods: {self testToReRun selector}.
+	^ self configurationToRun asTestSuite
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> configurationToRun [
+	^ configurationToRun
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> configurationToRun: anObject [
+	configurationToRun := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -24,6 +35,16 @@ DTReRunConfiguration >> items [
 ]
 
 { #category : #accessing }
+DTReRunConfiguration >> originalConfiguration [
+	^ originalConfiguration
+]
+
+{ #category : #accessing }
+DTReRunConfiguration >> originalConfiguration: anObject [
+	originalConfiguration := anObject
+]
+
+{ #category : #accessing }
 DTReRunConfiguration >> previousResult [
 	^ previousResult
 ]
@@ -31,14 +52,4 @@ DTReRunConfiguration >> previousResult [
 { #category : #accessing }
 DTReRunConfiguration >> previousResult: anObject [
 	previousResult := anObject
-]
-
-{ #category : #accessing }
-DTReRunConfiguration >> testToReRun [
-	^ testToReRun
-]
-
-{ #category : #accessing }
-DTReRunConfiguration >> testToReRun: anObject [
-	testToReRun := anObject
 ]

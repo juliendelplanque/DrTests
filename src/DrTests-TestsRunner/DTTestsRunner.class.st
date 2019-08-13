@@ -63,7 +63,7 @@ DTTestsRunner >> firstListLabel [
 DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunConfiguration [
 	| oldResult |
 	oldResult := self
-		removeTest: aDTRerunConfiguration testToReRun
+		removeTests: aDTRerunConfiguration configurationToRun items
 		from: aDTRerunConfiguration previousResult testsResult.
 	^ DTTestsRunnerResult new
 		testsResult: (self joinTestResult: oldResult with: rerunnedResult testsResult);
@@ -95,20 +95,25 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 
 { #category : #api }
 DTTestsRunner >> reRunPlugin: aSymbol with: aDTRerunConfiguration [
+	self deprecated: 'Should not be used, meta-programming. Need to be removed.'.
 	^ self perform: aSymbol with: aDTRerunConfiguration
 ]
 
 { #category : #private }
 DTTestsRunner >> removeTest: aTest from: aTestResult [
 	aTestResult
-		instVarNamed: 'passed'
-		put: (aTestResult passed copyWithout: aTest).
+		passed: (aTestResult passed copyWithout: aTest).
 	aTestResult
-		instVarNamed: 'failures'
-		put: (aTestResult failures copyWithout: aTest).
+		failures: (aTestResult failures copyWithout: aTest).
 	aTestResult
-		instVarNamed: 'errors'
-		put: (aTestResult errors copyWithout: aTest).
+		errors: (aTestResult errors copyWithout: aTest).
+	^ aTestResult
+]
+
+{ #category : #private }
+DTTestsRunner >> removeTests: aCollectionOfTest from: aTestResult [
+	aCollectionOfTest do: [ :test |
+		self removeTest: test from: aTestResult ].
 	^ aTestResult
 ]
 

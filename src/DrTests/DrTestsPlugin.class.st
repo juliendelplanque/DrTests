@@ -76,7 +76,7 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 
 	^ DTReRunConfiguration new
 		previousResult: aDrTests pluginResult;
-		testToReRun: aDrTests resultSelected content;
+		configurationToRun: (DTTestsRunnerConfiguration items: { aDrTests resultSelected content });
 		yourself
 ]
 
@@ -117,6 +117,7 @@ DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 
 { #category : #api }
 DrTestsPlugin >> reRunPlugin: aSymbol with: aDTpluginConfiguration [
+	self deprecated: 'Should not be used, meta-programming. Need to be removed.'.
 ]
 
 { #category : #api }
