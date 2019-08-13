@@ -18,6 +18,11 @@ DTTreeLeaf class >> content: aRottenTest [
 		yourself
 ]
 
+{ #category : #visiting }
+DTTreeLeaf >> acceptVisitor: aDTResultsTreeVisitor [
+	^ aDTResultsTreeVisitor visitDTTreeLeaf: self
+]
+
 { #category : #accessing }
 DTTreeLeaf >> content [
 	^ content

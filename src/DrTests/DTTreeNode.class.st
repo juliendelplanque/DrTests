@@ -21,6 +21,11 @@ DTTreeNode class >> empty [
 		yourself
 ]
 
+{ #category : #visiting }
+DTTreeNode >> acceptVisitor: aDTResultsTreeVisitor [
+	^ aDTResultsTreeVisitor visitDTTreeNode: self
+]
+
 { #category : #accessing }
 DTTreeNode >> contextMenuBlock [
 	^ contextMenuBlock
