@@ -328,6 +328,7 @@ DrTests >> pluginsDropList [
 { #category : #api }
 DrTests >> reRunPlugin: aSymbol [
 	| newResult |
+	self deprecated: 'Meta-programming, to remove.'.
 	[ self lock.
 	self updateStatus: 'Tests started.'.
 	newResult := self currentPlugin
@@ -371,6 +372,7 @@ DrTests >> resultsList [
 
 { #category : #api }
 DrTests >> runPluginMethod: aSymbol [
+	self deprecated: 'Meta-programming should be removed.'.
 	[ self lock.
 	self updateStatus: 'Tests started.'.
 	self
