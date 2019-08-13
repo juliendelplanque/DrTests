@@ -4,6 +4,11 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #deprecation }
+DTDynamicRerunErrorsCommand class >> isDeprecated [
+	^ true
+]
+
 { #category : #hooks }
 DTDynamicRerunErrorsCommand >> execute [
 	self context runPluginMethod: #runErrors:

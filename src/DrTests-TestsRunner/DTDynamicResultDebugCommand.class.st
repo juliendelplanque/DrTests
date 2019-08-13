@@ -4,6 +4,11 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #deprecation }
+DTDynamicResultDebugCommand class >> isDeprecated [
+	^ true
+]
+
 { #category : #initialization }
 DTDynamicResultDebugCommand >> execute [
 	self drTest reRunPlugin: #debugTest:
