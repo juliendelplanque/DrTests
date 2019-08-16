@@ -467,7 +467,9 @@ DrTests >> updateResultViewsDropList [
 	newPragmas := (PragmaCollector
 		filter: [ :prg | prg keyword = self currentPlugin pragmaForResultTrees ]) reset collected.
 		
-	self resultViewsDropList listItems = newPragmas ifTrue: [ ^ self ].
+	self resultViewsDropList listItems = newPragmas ifTrue: [ 
+		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex.
+		^ self ].
 	
 	self resultViewsDropList
 		items: newPragmas;
