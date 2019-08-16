@@ -109,7 +109,11 @@ DrTestsPlugin >> pragmaForResultTrees [
 
 { #category : #accessing }
 DrTestsPlugin >> pragmasFor: aDTPluginResult [
-	^ Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class
+	| pragmas |
+	pragmas := Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class.
+	
+	^ pragmas collect: [ :pragma |
+		DTResultTreeView name: (pragma argumentAt: 1) blockToExtractViewFromResult: pragma methodSelector ]
 ]
 
 { #category : #api }

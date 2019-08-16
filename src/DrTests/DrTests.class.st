@@ -223,9 +223,9 @@ DrTests >> initializePluginsDropList [
 DrTests >> initializePresenter [
 	super initializePresenter.
 	self resultViewsDropList
-		whenSelectedItemChangedDo: [ :pragmaOrNil |
-			pragmaOrNil ifNotNil: [ 
-				resultsList roots: (pragmaOrNil methodSelector value: pluginResult) subResults ] ].
+		whenSelectedItemChangedDo: [ :resultTreeViewOrNil |
+			resultTreeViewOrNil ifNotNil: [ 
+				resultsList roots: (resultTreeViewOrNil resultTreeFor: pluginResult) subResults ] ].
 	self pluginsDropList selectedIndex: 1
 ]
 
@@ -234,7 +234,7 @@ DrTests >> initializeResultViewsDropList [
 	resultViewsDropList := self newDropList.
 	self resultViewsDropList
 		help: 'Select the different views for results';
-		displayBlock: [ :prag | prag argumentAt: 1 ]
+		displayBlock: [ :resultTreeView | resultTreeView name ]
 ]
 
 { #category : #initialization }
