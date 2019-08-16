@@ -14,8 +14,3 @@ DTMockPluginResult >> buildTreeForUI [
 		subResults: {};
 		yourself
 ]
-
-{ #category : #accessing }
-DTMockPluginResult >> pragmaKey [
-^#'pragmaForTest:'
-]

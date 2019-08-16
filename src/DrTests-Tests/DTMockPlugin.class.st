@@ -50,6 +50,11 @@ DTMockPlugin >> packagesAvailableForAnalysis [
 	^ {self class package}
 ]
 
+{ #category : #accessing }
+DTMockPlugin >> pragmaKey [
+^#'pragmaForTest:'
+]
+
 { #category : #api }
 DTMockPlugin >> resultButtonHelp [
 	

@@ -125,11 +125,6 @@ DTTestsRunnerResult >> createLeafs: aDictionary [
 ]
 
 { #category : #accessing }
-DTTestsRunnerResult >> pragmaKey [
-	^ #'dTTestRunnerResultTreeNamed:'
-]
-
-{ #category : #accessing }
 DTTestsRunnerResult >> summarizeInfo [
 	"Text showed in miniDrTests with info of the result "
 

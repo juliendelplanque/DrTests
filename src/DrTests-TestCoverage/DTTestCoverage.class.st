@@ -57,6 +57,11 @@ DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
+{ #category : #accessing }
+DTTestCoverage >> pragmaKey [
+	^ #'dTTestCoverageResultTreeNamed:'
+]
+
 { #category : #api }
 DTTestCoverage >> resultButtonHelp [
 	^ 'Browse the method selected in the results list.' translated

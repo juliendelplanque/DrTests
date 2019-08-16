@@ -21,11 +21,6 @@ DTRottenTestsResult >> buildTreeForUI [
 ]
 
 { #category : #accessing }
-DTRottenTestsResult >> pragmaKey [
-	^ #'dTRottenTestsResultTreeNamed:'
-]
-
-{ #category : #accessing }
 DTRottenTestsResult >> rottenTestsSet [
 	^ rottenTestsSet
 ]

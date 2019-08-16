@@ -48,6 +48,11 @@ DTCommentToTest >> packagesAvailableForAnalysis [
 		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
+{ #category : #accessing }
+DTCommentToTest >> pragmaKey [
+	^ #'dTCommentToTestResultTreeNamed:'
+]
+
 { #category : #api }
 DTCommentToTest >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated

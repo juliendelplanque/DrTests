@@ -19,6 +19,11 @@ DTRottenTestsPlugin >> firstListLabel [
 	^ 'Test Packages'
 ]
 
+{ #category : #accessing }
+DTRottenTestsPlugin >> pragmaKey [
+	^ #'dTRottenTestsResultTreeNamed:'
+]
+
 { #category : #api }
 DTRottenTestsPlugin >> resultButtonHelp [
 	^ 'Browse the rotten test selected in the results list.' translated

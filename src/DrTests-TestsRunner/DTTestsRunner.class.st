@@ -85,6 +85,11 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 		aTestSuite tests size > 1 ifTrue: [ stream nextPut: $s ] ]. 
 ]
 
+{ #category : #accessing }
+DTTestsRunner >> pragmaKey [
+	^ #'dTTestRunnerResultTreeNamed:'
+]
+
 { #category : #api }
 DTTestsRunner >> reRunPlugin: aSymbol with: aDTRerunConfiguration [
 	self deprecated: 'Should not be used, meta-programming. Need to be removed.'.

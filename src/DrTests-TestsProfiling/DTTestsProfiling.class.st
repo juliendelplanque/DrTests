@@ -26,6 +26,11 @@ DTTestsProfiling >> firstListLabel [
 	^ 'Packages'
 ]
 
+{ #category : #accessing }
+DTTestsProfiling >> pragmaKey [
+	^ #'dTTestsProfilingResultTreeNamed:'
+]
+
 { #category : #api }
 DTTestsProfiling >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated

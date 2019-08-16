@@ -82,11 +82,6 @@ DTTestsProfilingResult >> buildTreeNode [
 ]
 
 { #category : #accessing }
-DTTestsProfilingResult >> pragmaKey [
-	^ #'dTTestsProfilingResultTreeNamed:'
-]
-
-{ #category : #accessing }
 DTTestsProfilingResult >> testsResult [
 	^ testsResult
 ]

@@ -37,11 +37,6 @@ DTCommentToTestResult >> buildTreeForUI [
 ]
 
 { #category : #accessing }
-DTCommentToTestResult >> pragmaKey [
-	^ #'dTCommentToTestResultTreeNamed:'
-]
-
-{ #category : #accessing }
 DTCommentToTestResult >> testsResult [
 	^ testsResult
 ]

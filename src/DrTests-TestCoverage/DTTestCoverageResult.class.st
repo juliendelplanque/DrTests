@@ -50,11 +50,6 @@ DTTestCoverageResult >> percent: anObject [
 ]
 
 { #category : #accessing }
-DTTestCoverageResult >> pragmaKey [
-	^ #'dTTestCoverageResultTreeNamed:'
-]
-
-{ #category : #accessing }
 DTTestCoverageResult >> summarizeInfo [
 	"Text showed in miniDrTests with info of the result "
 
