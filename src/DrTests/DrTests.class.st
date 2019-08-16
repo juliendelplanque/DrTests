@@ -40,21 +40,21 @@ DrTests class >> beDefaultTestRunner [
 	self registerToolsOn: Smalltalk tools
 ]
 
-{ #category : #specs }
+{ #category : #commands }
 DrTests class >> buildCommandsGroupWith: presenterIntance forRoot: rootCommandGroup [
 	rootCommandGroup
 		register: (self buildContextualPackageGroupWith: presenterIntance);
 		register: (self buildResultGroupWith: presenterIntance)
 ]
 
-{ #category : #specs }
+{ #category : #commands }
 DrTests class >> buildContextualPackageGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Package menu') asSpecGroup
 		register: (self buildPackageGroupWith: presenterIntance);
 		yourself
 ]
 
-{ #category : #specs }
+{ #category : #commands }
 DrTests class >> buildPackageGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Package tools') asSpecGroup
 		basicDescription: 'Commands related to packages list.';
@@ -63,21 +63,21 @@ DrTests class >> buildPackageGroupWith: presenterIntance [
 		yourself
 ]
 
-{ #category : #specs }
+{ #category : #commands }
 DrTests class >> buildResultGroupWith: presenterIntance [
-	presenterIntance currentPlugin hasExtraResultCommands
-		ifTrue: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
-				basicDescription: 'Commands related to result.';
-				register: (DTResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
-				register:
-					(presenterIntance currentPlugin
-						buildContextualMenuGroupWith: presenterIntance)
-						beDisplayedAsGroup;
-				yourself ]
-		ifFalse: [ ^ (CmCommandGroup named: 'Results tools') asSpecGroup
-				basicDescription: 'Commands related to result.';
-				register: (DTResultBrowseCommand forSpec context: presenterIntance);
-				yourself ]
+	| commandGroup pluginCommands |
+	commandGroup := (CmCommandGroup named: 'Results tools') asSpecGroup
+			basicDescription: 'Commands related to result.';
+			register: (DTResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+			yourself.
+	pluginCommands := presenterIntance currentPlugin
+							buildContextualMenuGroupWith: presenterIntance.
+	pluginCommands entries
+		ifEmpty: [ ^ commandGroup ].
+	
+	^ commandGroup
+		register: pluginCommands beDisplayedAsGroup;
+		yourself
 ]
 
 { #category : #specs }

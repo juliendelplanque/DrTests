@@ -68,6 +68,7 @@ DrTestsPlugin >> buildConfigurationFrom: aDrTests [
 
 { #category : #api }
 DrTestsPlugin >> buildContextualMenuGroupWith: presenterIntance [
+	^ CmCommandGroup new
 ]
 
 { #category : #'configuration building' }
@@ -84,11 +85,6 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 { #category : #accesing }
 DrTestsPlugin >> firstListLabel [
 	^ 'items'
-]
-
-{ #category : #'configuration building' }
-DrTestsPlugin >> hasExtraResultCommands [
-	^ false
 ]
 
 { #category : #api }

@@ -67,11 +67,6 @@ DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunCon
 		yourself
 ]
 
-{ #category : #tests }
-DTTestsRunner >> hasExtraResultCommands [
-	^ true
-]
-
 { #category : #private }
 DTTestsRunner >> joinTestResult: aTestResult with: partialResult [
 	| newResult |
