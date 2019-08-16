@@ -3,3 +3,8 @@ Class {
 	#superclass : #DTTestResultType,
 	#category : #'DrTests-TestsRunner'
 }
+
+{ #category : #accessing }
+DTFail >> name [
+	^ 'Failure'
+]

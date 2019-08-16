@@ -23,3 +23,13 @@ DTTestResultType class >> pass [
 DTTestResultType class >> skipped [
 	^ DTSkipped new
 ]
+
+{ #category : #accessing }
+DTTestResultType >> name [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+DTTestResultType >> pluralName [
+	^ self name , 's'
+]

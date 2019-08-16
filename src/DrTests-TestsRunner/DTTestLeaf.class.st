@@ -7,6 +7,13 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #'instance creation' }
+DTTestLeaf class >> content: anObject type: aTestResultType [
+	^ (self content: anObject)
+		type: aTestResultType;
+		yourself
+]
+
 { #category : #accessing }
 DTTestLeaf >> type [
 	^ type
