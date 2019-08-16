@@ -2,7 +2,7 @@ Extension { #name : #CompiledMethod }
 
 { #category : #'*DrTests-TestCoverage' }
 CompiledMethod >> asResultForDrTest [
-	^ DTTreeLeaf content: self
+	^ DTTestLeaf content: self
 ]
 
 { #category : #'*DrTests-TestCoverage' }

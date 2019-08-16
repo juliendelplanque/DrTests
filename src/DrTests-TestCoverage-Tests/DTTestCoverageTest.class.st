@@ -80,7 +80,7 @@ DTTestCoverageTest >> testDTTestCoverageResultTheSecondNodeSubResultsAreLeafs [
 	self
 		assert:
 			(leafs subResults
-				allSatisfy: [ :subResult | subResult class = DTTreeLeaf ])
+				allSatisfy: [ :subResult | subResult class = DTTestLeaf ])
 ]
 
 { #category : #running }

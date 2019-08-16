@@ -35,21 +35,32 @@ DTTestsRunnerResult >> buildTreeForUI [
 		subResults:
 			{(DTTreeNode new
 				name: 'Errors';
-				subResults: (self testsResult errors collect: #asResultForDrTest);
+				subResults: (self testsResult errors collect: [ :res | 
+					res asResultForDrTest
+						type: DTTestResultType error;
+						yourself ]);
 				yourself).
 			(DTTreeNode new
 				name: 'Failures';
 				subResults:
-					(self testsResult failures collect: #asResultForDrTest)
-						asOrderedCollection;
+					(self testsResult failures collect: [ :res | 
+					res asResultForDrTest
+						type: DTTestResultType fail;
+						yourself ] as: OrderedCollection);
 				yourself).
 			(DTTreeNode new
 				name: 'Skipped tests';
-				subResults: (self testsResult skipped collect: #asResultForDrTest);
+				subResults: (self testsResult skipped collect: [ :res | 
+					res asResultForDrTest
+						type: DTTestResultType skipped;
+						yourself ]);
 				yourself).
 			(DTTreeNode new
 				name: 'Passed tests';
-				subResults: (self testsResult passed collect: #asResultForDrTest);
+				subResults: (self testsResult passed collect: [ :res | 
+					res asResultForDrTest
+						type: DTTestResultType pass;
+						yourself ]);
 				yourself)};
 		yourself
 ]

@@ -2,7 +2,7 @@ Extension { #name : #TestCase }
 
 { #category : #'*DrTests-TestsRunner' }
 TestCase >> asResultForDrTest [
-	^ DTTreeLeaf content: self
+	^ DTTestLeaf content: self
 ]
 
 { #category : #'*DrTests-TestsRunner' }
