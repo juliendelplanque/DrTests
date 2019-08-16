@@ -31,8 +31,7 @@ DTTestsRunner >> buildConfigurationFrom: aDrTests [
 DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'TestRunnerResult context menu') asSpecGroup
 		basicDescription: 'Commands related to re-run a result.';
-		register: (DTDRerunGroupOfResultCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
-		register: (DTRerunATestCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
+		register: (DTRerunCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 		beDisplayedAsGroup;
 		yourself
 ]
