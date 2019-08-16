@@ -26,7 +26,7 @@ DTTreeNode >> acceptVisitor: aDTResultsTreeVisitor [
 	^ aDTResultsTreeVisitor visitDTTreeNode: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTreeNode >> contentForReRun [
 	^ (DTLeavesCollector collectLeavesOf: self) flatCollect: #contentForReRun
 ]

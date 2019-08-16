@@ -33,7 +33,7 @@ DTTreeLeaf >> content: anObject [
 	content := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTreeLeaf >> contentForReRun [
 	^ { self content }
 ]
