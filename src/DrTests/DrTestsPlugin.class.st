@@ -107,6 +107,11 @@ DrTestsPlugin >> pragmaForResultTrees [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+DrTestsPlugin >> pragmasFor: aDTPluginResult [
+	^ Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class
+]
+
 { #category : #api }
 DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 ]

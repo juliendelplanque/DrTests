@@ -223,8 +223,9 @@ DrTests >> initializePluginsDropList [
 DrTests >> initializePresenter [
 	super initializePresenter.
 	self resultViewsDropList
-		transmitTo: resultsList
-		transform: [ :pragma | (pluginResult perform: pragma methodSelector) subResults ].
+		whenSelectedItemChangedDo: [ :pragmaOrNil |
+			pragmaOrNil ifNotNil: [ 
+				resultsList roots: (pluginResult perform: pragmaOrNil methodSelector) subResults ] ].
 	self pluginsDropList selectedIndex: 1
 ]
 
@@ -457,20 +458,22 @@ DrTests >> updateResultLabel [
 { #category : #api }
 DrTests >> updateResultViewsDropList [
 	| newPragmas |
-	newPragmas := (PragmaCollector
-		filter: [ :prg | prg keyword = self currentPlugin pragmaForResultTrees ]) reset collected.
+	newPragmas := self currentPlugin pragmasFor: pluginResult.
 		
-	self resultViewsDropList listItems = newPragmas ifTrue: [ 
-		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex.
+	(self resultViewsDropList listItems = newPragmas and: [ newPragmas isNotEmpty ]) ifTrue: [ 
+		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex. "Trigger action attached to selection change."
 		^ self ].
 	
-	self resultViewsDropList listItems size >=1
-		ifTrue: [ 
-			self resultViewsDropList
-				selectedIndex: 1 ].
+	self resultViewsDropList selectedItem
+		ifNotNil: [ self resultViewsDropList resetSelection ].
 	
 	self resultViewsDropList
-		items: newPragmas
+		items: newPragmas.
+	
+	newPragmas isNotEmpty
+		ifTrue: [ 
+			self resultViewsDropList
+				selectedIndex: 1 ]
 ]
 
 { #category : #api }
@@ -499,6 +502,7 @@ DrTests >> updateUI [
 	self resultTree: DTTreeNode empty.
 	self packagesList resetFilter.
 	self itemsList resetFilter.
+	self updateResultViewsDropList
 ]
 
 { #category : #api }
