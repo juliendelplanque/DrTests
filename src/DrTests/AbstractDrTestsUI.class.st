@@ -5,8 +5,7 @@ Class {
 		'testsConfiguration',
 		'startButton',
 		'currentPlugin',
-		'switchButton',
-		'helpButton'
+		'switchButton'
 	],
 	#category : #'DrTests-Spec'
 }
@@ -39,25 +38,12 @@ AbstractDrTestsUI >> handlePluginStatusUpdate: aDTStatusUpdate [
 	self updateStatus: aDTStatusUpdate message
 ]
 
-{ #category : #accessing }
-AbstractDrTestsUI >> helpButton [
-	^ helpButton
-]
-
-{ #category : #accessing }
-AbstractDrTestsUI >> helpButton: anObject [
-	helpButton := anObject
-]
-
 { #category : #initialization }
 AbstractDrTestsUI >> initializeButtons [
 	startButton := self newButton.
 	switchButton := self newButton.
 	switchButton
-		icon: (self iconNamed: #smallRemoteOpen);
-		label: 'switch'.
-	helpButton := self newButton.
-	helpButton icon: (self iconNamed: #help)
+		icon: (self iconNamed: #smallRemoteOpen)
 ]
 
 { #category : #accessing }

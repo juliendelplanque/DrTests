@@ -11,17 +11,12 @@ Class {
 { #category : #specs }
 MiniDrTests class >> defaultSpec [
 	^ SpBoxLayout newVertical
-		add:
-			(SpBoxLayout newHorizontal
-					add: #helpButton
-						expand: false
-						fill: false
-						padding: 1;
-					add: #switchButton;
-					yourself)
-			expand: false
-			fill: true
-			padding: 1;
+		add: (SpBoxLayout newHorizontal
+				add: #switchButton;
+				yourself)
+		expand: false
+		fill: true
+		padding: 1;
 		add: #startButton;
 		yourself
 ]
@@ -43,7 +38,8 @@ MiniDrTests >> initializeButtons [
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-
+	switchButton
+		label: 'maxi Dr'
 ]
 
 { #category : #initialization }

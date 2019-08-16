@@ -86,9 +86,7 @@ DrTests class >> defaultSpec [
 			(SpBoxLayout newHorizontal
 				add: #pluginsDropList;
 				add: #switchButton
-					withConstraints: [ :constraints | constraints width: self buttonWidth ];
-				add: #helpButton
-					withConstraints: [ :constraints | constraints width: self buttonWidth ];
+					withConstraints: [ :constraints | constraints width: self buttonWidth * 2 ];
 				yourself)
 			withConstraints: [ :constraints | 
 				constraints
@@ -178,16 +176,12 @@ DrTests >> dateAndTimeString [
 	^ DateAndTime now asStringYMDHM
 ]
 
-{ #category : #accessing }
-DrTests >> helpText [
-	self flag: #TODO.
-	^ 'TODO'
-]
-
 { #category : #initialization }
 DrTests >> initializeButtons [
 	super initializeButtons.
-	switchButton disable.
+	switchButton
+		label: 'mini Dr';
+		disable.
 ]
 
 { #category : #initialization }
