@@ -225,7 +225,7 @@ DrTests >> initializePresenter [
 	self resultViewsDropList
 		whenSelectedItemChangedDo: [ :pragmaOrNil |
 			pragmaOrNil ifNotNil: [ 
-				resultsList roots: (pluginResult perform: pragmaOrNil methodSelector) subResults ] ].
+				resultsList roots: (pragmaOrNil methodSelector value: pluginResult) subResults ] ].
 	self pluginsDropList selectedIndex: 1
 ]
 
