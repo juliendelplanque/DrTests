@@ -101,6 +101,12 @@ DrTestsPlugin >> pluginName [
 	^ self class pluginName
 ]
 
+{ #category : #accessing }
+DrTestsPlugin >> pragmaForResultTrees [
+	"Returns the selector of the pragma to gather result trees."
+	^ self subclassResponsibility
+]
+
 { #category : #api }
 DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 ]
