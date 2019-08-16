@@ -15,6 +15,11 @@ DTCommentToTest class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTCommentToTest class >> pluginResultClass [
+	^ DTCommentToTestResult
+]
+
+{ #category : #'api - accessing' }
 DTCommentToTest class >> weight [
 	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ 10
@@ -60,7 +65,7 @@ DTCommentToTest >> resultButtonHelp [
 
 { #category : #api }
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
-	^ DTCommentToTestResult new
+	^ self pluginResultClass new
 			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});
 			yourself
 ]

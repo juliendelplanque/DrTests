@@ -10,6 +10,11 @@ DTTestsRunner class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTTestsRunner class >> pluginResultClass [
+	^ DTTestsRunnerResult
+]
+
+{ #category : #'api - accessing' }
 DTTestsRunner class >> weight [
 	^ 0
 ]
@@ -46,7 +51,7 @@ DTTestsRunner >> debugTest: aDTRerunConfiguration [
 	oldResult := self
 		removeTest: aDTRerunConfiguration testToReRun
 		from: aDTRerunConfiguration previousResult testsResult.
-	^ DTTestsRunnerResult new
+	^ self pluginResultClass new
 		testsResult: (self joinTestResult: oldResult with: partialResult);
 		yourself
 ]
@@ -62,7 +67,7 @@ DTTestsRunner >> handleReRunResult: rerunnedResult forConfiguration: aDTRerunCon
 	oldResult := self
 		removeTests: aDTRerunConfiguration configurationToRun items
 		from: aDTRerunConfiguration previousResult testsResult.
-	^ DTTestsRunnerResult new
+	^ self pluginResultClass new
 		testsResult: (self joinTestResult: oldResult with: rerunnedResult testsResult);
 		yourself
 ]
@@ -122,7 +127,7 @@ DTTestsRunner >> resultButtonHelp [
 { #category : #api }
 DTTestsRunner >> runForConfiguration: aDTpluginConfiguration [
 	| results |
-	results := DTTestsRunnerResult new
+	results := self pluginResultClass new
 		testsResult: (self runTestSuites: { aDTpluginConfiguration asTestSuite });
 		yourself.
 	^ aDTpluginConfiguration handleResults: results for: self

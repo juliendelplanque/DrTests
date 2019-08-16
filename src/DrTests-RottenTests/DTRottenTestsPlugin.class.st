@@ -10,6 +10,11 @@ DTRottenTestsPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTRottenTestsPlugin class >> pluginResultClass [
+	^ DTRottenTestsResult
+]
+
+{ #category : #'api - accessing' }
 DTRottenTestsPlugin class >> weight [
 	^ 20
 ]
@@ -31,7 +36,7 @@ DTRottenTestsPlugin >> resultButtonHelp [
 
 { #category : #api }
 DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
-	[ ^ DTRottenTestsResult new
+	[ ^ self pluginResultClass new
 		rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
 		yourself ]
 		on: Warning , RTFTestAnalysed

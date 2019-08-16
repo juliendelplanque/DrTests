@@ -36,6 +36,12 @@ DrTestsPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DrTestsPlugin class >> pluginResultClass [
+	"Returns the class that this plugin instantiate for its results."
+	^ self subclassResponsibility
+]
+
+{ #category : #'api - accessing' }
 DrTestsPlugin class >> weight [
 	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ self subclassResponsibility
@@ -99,6 +105,11 @@ DrTestsPlugin >> packagesAvailableForAnalysis [
 { #category : #api }
 DrTestsPlugin >> pluginName [
 	^ self class pluginName
+]
+
+{ #category : #accessing }
+DrTestsPlugin >> pluginResultClass [
+	^ self class pluginResultClass
 ]
 
 { #category : #accessing }

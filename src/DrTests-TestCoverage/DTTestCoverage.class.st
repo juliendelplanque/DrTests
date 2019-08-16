@@ -19,6 +19,11 @@ DTTestCoverage class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTTestCoverage class >> pluginResultClass [
+	^ DTTestCoverageResult
+]
+
+{ #category : #'api - accessing' }
 DTTestCoverage class >> weight [
 	^ 3
 ]
@@ -70,7 +75,7 @@ DTTestCoverage >> resultButtonHelp [
 { #category : #api }
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
-	result := DTTestCoverageResult new.
+	result := self pluginResultClass new.
 	self defineData: aDTpluginConfiguration.
 	suite := self suiteFor: testClasses.
 	[ methods do: [ :meth | meth ast link: link ].

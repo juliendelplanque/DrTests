@@ -17,6 +17,11 @@ DTTestsProfiling class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTTestsProfiling class >> pluginResultClass [
+	^ DTTestsProfilingResult
+]
+
+{ #category : #'api - accessing' }
 DTTestsProfiling class >> weight [
  ^ 5
 ]
@@ -42,7 +47,7 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 	profilerVisitor := DTTestsProfilerVisitor new.
 	aDTpluginConfiguration asTestSuite
 		acceptSUnitVisitor: profilerVisitor.
-	results := DTTestsProfilingResult new
+	results := self pluginResultClass new
 		testsResult: profilerVisitor profilingData;
 		yourself.
 	^ results
