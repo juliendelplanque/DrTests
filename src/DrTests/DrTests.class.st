@@ -464,9 +464,13 @@ DrTests >> updateResultViewsDropList [
 		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex.
 		^ self ].
 	
+	self resultViewsDropList listItems size >=1
+		ifTrue: [ 
+			self resultViewsDropList
+				selectedIndex: 1 ].
+	
 	self resultViewsDropList
-		items: newPragmas;
-		selectedIndex: 1
+		items: newPragmas
 ]
 
 { #category : #api }
@@ -492,7 +496,9 @@ DrTests >> updateUI [
 	self withWindowDo: [ :window | window title: self title ].
 	self packagesList resetFilter.
 	self updatePackagesList.
-	self resultTree: DTTreeNode empty
+	self resultTree: DTTreeNode empty.
+	self packagesList resetFilter.
+	self itemsList resetFilter.
 ]
 
 { #category : #api }

@@ -69,6 +69,18 @@ DTTestsProfilingResult >> buildTreeForUI [
 		yourself
 ]
 
+{ #category : #accessing }
+DTTestsProfilingResult >> buildTreeGroupedByClass [
+	<dTTestsProfilingResultTreeNamed: 'Grouped by class'>
+	^ self buildTreeNode
+		subResults: ((self testsResult groupedBy: [ :d | d testCase class ]) associations collect: [ :assoc |
+			self buildTreeNode
+					name: assoc key name;
+					subResults: (assoc value collect: [ :t | DTTreeLeaf content: t ]);
+					yourself ]);
+		yourself
+]
+
 { #category : #private }
 DTTestsProfilingResult >> buildTreeNode [
 	"Returns a node with the sub-results aggregator initialized in a way that it sum the durations of sub results."
