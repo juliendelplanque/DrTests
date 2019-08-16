@@ -75,7 +75,7 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 		yourself
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 DrTestsPlugin >> firstListLabel [
 	^ 'items'
 ]
@@ -120,7 +120,7 @@ DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 	self subclassResponsibility
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 DrTestsPlugin >> secondListLabel [
 	^ 'items'
 ]
