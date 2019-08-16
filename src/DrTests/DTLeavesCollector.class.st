@@ -1,3 +1,8 @@
+"
+I am a visitor that collect the leaves of the DTTreeNode I visit.
+
+If there are multiple levels of DTTreeNode, no problem, I traverse them until I find the leaves.
+"
 Class {
 	#name : #DTLeavesCollector,
 	#superclass : #DTResultsTreeVisitor,
