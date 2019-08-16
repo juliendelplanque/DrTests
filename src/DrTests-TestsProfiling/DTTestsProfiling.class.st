@@ -27,7 +27,7 @@ DTTestsProfiling >> firstListLabel [
 ]
 
 { #category : #accessing }
-DTTestsProfiling >> pragmaKey [
+DTTestsProfiling >> pragmaForResultTrees [
 	^ #'dTTestsProfilingResultTreeNamed:'
 ]
 

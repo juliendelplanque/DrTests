@@ -20,7 +20,7 @@ DTRottenTestsPlugin >> firstListLabel [
 ]
 
 { #category : #accessing }
-DTRottenTestsPlugin >> pragmaKey [
+DTRottenTestsPlugin >> pragmaForResultTrees [
 	^ #'dTRottenTestsResultTreeNamed:'
 ]
 

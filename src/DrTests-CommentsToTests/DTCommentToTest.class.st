@@ -49,7 +49,7 @@ DTCommentToTest >> packagesAvailableForAnalysis [
 ]
 
 { #category : #accessing }
-DTCommentToTest >> pragmaKey [
+DTCommentToTest >> pragmaForResultTrees [
 	^ #'dTCommentToTestResultTreeNamed:'
 ]
 

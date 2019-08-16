@@ -51,7 +51,7 @@ DTMockPlugin >> packagesAvailableForAnalysis [
 ]
 
 { #category : #accessing }
-DTMockPlugin >> pragmaKey [
+DTMockPlugin >> pragmaForResultTrees [
 ^#'pragmaForTest:'
 ]
 

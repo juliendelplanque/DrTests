@@ -86,7 +86,7 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 ]
 
 { #category : #accessing }
-DTTestsRunner >> pragmaKey [
+DTTestsRunner >> pragmaForResultTrees [
 	^ #'dTTestRunnerResultTreeNamed:'
 ]
 

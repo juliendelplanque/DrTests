@@ -509,7 +509,7 @@ DrTests >> updateWithPluginResult: aPluginResult [
 DrTests >> updateWithResults: results [
 	pluginResult := results.
 	self resultTree: pluginResult buildTreeForUI.
-	self updateResultViewsDropList: self currentPlugin pragmaKey.
+	self updateResultViewsDropList: self currentPlugin pragmaForResultTrees.
 	self updateResultLabel.
 	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ]

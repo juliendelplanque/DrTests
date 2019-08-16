@@ -58,7 +58,7 @@ DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 ]
 
 { #category : #accessing }
-DTTestCoverage >> pragmaKey [
+DTTestCoverage >> pragmaForResultTrees [
 	^ #'dTTestCoverageResultTreeNamed:'
 ]
 
