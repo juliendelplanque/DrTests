@@ -77,7 +77,7 @@ DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
 	^ DTReRunConfiguration new
 		originalConfiguration: aDrTests testsConfiguration;
 		previousResult: aDrTests pluginResult;
-		configurationToRun: (DTTestsRunnerConfiguration items: { aDrTests resultSelected content });
+		configurationToRun: (DTTestsRunnerConfiguration items: aDrTests resultSelected contentForReRun);
 		yourself
 ]
 

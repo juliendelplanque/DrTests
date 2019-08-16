@@ -31,10 +31,8 @@ DTTestsRunner >> buildConfigurationFrom: aDrTests [
 DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'TestRunnerResult context menu') asSpecGroup
 		basicDescription: 'Commands related to re-run a result.';
-		register: (DTDynamicRerunFailuresCommand forSpec context: presenterIntance);
-		register: (DTDynamicRerunErrorsCommand forSpec context: presenterIntance);
+		register: (DTDRerunGroupOfResultCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 		register: (DTRerunATestCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
-		register: (DTDynamicResultDebugCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
 		beDisplayedAsGroup;
 		yourself
 ]
@@ -120,32 +118,6 @@ DTTestsRunner >> removeTests: aCollectionOfTest from: aTestResult [
 { #category : #api }
 DTTestsRunner >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
-]
-
-{ #category : #api }
-DTTestsRunner >> runErrors: aDTTestsRunnerResult [
-	| oldResult failuresResult |
-	oldResult := aDTTestsRunnerResult.
-	failuresResult := self
-		runTestSuites:
-			(self testSuiteOf: oldResult testsResult errors withName: 'errors').
-	oldResult testsResult instVarNamed: 'errors' put: OrderedCollection new.
-	oldResult
-		testsResult: (self joinTestResult: oldResult testsResult with: failuresResult).
-	^ oldResult
-]
-
-{ #category : #api }
-DTTestsRunner >> runFailures: aDTTestsRunnerResult [
-	| oldResult failuresResult |
-	oldResult := aDTTestsRunnerResult.
-	failuresResult := self
-		runTestSuites:
-			(self testSuiteOf: oldResult testsResult failures withName: 'failures').
-	oldResult testsResult instVarNamed: 'failures' put: Set new.
-	oldResult
-		testsResult: (self joinTestResult: oldResult testsResult with: failuresResult).
-	^ oldResult
 ]
 
 { #category : #api }

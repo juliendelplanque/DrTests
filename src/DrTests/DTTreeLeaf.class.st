@@ -33,6 +33,11 @@ DTTreeLeaf >> content: anObject [
 	content := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+DTTreeLeaf >> contentForReRun [
+	^ { self content }
+]
+
 { #category : #actions }
 DTTreeLeaf >> drTestsBrowse [
 	self content drTestsBrowse
