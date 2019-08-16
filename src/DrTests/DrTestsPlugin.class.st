@@ -107,15 +107,6 @@ DrTestsPlugin >> pragmaForResultTrees [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
-DrTestsPlugin >> pragmasFor: aDTPluginResult [
-	| pragmas |
-	pragmas := Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class.
-	
-	^ pragmas collect: [ :pragma |
-		DTResultTreeView name: (pragma argumentAt: 1) blockToExtractViewFromResult: pragma methodSelector ]
-]
-
 { #category : #api }
 DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
 ]
@@ -128,6 +119,15 @@ DrTestsPlugin >> reRunPlugin: aSymbol with: aDTpluginConfiguration [
 { #category : #api }
 DrTestsPlugin >> resultButtonHelp [
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+DrTestsPlugin >> resultTreeViewsFor: aDTPluginResult [
+	| pragmas |
+	pragmas := Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class.
+	
+	^ pragmas collect: [ :pragma |
+		DTResultTreeView name: (pragma argumentAt: 1) blockToExtractViewFromResult: pragma methodSelector ]
 ]
 
 { #category : #api }

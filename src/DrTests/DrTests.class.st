@@ -460,7 +460,7 @@ DrTests >> updateResultLabel [
 { #category : #api }
 DrTests >> updateResultViewsDropList [
 	| newPragmas |
-	newPragmas := self currentPlugin pragmasFor: pluginResult.
+	newPragmas := self currentPlugin resultTreeViewsFor: pluginResult.
 		
 	(self resultViewsDropList listItems = newPragmas and: [ newPragmas isNotEmpty ]) ifTrue: [ 
 		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex. "Trigger action attached to selection change."
