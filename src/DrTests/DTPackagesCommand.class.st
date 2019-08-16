@@ -1,5 +1,8 @@
+"
+I am an abstract command concerning DrTests' package list.
+"
 Class {
 	#name : #DTPackagesCommand,
-	#superclass : #CmCommand,
+	#superclass : #DTCommand,
 	#category : #'DrTests-Commands'
 }

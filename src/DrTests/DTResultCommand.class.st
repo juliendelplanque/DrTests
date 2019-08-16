@@ -1,18 +1,11 @@
+"
+I am an abstract command concerning DrTests' results tree.
+"
 Class {
 	#name : #DTResultCommand,
-	#superclass : #CmCommand,
+	#superclass : #DTCommand,
 	#category : #'DrTests-Commands'
 }
-
-{ #category : #accessing }
-DTResultCommand >> drTest [
-	^ self context
-]
-
-{ #category : #accessing }
-DTResultCommand >> plugin [
-	^ self drTest currentPlugin
-]
 
 { #category : #hooks }
 DTResultCommand >> resultSelected [

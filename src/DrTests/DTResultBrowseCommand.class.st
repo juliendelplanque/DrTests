@@ -1,3 +1,6 @@
+"
+I browse the result selected by user of DrTests.
+"
 Class {
 	#name : #DTResultBrowseCommand,
 	#superclass : #DTLeafResultCommand,

@@ -1,3 +1,6 @@
+"
+I select all packages in the package list of DrTests.
+"
 Class {
 	#name : #DTPackagesSelectAllCommand,
 	#superclass : #DTPackagesCommand,
@@ -6,7 +9,7 @@ Class {
 
 { #category : #hooks }
 DTPackagesSelectAllCommand >> execute [
-self context selectAllPackageList
+	self drTest selectAllPackageList
 ]
 
 { #category : #hooks }
