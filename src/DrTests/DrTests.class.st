@@ -23,7 +23,6 @@ Class {
 		'pluginsDropList',
 		'packagesList',
 		'resultsList',
-		'toolbar',
 		'statusLabel',
 		'plugins',
 		'itemsList',
