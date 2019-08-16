@@ -40,6 +40,11 @@ DTFilterableListPresenter >> beMultipleSelection [
 ]
 
 { #category : #api }
+DTFilterableListPresenter >> beSingleSelection [
+	^ self listPresenter beSingleSelection
+]
+
+{ #category : #api }
 DTFilterableListPresenter >> contextMenu: aBlock [
 	^ self listPresenter contextMenu: aBlock
 ]
