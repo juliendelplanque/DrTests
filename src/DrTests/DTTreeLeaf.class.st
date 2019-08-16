@@ -52,3 +52,8 @@ DTTreeLeaf >> drTestsBuildContextMenu: menu [
 DTTreeLeaf >> drTestsName [
 	^ self content drTestsName
 ]
+
+{ #category : #testing }
+DTTreeLeaf >> isLeaf [
+	^ true
+]

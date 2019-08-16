@@ -6,5 +6,5 @@ Class {
 
 { #category : #hooks }
 DTLeafResultCommand >> canBeRun [
-	^ self resultSelected class = DTTreeLeaf
+	^ self resultSelected isLeaf
 ]

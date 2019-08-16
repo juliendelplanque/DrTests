@@ -25,6 +25,11 @@ DTAbstractTreeNode >> drTestsName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+DTAbstractTreeNode >> isLeaf [
+	^ false
+]
+
 { #category : #accessing }
 DTAbstractTreeNode >> subResults [
 	^ #()
