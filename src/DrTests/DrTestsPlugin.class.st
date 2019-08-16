@@ -133,9 +133,9 @@ DrTestsPlugin >> resultButtonHelp [
 ]
 
 { #category : #accessing }
-DrTestsPlugin >> resultTreeViewsFor: aDTPluginResult [
+DrTestsPlugin >> resultTreeViews [
 	| pragmas |
-	pragmas := Pragma allNamed: self pragmaForResultTrees in: aDTPluginResult class.
+	pragmas := Pragma allNamed: self pragmaForResultTrees in: self pluginResultClass.
 	
 	^ pragmas collect: [ :pragma |
 		DTResultTreeView name: (pragma argumentAt: 1) blockToExtractViewFromResult: pragma methodSelector ]

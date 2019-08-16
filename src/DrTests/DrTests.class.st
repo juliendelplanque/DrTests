@@ -171,6 +171,12 @@ DrTests >> buildLabelString: nameOfItems numberOfItemsSelected: aInt [
 				<< ' selected):' ]
 ]
 
+{ #category : #accessing }
+DrTests >> currentPlugin: anObject [
+	pluginResult := nil.
+	super currentPlugin: anObject.
+]
+
 { #category : #private }
 DrTests >> dateAndTimeString [
 	^ DateAndTime now asStringYMDHM
@@ -460,7 +466,7 @@ DrTests >> updateResultLabel [
 { #category : #api }
 DrTests >> updateResultViewsDropList [
 	| newPragmas |
-	newPragmas := self currentPlugin resultTreeViewsFor: pluginResult.
+	newPragmas := self currentPlugin resultTreeViews.
 		
 	(self resultViewsDropList listItems = newPragmas and: [ newPragmas isNotEmpty ]) ifTrue: [ 
 		self resultViewsDropList selectedIndex: self resultViewsDropList selectedIndex. "Trigger action attached to selection change."

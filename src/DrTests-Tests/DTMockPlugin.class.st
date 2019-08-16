@@ -22,6 +22,11 @@ DTMockPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTMockPlugin class >> pluginResultClass [
+	^ DTMockPluginResult
+]
+
+{ #category : #'api - accessing' }
 DTMockPlugin class >> weight [
 	^ 40
 ]

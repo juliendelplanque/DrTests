@@ -41,5 +41,7 @@ DTResultTreeView >> name: anObject [
 
 { #category : #accessing }
 DTResultTreeView >> resultTreeFor: result [
+	result ifNil: [ 
+		^ DTTreeNode empty ].
 	^ self blockToExtractViewFromResult value: result
 ]
