@@ -462,10 +462,10 @@ DrTests >> updateResultLabel [
 ]
 
 { #category : #api }
-DrTests >> updateResultViewsDropList: aPragmaKey [
+DrTests >> updateResultViewsDropList [
 	| newPragmas |
 	newPragmas := (PragmaCollector
-		filter: [ :prg | prg keyword = aPragmaKey ]) reset collected.
+		filter: [ :prg | prg keyword = self currentPlugin pragmaForResultTrees ]) reset collected.
 		
 	self resultViewsDropList listItems = newPragmas ifTrue: [ ^ self ].
 	
@@ -509,7 +509,7 @@ DrTests >> updateWithPluginResult: aPluginResult [
 DrTests >> updateWithResults: results [
 	pluginResult := results.
 	self resultTree: pluginResult buildTreeForUI.
-	self updateResultViewsDropList: self currentPlugin pragmaForResultTrees.
+	self updateResultViewsDropList.
 	self updateResultLabel.
 	resultsList
 		contextMenu: [ (self rootCommandsGroup / 'Results tools') beRoot asMenuPresenter ]
