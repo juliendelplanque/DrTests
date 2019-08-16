@@ -435,6 +435,8 @@ DrTests >> updatePackagesList [
 	packagesList unselectAll.
 	itemsList beEmpty.
 	packagesList items: currentPlugin packagesAvailableForAnalysis.
+	packagesList label: currentPlugin firstListLabel.
+	itemsList label: currentPlugin secondListLabel.
 	currentPlugin setSelectionModeOfPackageList: packagesList.
 	currentPlugin setSelectionModeOfItemsList: itemsList
 ]
