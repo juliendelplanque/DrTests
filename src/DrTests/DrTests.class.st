@@ -22,7 +22,6 @@ Class {
 	#instVars : [
 		'pluginsDropList',
 		'packagesList',
-		'classesListLabel',
 		'resultsList',
 		'toolbar',
 		'statusLabel',
@@ -173,11 +172,6 @@ DrTests >> buildLabelString: nameOfItems numberOfItemsSelected: aInt [
 				nextPut: $(;
 				<< aInt asString;
 				<< ' selected):' ]
-]
-
-{ #category : #'accessing - subwidgets' }
-DrTests >> classesListLabel [
-	^ classesListLabel
 ]
 
 { #category : #private }
