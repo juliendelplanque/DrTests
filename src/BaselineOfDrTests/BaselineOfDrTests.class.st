@@ -29,17 +29,6 @@ BaselineOfDrTests >> baseline: spec [
 				package: 'DrTests-CommentsToTests'
 					with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
 			spec
-				for: #'pharo7.x'
-				do: [
-					spec
-						package: 'DrTests-TestsRunner' with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
-						package: 'DrTests-TestCoverage' with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
-						package: 'DrTests-TestsProfiling' with: [ spec requires: #('DrTests' 'SUnitVisitor') ].
-					spec
-						baseline: 'SUnitVisitor'
-						with: [ 
-							spec repository: 'github://juliendelplanque/SUnit-Visitor:v2.0.0/src' ] ].
-			spec
 				baseline: 'RottenTestsFinder'
 				with:
 					[ spec repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
