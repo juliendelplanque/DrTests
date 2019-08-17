@@ -319,20 +319,6 @@ DrTests >> pluginsDropList [
 	^ pluginsDropList
 ]
 
-{ #category : #api }
-DrTests >> reRunPlugin: aSymbol [
-	| newResult |
-	self deprecated: 'Meta-programming, to remove.'.
-	[ self lock.
-	self updateStatus: 'Tests started.'.
-	newResult := self currentPlugin
-		reRunPlugin: aSymbol
-		with: (self currentPlugin buildReRunConfigurationFrom: self).
-	self updateWithResults: newResult.
-	self updateStatus: 'Tests finished.' ]
-		ensure: [ self unlock ]
-]
-
 { #category : #accessing }
 DrTests >> resultItemSelected [
 	^ self resultsList ifNil: [ #() ] ifNotNil: #selectedItem

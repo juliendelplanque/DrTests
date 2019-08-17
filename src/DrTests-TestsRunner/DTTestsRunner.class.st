@@ -42,21 +42,6 @@ DTTestsRunner >> buildContextualMenuGroupWith: presenterIntance [
 ]
 
 { #category : #api }
-DTTestsRunner >> debugTest: aDTRerunConfiguration [
-	| selector partialResult oldResult |
-	selector := aDTRerunConfiguration testToReRun selector.
-	(aDTRerunConfiguration testToReRun class selector: selector) debug.
-	partialResult := (self runForConfiguration: aDTRerunConfiguration)
-		testsResult.
-	oldResult := self
-		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration previousResult testsResult.
-	^ self pluginResultClass new
-		testsResult: (self joinTestResult: oldResult with: partialResult);
-		yourself
-]
-
-{ #category : #api }
 DTTestsRunner >> firstListLabel [
 	^ 'Packages'
 ]
@@ -93,12 +78,6 @@ DTTestsRunner >> label: aString forSuite: aTestSuite [
 { #category : #accessing }
 DTTestsRunner >> pragmaForResultTrees [
 	^ #'dTTestRunnerResultTreeNamed:'
-]
-
-{ #category : #api }
-DTTestsRunner >> reRunPlugin: aSymbol with: aDTRerunConfiguration [
-	self deprecated: 'Should not be used, meta-programming. Need to be removed.'.
-	^ self perform: aSymbol with: aDTRerunConfiguration
 ]
 
 { #category : #private }
@@ -146,19 +125,6 @@ DTTestsRunner >> runSuite: aTestSuite withResult: aResult [
 						message: ('Running test {1}.' format: {testAnnouncement test name})) ] ].
 	[ aTestSuite run: aResult ]
 		ensure: [ aTestSuite unsubscribe: TestAnnouncement ]
-]
-
-{ #category : #api }
-DTTestsRunner >> runTest: aDTRerunConfiguration [
-	| partialResult oldResult |
-	partialResult := (self runForConfiguration: aDTRerunConfiguration)
-		testsResult.
-	oldResult := self
-		removeTest: aDTRerunConfiguration testToReRun
-		from: aDTRerunConfiguration previousResult testsResult.
-	^ DTTestsRunnerResult new
-		testsResult: (self joinTestResult: oldResult with: partialResult);
-		yourself
 ]
 
 { #category : #private }
