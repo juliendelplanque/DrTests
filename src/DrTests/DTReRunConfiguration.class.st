@@ -24,11 +24,6 @@ DTReRunConfiguration >> configurationToRun: anObject [
 	configurationToRun := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-DTReRunConfiguration >> handleResults: aPluginResult for: aPlugin [
-	^ aPlugin handleReRunResult: aPluginResult forConfiguration: self
-]
-
 { #category : #accessing }
 DTReRunConfiguration >> items [
 	^ { self testToReRun }
