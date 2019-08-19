@@ -22,6 +22,11 @@ DTMockPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTMockPlugin class >> pluginResultClass [
+	^ DTMockPluginResult
+]
+
+{ #category : #'api - accessing' }
 DTMockPlugin class >> weight [
 	^ 40
 ]
@@ -50,16 +55,15 @@ DTMockPlugin >> packagesAvailableForAnalysis [
 	^ {self class package}
 ]
 
+{ #category : #accessing }
+DTMockPlugin >> pragmaForResultTrees [
+^#'pragmaForTest:'
+]
+
 { #category : #api }
 DTMockPlugin >> resultButtonHelp [
 	
 	^ 'Result help?'
-]
-
-{ #category : #api }
-DTMockPlugin >> resultButtonLabel [
-	
-	^ 'Result?'
 ]
 
 { #category : #api }

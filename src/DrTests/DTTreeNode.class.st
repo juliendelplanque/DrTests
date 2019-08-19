@@ -11,7 +11,7 @@ Class {
 		'contextMenuBlock',
 		'subResultsAggregator'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'instance creation' }
@@ -19,6 +19,16 @@ DTTreeNode class >> empty [
 	^ self new
 		subResults: #();
 		yourself
+]
+
+{ #category : #visiting }
+DTTreeNode >> acceptVisitor: aDTResultsTreeVisitor [
+	^ aDTResultsTreeVisitor visitDTTreeNode: self
+]
+
+{ #category : #accessing }
+DTTreeNode >> contentForReRun [
+	^ (DTLeavesCollector collectLeavesOf: self) flatCollect: #contentForReRun
 ]
 
 { #category : #accessing }
@@ -51,7 +61,7 @@ DTTreeNode >> initialize [
 	super initialize.
 	self
 		contextMenuBlock: [ :menu | ]. "Does nothing by default."
-	self subResultsAggregator: [ :subRes | subRes size ]
+	self subResultsAggregator: [ :subRes | (DTLeavesCollector collectLeavesOf: self) size ]
 ]
 
 { #category : #accessing }

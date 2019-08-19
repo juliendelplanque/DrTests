@@ -5,30 +5,25 @@ Class {
 		'resultsList',
 		'pluginResult'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Spec'
 }
 
 { #category : #specs }
 MiniDrTests class >> defaultSpec [
-	^ SpecBoxLayout newVertical
-		add:
-			(SpecBoxLayout newHorizontal
-					add: #helpButton
-						expand: false
-						fill: false
-						padding: 1;
-					add: #switchButton;
-					yourself)
-			expand: false
-			fill: true
-			padding: 1;
+	^ SpBoxLayout newVertical
+		add: (SpBoxLayout newHorizontal
+				add: #switchButton;
+				yourself)
+		expand: false
+		fill: true
+		padding: 1;
 		add: #startButton;
 		yourself
 ]
 
 { #category : #accessing }
 MiniDrTests >> currentPlugin: anObject [
-currentPlugin := anObject 
+	currentPlugin := anObject
 ]
 
 { #category : #accessing }
@@ -43,13 +38,8 @@ MiniDrTests >> initializeButtons [
 		label: 'run';
 		icon: (self iconNamed: #smallUpdate);
 		color: (Color named: 'gray').
-
-]
-
-{ #category : #accessing }
-MiniDrTests >> initializePresenter [
-	self startButton action: [ self runPlugin ].
-	self switchButton action: self switchUI
+	switchButton
+		label: 'maxi Dr'
 ]
 
 { #category : #initialization }
@@ -61,7 +51,7 @@ MiniDrTests >> initializeWidgets [
 MiniDrTests >> initializeWindow: aWindowPresenter [
 	super initializeWindow: aWindowPresenter.
 	aWindowPresenter
-		title: 'miniDrTests-' translated , currentPlugin pluginName;
+		title: self title;
 		initialExtent: 200 @ 200
 ]
 
@@ -76,35 +66,33 @@ MiniDrTests >> pluginResult: anObject [
 ]
 
 { #category : #accessing }
-MiniDrTests >> runPlugin [
-	[ | results |
-	self lock.
-	self updateStatus: 'Tests started.'.
-	results := self currentPlugin
-		runForConfiguration: self testsConfiguration.
-	self pluginResult: results.
-	self updateStatus: 'Tests finished.'.
-	self updateUI ]
-		ensure: [ self unlock ]
-]
-
-{ #category : #accessing }
 MiniDrTests >> switchUI [
-	^ [ self application close.
+	super switchUI.
 	DrTests
 		reloadConfiguration: testsConfiguration
-		withResults: pluginResult 
-		andPlugin: currentPlugin ]
+		withResults: pluginResult
+		andPlugin: currentPlugin
 ]
 
 { #category : #accessing }
-MiniDrTests >> title: aString [
-	super title: 'Dr Tests - ' translated , aString
+MiniDrTests >> title [
+	^ 'MiniDrTests - ' , currentPlugin pluginName
 ]
 
 { #category : #accessing }
 MiniDrTests >> updateUI [
-	self title: self currentPlugin title.
+	self withWindowDo: [ :window | window title: self title ].
 	startButton color: self evaluateColor.
 	startButton label: pluginResult summarizeInfo
+]
+
+{ #category : #initialization }
+MiniDrTests >> updateWithPluginResult: aPluginResult [
+	aPluginResult ifNotNil: [ self updateWithResults: aPluginResult ]
+]
+
+{ #category : #initialization }
+MiniDrTests >> updateWithResults: results [
+	self pluginResult: results.
+	self updateUI
 ]

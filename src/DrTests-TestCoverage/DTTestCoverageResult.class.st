@@ -16,17 +16,17 @@ Class {
 
 { #category : #accessing }
 DTTestCoverageResult >> buildTreeForUI [
+	<dTTestCoverageResultTreeNamed: 'List of uncovered methods'>
 	^ DTTreeNode new
-	subResults: { (DTTreeNode new
-				name: (percent*100 printShowingDecimalPlaces: 2) , ' % Code Coverage';
+		subResults:
+			{(DTTreeNode new
+				name: (percent * 100 printShowingDecimalPlaces: 2) , ' % Code Coverage';
 				subResults: {};
-				yourself).(
-	DTTreeNode new
-		name: 'Uncovered methods';
-	subResults: (self methodList collect: #asResultForDrTest);
-	yourself ). 
-	}
-
+				yourself).
+			(DTTreeNode new
+				name: 'Uncovered methods';
+				subResults: (self methodList collect: #asResultForDrTest);
+				yourself)}
 ]
 
 { #category : #accessing }

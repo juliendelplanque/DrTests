@@ -15,6 +15,11 @@ DTCommentToTest class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTCommentToTest class >> pluginResultClass [
+	^ DTCommentToTestResult
+]
+
+{ #category : #'api - accessing' }
 DTCommentToTest class >> weight [
 	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ 10
@@ -22,7 +27,7 @@ DTCommentToTest class >> weight [
 
 { #category : #'configuration building' }
 DTCommentToTest >> buildConfigurationFrom: aDrTests [
-	^ DTCommentTestConfiguration items: aDrTests itemsSelected packages: aDrTests packagesSelected 
+	^ DTCommentTestConfiguration items: aDrTests selectedItems packages: aDrTests packagesSelected 
 ]
 
 { #category : #api }
@@ -48,19 +53,19 @@ DTCommentToTest >> packagesAvailableForAnalysis [
 		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
+{ #category : #accessing }
+DTCommentToTest >> pragmaForResultTrees [
+	^ #'dTCommentToTestResultTreeNamed:'
+]
+
 { #category : #api }
 DTCommentToTest >> resultButtonHelp [
 	^ 'Browse the test selected in the results list.' translated
 ]
 
 { #category : #api }
-DTCommentToTest >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTCommentToTest >> runForConfiguration: aDTpluginConfiguration [
-	^ DTCommentToTestResult new
+	^ self pluginResultClass new
 			testsResult: (self runTestSuites: {aDTpluginConfiguration asTestSuite});
 			yourself
 ]

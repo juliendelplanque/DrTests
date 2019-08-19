@@ -2,7 +2,7 @@ Extension { #name : #TestCase }
 
 { #category : #'*DrTests-TestsRunner' }
 TestCase >> asResultForDrTest [
-	^ DTTreeLeaf content: self
+	^ DTTestLeaf content: self
 ]
 
 { #category : #'*DrTests-TestsRunner' }
@@ -18,4 +18,9 @@ TestCase >> drTestsBuildContextMenu: aMenuModel [
 { #category : #'*DrTests-TestsRunner' }
 TestCase >> drTestsName [
 	^ self asString
+]
+
+{ #category : #'*DrTests-TestsRunner' }
+TestCase class >> drTestsSuite [
+	^ self suite
 ]

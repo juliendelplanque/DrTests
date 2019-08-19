@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'message'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Announcements'
 }
 
 { #category : #'instance creation' }

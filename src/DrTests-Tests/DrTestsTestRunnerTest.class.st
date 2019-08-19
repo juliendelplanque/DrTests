@@ -5,15 +5,31 @@ Class {
 	#name : #DrTestsTestRunnerTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'plugin'
+		'plugin',
+		'package',
+		'testToReRun',
+		'conf',
+		'reRunconf',
+		'testCase'
 	],
 	#category : #'DrTests-Tests'
 }
 
 { #category : #tests }
 DrTestsTestRunnerTest >> setUp [
-
 	super setUp.
+	package := RPackage organizer
+		packageNamed: 'DrTests-TestCoverage-MocksForTests'.
+	testToReRun := DTTestCoverageTestForCoverage
+		selector: #testMethod1forMock.
+	testCase := DTTestCoverageTestForCoverage.
+	conf := DTPluginConfiguration
+		items:
+			({package}
+				flatCollect:
+					[ :p | p definedClasses select: [ :c | c allSuperclasses includes: TestCase ] ])
+		packages: {package}.
+	reRunconf := DTReRunConfiguration new.
 	plugin := DTTestsRunner new
 ]
 
@@ -26,9 +42,42 @@ DrTestsTestRunnerTest >> testAllSelectedClassesAreTestCases [
 ]
 
 { #category : #tests }
+DrTestsTestRunnerTest >> testReRunResultIsDTTestRunnerResult [
+	| pluginResult |
+	pluginResult := plugin runForConfiguration: conf.
+	reRunconf := DTReRunConfiguration new
+		previousResult: pluginResult;
+		configurationToRun: (DTTestsRunnerConfiguration items: { testToReRun });
+		yourself.
+	self
+		assert: (plugin runForConfiguration: reRunconf) class
+		equals: DTTestsRunnerResult
+]
+
+{ #category : #tests }
+DrTestsTestRunnerTest >> testRunResultBuildTreeForUI [
+	self
+		assert: (plugin runForConfiguration: conf) buildTreeForUI class
+		equals: DTTreeNode 
+]
+
+{ #category : #tests }
+DrTestsTestRunnerTest >> testRunResultIsDTTestRunnerResult [
+	self
+		assert: (plugin runForConfiguration: conf) class
+		equals: DTTestsRunnerResult 
+]
+
+{ #category : #tests }
 DrTestsTestRunnerTest >> testSelectedPackagesContainTestCases [
 
 	self assert: (plugin packagesAvailableForAnalysis allSatisfy: [ :package |
 		package definedClasses anySatisfy: [ :class |
 			class isTestCase ] ])
+]
+
+{ #category : #tests }
+DrTestsTestRunnerTest >> testTestResultIsNotEmpty [
+	self
+		deny: (plugin runForConfiguration: conf) testsResult passed isEmpty
 ]

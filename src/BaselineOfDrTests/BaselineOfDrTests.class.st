@@ -12,11 +12,11 @@ BaselineOfDrTests >> baseline: spec [
 		do: [ spec
 				package: 'DrTests';
 				package: 'DrTests-TestsRunner'
-					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+					with: [ spec requires: #('DrTests') ];
 				package: 'DrTests-TestCoverage'
-					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+					with: [ spec requires: #('DrTests') ];
 				package: 'DrTests-TestsProfiling'
-					with: [ spec requires: #('DrTests' 'SUnitVisitor') ];
+					with: [ spec requires: #('DrTests') ];
 				package: 'DrTests-RottenTests'
 					with: [ spec requires: #('DrTests' 'RottenTestsFinder') ];
 				package: 'DrTests-Tests' with: [ spec requires: #('DrTests') ];
@@ -28,10 +28,6 @@ BaselineOfDrTests >> baseline: spec [
 					with: [ spec requires: #('DrTests-TestCoverage') ];
 				package: 'DrTests-CommentsToTests'
 					with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
-			spec
-				baseline: 'SUnitVisitor'
-				with: [ spec
-						repository: 'github://juliendelplanque/SUnit-Visitor:v2.0.0/src' ].
 			spec
 				baseline: 'RottenTestsFinder'
 				with:

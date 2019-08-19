@@ -4,7 +4,7 @@ I am the abstract superclass for all classes that are nodes or leafs used to sho
 Class {
 	#name : #DTAbstractTreeNode,
 	#superclass : #Object,
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #actions }
@@ -23,6 +23,11 @@ DTAbstractTreeNode >> drTestsBuildContextMenu: menu [
 DTAbstractTreeNode >> drTestsName [
 	"Returns the name to display for this object in DrTestsUI."
 	^ self subclassResponsibility
+]
+
+{ #category : #testing }
+DTAbstractTreeNode >> isLeaf [
+	^ false
 ]
 
 { #category : #accessing }

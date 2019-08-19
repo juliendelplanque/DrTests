@@ -4,7 +4,7 @@ I am the abstract superclass for all classes that are results of a plugin in DrT
 Class {
 	#name : #DTPluginResult,
 	#superclass : #Object,
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #accessing }

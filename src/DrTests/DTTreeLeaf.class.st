@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'content'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'instance creation' }
@@ -16,6 +16,11 @@ DTTreeLeaf class >> content: aRottenTest [
 	^ self new
 		content: aRottenTest;
 		yourself
+]
+
+{ #category : #visiting }
+DTTreeLeaf >> acceptVisitor: aDTResultsTreeVisitor [
+	^ aDTResultsTreeVisitor visitDTTreeLeaf: self
 ]
 
 { #category : #accessing }
@@ -26,6 +31,11 @@ DTTreeLeaf >> content [
 { #category : #accessing }
 DTTreeLeaf >> content: anObject [
 	content := anObject
+]
+
+{ #category : #accessing }
+DTTreeLeaf >> contentForReRun [
+	^ { self content }
 ]
 
 { #category : #actions }
@@ -41,4 +51,9 @@ DTTreeLeaf >> drTestsBuildContextMenu: menu [
 { #category : #accessing }
 DTTreeLeaf >> drTestsName [
 	^ self content drTestsName
+]
+
+{ #category : #testing }
+DTTreeLeaf >> isLeaf [
+	^ true
 ]

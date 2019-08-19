@@ -15,28 +15,60 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #'tree building' }
+DTTestsRunnerResult >> buildLeavesFrom: aCollection type: testResultType [
+	^ aCollection collect: [ :t | DTTestLeaf content: t type: testResultType ]
+]
+
+{ #category : #'tree building' }
+DTTestsRunnerResult >> buildNodeGroupedByTypeAndClass: anOrderedColletion type: testResultType [
+	^ DTTreeNode new
+			name: testResultType pluralName;
+			subResults: ((anOrderedColletion groupedBy: #class) associations collect: [ :assoc |
+				DTTreeNode new
+					name: assoc key name;
+					subResults: (self buildLeavesFrom: assoc value type: testResultType);
+					yourself ]);
+			yourself
+]
+
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUI [
+	<dTTestRunnerResultTreeNamed: 'Grouped by type of result'>
 	^ DTTreeNode new
 		subResults:
-			{(DTTreeNode new
-				name: 'Errors';
-				subResults: (self testsResult errors collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Failures';
-				subResults:
-					(self testsResult failures collect: #asResultForDrTest)
-						asOrderedCollection;
-				yourself).
-			(DTTreeNode new
-				name: 'Skipped tests';
-				subResults: (self testsResult skipped collect: #asResultForDrTest);
-				yourself).
-			(DTTreeNode new
-				name: 'Passed tests';
-				subResults: (self testsResult passed collect: #asResultForDrTest);
-				yourself)};
+			{DTTreeNode new
+				name: DTTestResultType error pluralName;
+				subResults: (self buildLeavesFrom: self testsResult errors asOrderedCollection type: DTTestResultType error);
+				yourself.
+			DTTreeNode new
+				name: DTTestResultType fail pluralName;
+				subResults: (self buildLeavesFrom: self testsResult failures asOrderedCollection type: DTTestResultType fail).
+			DTTreeNode new
+				name: DTTestResultType skipped pluralName;
+				subResults: (self buildLeavesFrom: self testsResult skipped asOrderedCollection type: DTTestResultType skipped).
+			DTTreeNode new
+				name: DTTestResultType pass pluralName;
+				subResults: (self buildLeavesFrom: self testsResult passed asOrderedCollection type: DTTestResultType pass)
+		};
+		yourself
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> buildTreeForUIByClasses [
+	<dTTestRunnerResultTreeNamed: 'Grouped by classes and type of Result'>
+
+	| errors failures skipped passed |
+	errors := self buildNodeGroupedByTypeAndClass: self testsResult errors type: DTTestResultType error.
+	failures := self buildNodeGroupedByTypeAndClass: self testsResult failures asOrderedCollection type: DTTestResultType fail.
+	skipped := self buildNodeGroupedByTypeAndClass: self testsResult skipped type: DTTestResultType skipped.
+	passed := self buildNodeGroupedByTypeAndClass: self testsResult passed type: DTTestResultType pass.
+	^ DTTreeNode new
+		subResults:
+			{errors.
+			failures.
+			skipped.
+			passed};
 		yourself
 ]
 

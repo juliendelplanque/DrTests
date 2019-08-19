@@ -10,6 +10,11 @@ DTRottenTestsPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTRottenTestsPlugin class >> pluginResultClass [
+	^ DTRottenTestsResult
+]
+
+{ #category : #'api - accessing' }
 DTRottenTestsPlugin class >> weight [
 	^ 20
 ]
@@ -19,19 +24,19 @@ DTRottenTestsPlugin >> firstListLabel [
 	^ 'Test Packages'
 ]
 
+{ #category : #accessing }
+DTRottenTestsPlugin >> pragmaForResultTrees [
+	^ #'dTRottenTestsResultTreeNamed:'
+]
+
 { #category : #api }
 DTRottenTestsPlugin >> resultButtonHelp [
 	^ 'Browse the rotten test selected in the results list.' translated
 ]
 
 { #category : #api }
-DTRottenTestsPlugin >> resultButtonLabel [
-	^ 'Browse test' translated
-]
-
-{ #category : #api }
 DTRottenTestsPlugin >> runForConfiguration: aDTPluginConfiguration [
-	[ ^ DTRottenTestsResult new
+	[ ^ self pluginResultClass new
 		rottenTestsSet: (RottenTestsFinder analyze: aDTPluginConfiguration asTestSuite);
 		yourself ]
 		on: Warning , RTFTestAnalysed

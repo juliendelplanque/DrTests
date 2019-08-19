@@ -19,6 +19,11 @@ DTTestCoverage class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTTestCoverage class >> pluginResultClass [
+	^ DTTestCoverageResult
+]
+
+{ #category : #'api - accessing' }
 DTTestCoverage class >> weight [
 	^ 3
 ]
@@ -57,20 +62,20 @@ DTTestCoverage >> itemsToBeAnalysedFor: packagesSelected [
 		select: [ :p | p definedClasses anySatisfy: [ :c | c isTestCase not ] ]
 ]
 
+{ #category : #accessing }
+DTTestCoverage >> pragmaForResultTrees [
+	^ #'dTTestCoverageResultTreeNamed:'
+]
+
 { #category : #api }
 DTTestCoverage >> resultButtonHelp [
 	^ 'Browse the method selected in the results list.' translated
 ]
 
 { #category : #api }
-DTTestCoverage >> resultButtonLabel [
-	^ 'Browse method' translated
-]
-
-{ #category : #api }
 DTTestCoverage >> runForConfiguration: aDTpluginConfiguration [
 	| suite notExecuted result |
-	result := DTTestCoverageResult new.
+	result := self pluginResultClass new.
 	self defineData: aDTpluginConfiguration.
 	suite := self suiteFor: testClasses.
 	[ methods do: [ :meth | meth ast link: link ].
@@ -113,6 +118,13 @@ DTTestCoverage >> runTestSuites: testSuites [
 { #category : #api }
 DTTestCoverage >> secondListLabel [
 	^ 'Package under coverage'
+]
+
+{ #category : #api }
+DTTestCoverage >> setSelectionModeOfItemsList: aListPresenter [
+	aListPresenter
+		beSingleSelection;
+		unselectAll
 ]
 
 { #category : #api }

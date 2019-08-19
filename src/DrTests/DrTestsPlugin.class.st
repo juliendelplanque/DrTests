@@ -9,20 +9,13 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #'api - plugins' }
 DrTestsPlugin class >> availablePlugins [
 	^ (self allSubclasses reject: #isAbstract)
 			sort: [ :a :b | a weight < b weight ]
-]
-
-{ #category : #'api - accessing' }
-DrTestsPlugin class >> firstListLabel [
-	"The name of the label in the first column"
-
-	^ 'Packages'
 ]
 
 { #category : #testing }
@@ -43,6 +36,12 @@ DrTestsPlugin class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DrTestsPlugin class >> pluginResultClass [
+	"Returns the class that this plugin instantiate for its results."
+	^ self subclassResponsibility
+]
+
+{ #category : #'api - accessing' }
 DrTestsPlugin class >> weight [
 	"The lighter is a plugin, the higher it is displayed in the drop list for plugin selection."
 	^ self subclassResponsibility
@@ -51,16 +50,6 @@ DrTestsPlugin class >> weight [
 { #category : #api }
 DrTestsPlugin >> allowMiniDrTests [
 	^ false
-]
-
-{ #category : #api }
-DrTestsPlugin >> allowMultipleSelectionInFirstList [
-	^ true
-]
-
-{ #category : #api }
-DrTestsPlugin >> allowMultipleSelectionInSecondList [
-	^ true
 ]
 
 { #category : #accessing }
@@ -72,11 +61,27 @@ DrTestsPlugin >> announcer [
 DrTestsPlugin >> buildConfigurationFrom: aDrTests [
 	"Builds a configuration from the plugin by reading the information held by the UI (aDrTests)."
 	^ DTPluginConfiguration
-		items: aDrTests itemsSelected
+		items: aDrTests selectedItems
 		packages: aDrTests packagesSelected
 ]
 
-{ #category : #accesing }
+{ #category : #api }
+DrTestsPlugin >> buildContextualMenuGroupWith: presenterIntance [
+	^ CmCommandGroup new
+]
+
+{ #category : #'configuration building' }
+DrTestsPlugin >> buildReRunConfigurationFrom: aDrTests [
+	"Builds a configuration for the plugin by reading the information held by the UI (aDrTests) and the last value of results."
+
+	^ DTReRunConfiguration new
+		originalConfiguration: aDrTests testsConfiguration;
+		previousResult: aDrTests pluginResult;
+		configurationToRun: (DTTestsRunnerConfiguration items: aDrTests resultSelected contentForReRun);
+		yourself
+]
+
+{ #category : #accessing }
 DrTestsPlugin >> firstListLabel [
 	^ 'items'
 ]
@@ -102,14 +107,38 @@ DrTestsPlugin >> pluginName [
 	^ self class pluginName
 ]
 
+{ #category : #accessing }
+DrTestsPlugin >> pluginResultClass [
+	^ self class pluginResultClass
+]
+
+{ #category : #accessing }
+DrTestsPlugin >> pragmaForResultTrees [
+	"Returns the selector of the pragma to gather result trees."
+	^ self subclassResponsibility
+]
+
+{ #category : #api }
+DrTestsPlugin >> reRunForConfiguration: aDTpluginConfiguration [
+]
+
+{ #category : #api }
+DrTestsPlugin >> reRunPlugin: aSymbol with: aDTpluginConfiguration [
+	self deprecated: 'Should not be used, meta-programming. Need to be removed.'.
+]
+
 { #category : #api }
 DrTestsPlugin >> resultButtonHelp [
 	^ self subclassResponsibility
 ]
 
-{ #category : #api }
-DrTestsPlugin >> resultButtonLabel [
-	^ self subclassResponsibility
+{ #category : #accessing }
+DrTestsPlugin >> resultTreeViews [
+	| pragmas |
+	pragmas := Pragma allNamed: self pragmaForResultTrees in: self pluginResultClass.
+	
+	^ pragmas collect: [ :pragma |
+		DTResultTreeView name: (pragma argumentAt: 1) blockToExtractViewFromResult: pragma methodSelector ]
 ]
 
 { #category : #api }
@@ -117,9 +146,19 @@ DrTestsPlugin >> runForConfiguration: aDTpluginConfiguration [
 	self subclassResponsibility
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 DrTestsPlugin >> secondListLabel [
 	^ 'items'
+]
+
+{ #category : #api }
+DrTestsPlugin >> setSelectionModeOfItemsList: aListPresenter [
+	aListPresenter beMultipleSelection
+]
+
+{ #category : #api }
+DrTestsPlugin >> setSelectionModeOfPackageList: aListPresenter [
+	aListPresenter beMultipleSelection
 ]
 
 { #category : #api }

@@ -17,6 +17,11 @@ DTTestsProfiling class >> pluginName [
 ]
 
 { #category : #'api - accessing' }
+DTTestsProfiling class >> pluginResultClass [
+	^ DTTestsProfilingResult
+]
+
+{ #category : #'api - accessing' }
 DTTestsProfiling class >> weight [
  ^ 5
 ]
@@ -26,14 +31,14 @@ DTTestsProfiling >> firstListLabel [
 	^ 'Packages'
 ]
 
-{ #category : #api }
-DTTestsProfiling >> resultButtonHelp [
-	^ 'Browse the test selected in the results list.' translated
+{ #category : #accessing }
+DTTestsProfiling >> pragmaForResultTrees [
+	^ #'dTTestsProfilingResultTreeNamed:'
 ]
 
 { #category : #api }
-DTTestsProfiling >> resultButtonLabel [
-	^ 'Browse test' translated
+DTTestsProfiling >> resultButtonHelp [
+	^ 'Browse the test selected in the results list.' translated
 ]
 
 { #category : #api }
@@ -42,7 +47,7 @@ DTTestsProfiling >> runForConfiguration: aDTpluginConfiguration [
 	profilerVisitor := DTTestsProfilerVisitor new.
 	aDTpluginConfiguration asTestSuite
 		acceptSUnitVisitor: profilerVisitor.
-	results := DTTestsProfilingResult new
+	results := self pluginResultClass new
 		testsResult: profilerVisitor profilingData;
 		yourself.
 	^ results

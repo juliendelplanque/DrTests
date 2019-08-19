@@ -9,7 +9,7 @@ Class {
 		'packagesSelected',
 		'testSuite'
 	],
-	#category : #DrTests
+	#category : #'DrTests-Model'
 }
 
 { #category : #tests }
@@ -29,12 +29,17 @@ DTPluginConfiguration class >> items: aCollectionOfClasses packages: aCollection
 
 { #category : #converting }
 DTPluginConfiguration >> asTestSuite [
-	| suite |
-	suite := TestSuite new.
+	|testSuite|
+	testSuite := TestSuite new.
 	self items
 		reject: #isAbstract
-		thenDo: [ :s | suite addTest: s suite ].
-	^ suite
+		thenDo: [ :s | testSuite addTest: s suite ].
+	^ testSuite
+]
+
+{ #category : #'as yet unclassified' }
+DTPluginConfiguration >> handleResults: aPluginResult for: aPlugin [
+	^ aPluginResult 
 ]
 
 { #category : #accessing }
