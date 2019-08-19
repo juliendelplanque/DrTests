@@ -56,7 +56,7 @@ DTTestsRunnerResult >> buildTreeForUI [
 
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUIByClasses [
-	<dTTestRunnerResultTreeNamed: 'Grouped by classes and type of Result'>
+	<dTTestRunnerResultTreeNamed: 'Grouped by type of result and classes'>
 
 	| errors failures skipped passed |
 	errors := self buildNodeGroupedByTypeAndClass: self testsResult errors type: DTTestResultType error.
