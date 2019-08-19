@@ -27,6 +27,30 @@ DTTestResultType class >> skipped [
 	^ DTSkipped new
 ]
 
+{ #category : #testing }
+DTTestResultType >> isError [
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+DTTestResultType >> isFail [
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+DTTestResultType >> isPass [
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+DTTestResultType >> isSkipped [
+	<generated>
+	^ false
+]
+
 { #category : #accessing }
 DTTestResultType >> name [
 	^ self subclassResponsibility

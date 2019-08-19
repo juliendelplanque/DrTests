@@ -7,6 +7,12 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #testing }
+DTSkipped >> isSkipped [
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 DTSkipped >> name [
 	^ 'Skipped test'

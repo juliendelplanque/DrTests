@@ -7,6 +7,12 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #testing }
+DTPass >> isPass [
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 DTPass >> name [
 	^ 'Passing test'

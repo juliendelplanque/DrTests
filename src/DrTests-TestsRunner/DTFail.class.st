@@ -7,6 +7,12 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #testing }
+DTFail >> isFail [
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 DTFail >> name [
 	^ 'Failure'

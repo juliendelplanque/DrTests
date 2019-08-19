@@ -7,6 +7,12 @@ Class {
 	#category : #'DrTests-TestsRunner'
 }
 
+{ #category : #testing }
+DTError >> isError [
+	<generated>
+	^ true
+]
+
 { #category : #accessing }
 DTError >> name [
 	^ 'Error'

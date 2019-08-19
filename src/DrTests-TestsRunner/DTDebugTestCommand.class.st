@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #hooks }
+DTDebugTestCommand >> canBeRun [
+	^ super canBeRun and: [ self resultSelected type isPass not ]
+]
+
+{ #category : #hooks }
 DTDebugTestCommand >> execute [
 	self resultSelected content debug
 ]
