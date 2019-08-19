@@ -11,7 +11,7 @@ Class {
 { #category : #'api - accessing' }
 DTCommentToTest class >> pluginName [
 	"The name of the plugin to be displayed in DrTests UI."
-	^ 'Comment to test'
+	^ 'Executable comments checker'
 ]
 
 { #category : #'api - accessing' }
