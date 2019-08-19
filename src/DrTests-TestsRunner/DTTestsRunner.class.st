@@ -1,3 +1,6 @@
+"
+I am the plugin implementing test runner for DrTests.
+"
 Class {
 	#name : #DTTestsRunner,
 	#superclass : #DrTestsPlugin,

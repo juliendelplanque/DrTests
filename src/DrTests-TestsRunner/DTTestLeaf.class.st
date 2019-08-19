@@ -1,3 +1,8 @@
+"
+I am a leaf of the results tree for the test-runner plugin.
+
+Additionally to my superclass, I store the type of the result.
+"
 Class {
 	#name : #DTTestLeaf,
 	#superclass : #DTTreeLeaf,

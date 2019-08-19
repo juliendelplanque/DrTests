@@ -1,3 +1,8 @@
+"
+I am a configuration for the tests runner plugin.
+
+I can be converted as a test suite via #asTestSuite.
+"
 Class {
 	#name : #DTTestsRunnerConfiguration,
 	#superclass : #DTPluginConfiguration,

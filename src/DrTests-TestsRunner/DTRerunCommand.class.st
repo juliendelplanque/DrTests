@@ -1,3 +1,6 @@
+"
+I am the command allowing one to rerun a subparts of the results of a test-run.
+"
 Class {
 	#name : #DTRerunCommand,
 	#superclass : #DTResultCommand,
