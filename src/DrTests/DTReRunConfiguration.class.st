@@ -1,3 +1,6 @@
+"
+I am a configuration that re-run a part of the result of a previously-run configuration.
+"
 Class {
 	#name : #DTReRunConfiguration,
 	#superclass : #DTPluginConfiguration,
