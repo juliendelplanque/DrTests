@@ -36,7 +36,7 @@ DTTestCaseProfilingData >> drTestsBrowse [
 	Smalltalk tools browser openOnClass:testCase class selector:testCase selector
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 DTTestCaseProfilingData >> drTestsName [
 	^ self testCase asString , ' : ', self duration asString
 ]
