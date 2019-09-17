@@ -27,7 +27,9 @@ BaselineOfDrTests >> baseline: spec [
 				package: 'DrTests-TestCoverage-MocksForTests'
 					with: [ spec requires: #('DrTests-TestCoverage') ];
 				package: 'DrTests-CommentsToTests'
-					with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ].
+					with: [ spec requires: #('DrTests' 'DrTests-TestsRunner') ];
+				package: 'DrTests-CommentsToTests-Tests'
+					with: [ spec requires: #('DrTests-CommentsToTests') ].
 			spec
 				baseline: 'RottenTestsFinder'
 				with:
