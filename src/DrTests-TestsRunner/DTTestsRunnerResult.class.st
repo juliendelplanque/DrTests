@@ -32,6 +32,21 @@ DTTestsRunnerResult >> buildNodeGroupedByTypeAndClass: anOrderedColletion type: 
 			yourself
 ]
 
+{ #category : #'tree building' }
+DTTestsRunnerResult >> buildNodeGroupedByTypeClassAndProtocol: anOrderedColletion type: testResultType [
+	^ DTTreeNode new
+			name: testResultType pluralName;
+			subResults: ((anOrderedColletion groupedBy: #class) associations collect: [ :assoc |
+				DTTreeNode new
+					name: assoc key name;
+					subResults: ((assoc value groupedBy: [ :testCase | (testCase class lookupSelector: testCase selector) protocol ]) associations collect: [ :protocolToTest |
+						DTTreeNode new
+							name: protocolToTest key;
+							subResults: (self buildLeavesFrom: protocolToTest value type: testResultType) ]);
+					yourself ]);
+			yourself
+]
+
 { #category : #accessing }
 DTTestsRunnerResult >> buildTreeForUI [
 	<dTTestRunnerResultTreeNamed: 'Grouped by type of result'>
@@ -63,6 +78,24 @@ DTTestsRunnerResult >> buildTreeForUIByClasses [
 	failures := self buildNodeGroupedByTypeAndClass: self testsResult failures asOrderedCollection type: DTTestResultType fail.
 	skipped := self buildNodeGroupedByTypeAndClass: self testsResult skipped type: DTTestResultType skipped.
 	passed := self buildNodeGroupedByTypeAndClass: self testsResult passed type: DTTestResultType pass.
+	^ DTTreeNode new
+		subResults:
+			{errors.
+			failures.
+			skipped.
+			passed};
+		yourself
+]
+
+{ #category : #accessing }
+DTTestsRunnerResult >> buildTreeForUIByClassesAndProtocol [
+	<dTTestRunnerResultTreeNamed: 'Grouped by type of result, classes, and protocol'>
+
+	| errors failures skipped passed |
+	errors := self buildNodeGroupedByTypeClassAndProtocol: self testsResult errors type: DTTestResultType error.
+	failures := self buildNodeGroupedByTypeClassAndProtocol: self testsResult failures asOrderedCollection type: DTTestResultType fail.
+	skipped := self buildNodeGroupedByTypeClassAndProtocol: self testsResult skipped type: DTTestResultType skipped.
+	passed := self buildNodeGroupedByTypeClassAndProtocol: self testsResult passed type: DTTestResultType pass.
 	^ DTTreeNode new
 		subResults:
 			{errors.
