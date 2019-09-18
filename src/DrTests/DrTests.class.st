@@ -220,7 +220,7 @@ DrTests >> initializePluginsDropList [
 	self pluginsDropList
 		help: 'Select the plugin used by Dr Tests UI.';
 		items: self plugins;
-		displayBlock: [ :pluginClass | pluginClass pluginName ];
+		display: [ :pluginClass | pluginClass pluginName ];
 		iconBlock: [ :pluginClass | pluginClass pluginIcon ];
 		whenSelectedItemChangedDo: [ :pluginClass | self currentPlugin: pluginClass new ]
 ]
@@ -240,7 +240,7 @@ DrTests >> initializeResultViewsDropList [
 	resultViewsDropList := self newDropList.
 	self resultViewsDropList
 		help: 'Select the different views for results';
-		displayBlock: [ :resultTreeView | resultTreeView name ]
+		display: [ :resultTreeView | resultTreeView name ]
 ]
 
 { #category : #initialization }

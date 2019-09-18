@@ -51,17 +51,19 @@ DTFilterableListPresenter >> contextMenu: aBlock [
 
 { #category : #api }
 DTFilterableListPresenter >> displayBlock: aBlock [
-	^ self listPresenter displayBlock: aBlock
+	^ self listPresenter display: aBlock
 ]
 
 { #category : #private }
 DTFilterableListPresenter >> filterList [
 	"Filters the list according to the filterTextInput."
+
 	self unselectAll.
 	self listPresenter
 		items:
 			(initialItems
-				select: [ :each | self filterString match: (self listPresenter displayBlock value: each) ])
+				select:
+					[ :each | self filterString match: (self listPresenter display value: each) ])
 ]
 
 { #category : #accessing }
