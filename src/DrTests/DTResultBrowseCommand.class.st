@@ -15,5 +15,5 @@ DTResultBrowseCommand >> execute [
 { #category : #hooks }
 DTResultBrowseCommand >> initialize [
 	super initialize.
-	self basicName: 'Browse'
+	self name: 'Browse'
 ]

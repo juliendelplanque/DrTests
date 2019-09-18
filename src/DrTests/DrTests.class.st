@@ -56,7 +56,7 @@ DrTests class >> buildContextualPackageGroupWith: presenterIntance [
 { #category : #commands }
 DrTests class >> buildPackageGroupWith: presenterIntance [
 	^ (CmCommandGroup named: 'Package tools') asSpecGroup
-		basicDescription: 'Commands related to packages list.';
+		description: 'Commands related to packages list.';
 		register: (DTPackagesSelectAllCommand forSpec context: presenterIntance);
 		beDisplayedAsGroup;
 		yourself
@@ -66,14 +66,14 @@ DrTests class >> buildPackageGroupWith: presenterIntance [
 DrTests class >> buildResultGroupWith: presenterIntance [
 	| commandGroup pluginCommands |
 	commandGroup := (CmCommandGroup named: 'Results tools') asSpecGroup
-			basicDescription: 'Commands related to result.';
-			register: (DTResultBrowseCommand forSpec context: presenterIntance) beHiddenWhenCantBeRun;
-			yourself.
+		description: 'Commands related to result.';
+		register:
+			(DTResultBrowseCommand forSpec context: presenterIntance)
+				beHiddenWhenCantBeRun;
+		yourself.
 	pluginCommands := presenterIntance currentPlugin
-							buildContextualMenuGroupWith: presenterIntance.
-	pluginCommands entries
-		ifEmpty: [ ^ commandGroup ].
-	
+		buildContextualMenuGroupWith: presenterIntance.
+	pluginCommands entries ifEmpty: [ ^ commandGroup ].
 	^ commandGroup
 		register: pluginCommands beDisplayedAsGroup;
 		yourself

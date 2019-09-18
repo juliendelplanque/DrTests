@@ -15,6 +15,5 @@ DTPackagesSelectAllCommand >> execute [
 { #category : #hooks }
 DTPackagesSelectAllCommand >> initialize [
 	super initialize.
-	self
-		basicName: 'Select all'.
+	self name: 'Select all'
 ]
