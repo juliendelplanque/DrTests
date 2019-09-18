@@ -78,9 +78,7 @@ DTTestCoverageTest >> testDTTestCoverageResultTheSecondNodeSubResultsAreLeafs [
 	resultTree := (plugin runForConfiguration: dTconf) buildTreeForUI.
 	leafs := resultTree subResults at: 2.
 	self
-		assert:
-			(leafs subResults
-				allSatisfy: [ :subResult | subResult class = DTTestLeaf ])
+		assert: (leafs subResults allSatisfy: #isLeaf )
 ]
 
 { #category : #running }
