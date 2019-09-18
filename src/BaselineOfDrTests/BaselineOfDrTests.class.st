@@ -9,7 +9,10 @@ BaselineOfDrTests >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ spec
+		do: [ 
+			spec postLoadDoIt: #'postload:package:'.
+			
+			spec
 				package: 'DrTests';
 				package: 'DrTests-TestsRunner'
 					with: [ spec requires: #('DrTests') ];
@@ -35,4 +38,9 @@ BaselineOfDrTests >> baseline: spec [
 				baseline: 'RottenTestsFinder'
 				with:
 					[ spec repository: 'github://juliendelplanque/RottenTestsFinder/src' ] ]
+]
+
+{ #category : #actions }
+BaselineOfDrTests >> postload: loader package: packageSpec [
+	DrTests beDefaultTestRunner
 ]
