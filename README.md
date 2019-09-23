@@ -5,6 +5,8 @@
 
 A extendable, plugins-based UI for testing Pharo projects.
 
+*/!\ Development of DrTests happens on Pharo main repository but issues can be opened here.*
+
 ## Install
 
 Load stable version:
